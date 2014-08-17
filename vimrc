@@ -295,7 +295,7 @@ endif
 "ctrlp
 let g:ctrlp_map = '<c-c>'
 let g:ctrlp_cmd = 'CtrlP'
-
+nnoremap <Leader>p :CtrlPBuffer<CR>
 "vim-indent-guides
 let g:indent_guides_auto_colors = 0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
@@ -422,3 +422,5 @@ au BufEnter *.cpp let b:fswitchdst = 'hpp,h' | let b:fswitchlocs = './,./include
 au BufEnter *.c let b:fswitchdst = 'h,hh' | let b:fswitchlocs = './,./include,../include'
 au BufEnter *.hh let b:fswitchdst = 'cc,cpp' | let b:fswitchlocs = '../,./'
 au BufEnter *.h let b:fswitchdst = 'cpp,cc' | let b:fswitchlocs = './,../'
+"nerdtree tab
+nnoremap <Leader>n :NERDTreeTabsToggle<CR>
