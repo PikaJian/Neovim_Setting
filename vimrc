@@ -214,7 +214,7 @@ endfun
 
 " Enable omni completion. (Ctrl-X Ctrl-O)
 "autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-"autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 "autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 "autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 "autocmd FileType css set omnifunc=csscomplete#CompleteCSS
@@ -295,7 +295,7 @@ endif
 "ctrlp
 let g:ctrlp_map = '<c-c>'
 let g:ctrlp_cmd = 'CtrlP'
-nnoremap <Leader>p :CtrlPBuffer<CR>
+nnoremap <F10> :CtrlPBuffer<CR>
 "vim-indent-guides
 let g:indent_guides_auto_colors = 0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
@@ -309,6 +309,11 @@ let g:indent_guides_start_level      = 2
 let g:EasyMotion_leader_key = '\' " default is <Leader>w
 hi link EasyMotionTarget ErrorMsg
 hi link EasyMotionShade  Comment
+let g:EasyMotion_use_upper = 1
+ " type `l` and match `l`&`L`
+let g:EasyMotion_smartcase = 1
+ " " Smartsign (type `3` and match `3`&`#`)
+let g:EasyMotion_use_smartsign_us = 1"
 map <Leader>l <Plug>(easymotion-lineforward)
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
@@ -319,6 +324,7 @@ nmap t <Plug>(easymotion-t2)
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
 
+omap  tt <Plug>(easymotion-bd-tl)
 " These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
 " Without these mappings, `n` & `N` works fine. (These mappings just provide
 " different highlight method and have some other features )
@@ -424,3 +430,13 @@ au BufEnter *.hh let b:fswitchdst = 'cc,cpp' | let b:fswitchlocs = '../,./'
 au BufEnter *.h let b:fswitchdst = 'cpp,cc' | let b:fswitchlocs = './,../'
 "nerdtree tab
 nnoremap <Leader>n :NERDTreeTabsToggle<CR>
+
+"support markdown hightlight
+au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn}   set filetype=mkd
+
+
+autocmd BufReadPre *.js let b:javascript_lib_use_jquery = 1
+autocmd BufReadPre *.js let b:javascript_lib_use_underscore = 1
+autocmd BufReadPre *.js let b:javascript_lib_use_backbone = 1
+autocmd BufReadPre *.js let b:javascript_lib_use_prelude = 0
+autocmd BufReadPre *.js let b:javascript_lib_use_angularjs = 0
