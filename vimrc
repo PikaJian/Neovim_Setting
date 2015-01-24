@@ -41,7 +41,8 @@ if has("gui_running")	" GUI color and font settings
   highlight CursorLine          guibg=#003853 ctermbg=24  gui=none cterm=none
 else
 " terminal color settings
-  colors vgod
+   "colors vgod
+  color vgod
 endif
 
 set clipboard=unnamed	" yank to the system register (*) by default
@@ -337,8 +338,8 @@ map  N <Plug>(easymotion-prev)
 " toggle TagBar with F7
 nnoremap <silent> <F7> :TagbarToggle<CR> 
 " set focus to TagBar when opening it
-let g:tagbar_autofocus = 1
-
+"let g:tagbar_autofocus = 1
+let g:tagbar_width=20
 " --- PowerLine
 " let g:Powerline_symbols = 'fancy' " require fontpatcher
 
@@ -360,22 +361,23 @@ inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
 inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
 inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
 inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
+
+
 "youcompleteme
 "YCM diagnostic
-let g:ycm_register_as_syntastic_checker = 1 "default 1
-let g:Show_diagnostics_ui = 1 "default 1
-let g:ycm_enable_diagnostic_signs = 1
+let g:ycm_register_as_syntastic_checker = 0 "default 1
+let g:Show_diagnostics_ui = 0 "default 1
+let g:ycm_enable_diagnostic_signs = 0
 let g:ycm_enable_diagnostic_highlighting = 0
 let g:ycm_always_populate_location_list = 1 "default 0
-let g:ycm_open_loclist_on_ycm_diags = 1 "default 1
+let g:ycm_open_loclist_on_ycm_diags = 0 "default 1
 "YCM others options
-let g:ycm_show_diagnostics_ui = 1
 let g:ycm_key_invoke_completion = '<F8>'
 "let g:ycm_key_list_select_completion=['<c-n>']
 let g:ycm_key_list_select_completion = ['<Down>']
 "let g:ycm_key_list_previous_completion=['<c-p>']
 let g:ycm_key_list_previous_completion = ['<Up>']
-let g:ycm_confirm_extra_conf=0 
+let g:ycm_confirm_extra_conf=01
 let g:ycm_collect_identifiers_from_tags_files=1
 let g:ycm_min_num_of_chars_for_completion=2
 let g:ycm_cache_omnifunc=0      
@@ -386,26 +388,19 @@ inoremap <leader><leader> <C-x><C-o>
 let g:ycm_complete_in_comments = 1
 let g:ycm_complete_in_strings = 1
 let g:ycm_collect_identifiers_from_comments_and_strings = 0
-
+let g:ycm_collect_identifiers_from_tags_files = 1
 "Check if the file is compilable
 nnoremap <leader>y :YcmForceCompileAndDiagnostics
 "Jump to Definition
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
-
-
-"UltiSnips
-" Trigger configuration. Do not use <tab> if you use https://github.com/Vallor"ic/YouCompleteMe.
-"let g:UltiSnipsExpandTrigger="<c-tab>"
-"let g:UltiSnipsListSnippets="<c-s-tab>"
-let g:UltiSnipsSnippetDirectories=["bundle/vim-snippets/UltiSnips"]
-
+nnoremap <leader>jx :YcmCompleter GoToDefinition<CR>
 
 
 " --- syntastic
-"let g:syntastic_error_symbol = 'X'      "set error or warning signs
+let g:syntastic_error_symbol = '@'      "set error or warning signs
 "let g:syntastic_warning_symbol = '*'
-"let g:syntastic_check_on_open=1
-"let g:syntastic_enable_highlighting = 1
+let g:syntastic_check_on_open=1
+let g:syntastic_enable_highlighting = 1
 "let g:syntastic_python_checker="flake8,pyflakes,pep8,pylint"
 "let g:syntastic_python_checkers=['pyflakes']
 "highlight SyntasticErrorSign guifg=white guibg=black
@@ -416,6 +411,27 @@ let g:UltiSnipsSnippetDirectories=["bundle/vim-snippets/UltiSnips"]
 "let g:syntastic_cpp_compiler = 'clang++'
 "let g:syntastic_cpp_compiler_options = '-std=c++11 -stdlib=libstdc++'
 "let g:syntastic_enable_balloons = 1     "whether to show balloons
+"let g:syntastic_debug = 1
+let g:syntastic_c_make_args = "-j4"
+"let g:syntastic_c_make_options = '-j4'
+let g:syntastic_c_check_header = 1
+let syntastic_c_cflags = '-nostdinc -include /home/pikachu123/test_src/include/linux/autoconf.h -D__KERNEL__ -D__nds32__ -mabi=2 -D__OPTIMIZE__ -G0 -D__ARCH_WANT_SYS_WAITPID -Unds32 -DSTRICT_MM_TYPECHECKS '
+let g:syntastic_c_checkers = ['make']
+let g:syntastic_c_compiler = 'nds32le-linux-gcc'
+let g:syntastic_c_include_dirs = [ 
+            \ '/home/pikachu123/test_src/arch/nds32/include',
+            \ '/home/pikachu123/Andestech/BSPv321/toolchains/nds32le-linux-glibc-v2/lib/gcc/nds32le-linux/4.4.4/include',
+            \ '/home/pikachu123/test_src/arch/nds32/include']
+
+"UltiSnips
+" Trigger configuration. Do not use <tab> if you use https://github.com/Vallor"ic/YouCompleteMe.
+"let g:UltiSnipsExpandTrigger="<c-tab>"
+"let g:UltiSnipsListSnippets="<c-s-tab>"
+let g:UltiSnipsSnippetDirectories=["bundle/vim-snippets/UltiSnips"]
+
+
+
+
 "Tabular
 nmap <leader>bb :Tab /=<CR>
 nmap <leader>bn :Tab /
@@ -428,8 +444,11 @@ au BufEnter *.cpp let b:fswitchdst = 'hpp,h' | let b:fswitchlocs = './,./include
 au BufEnter *.c let b:fswitchdst = 'h,hh' | let b:fswitchlocs = './,./include,../include'
 au BufEnter *.hh let b:fswitchdst = 'cc,cpp' | let b:fswitchlocs = '../,./'
 au BufEnter *.h let b:fswitchdst = 'cpp,cc' | let b:fswitchlocs = './,../'
+
+"nerdtree
+let g:NERDTreeWinSize=20
 "nerdtree tab
-nnoremap <Leader>n :NERDTreeTabsToggle<CR>
+nnoremap <F6> :NERDTreeTabsToggle<CR>
 
 "support markdown hightlight
 au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn}   set filetype=mkd
