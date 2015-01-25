@@ -338,7 +338,7 @@ map  N <Plug>(easymotion-prev)
 nnoremap <silent> <F7> :TagbarToggle<CR> 
 " set focus to TagBar when opening it
 "let g:tagbar_autofocus = 1
-let g:tagbar_width=20
+let g:tagbar_width=15
 " --- PowerLine
 " let g:Powerline_symbols = 'fancy' " require fontpatcher
 
@@ -445,7 +445,7 @@ au BufEnter *.hh let b:fswitchdst = 'cc,cpp' | let b:fswitchlocs = '../,./'
 au BufEnter *.h let b:fswitchdst = 'cpp,cc' | let b:fswitchlocs = './,../'
 
 "nerdtree
-let g:NERDTreeWinSize=20
+let g:NERDTreeWinSize=15
 "nerdtree tab
 nnoremap <F6> :NERDTreeTabsToggle<CR>
 
@@ -459,4 +459,47 @@ autocmd BufReadPre *.js let b:javascript_lib_use_backbone = 1
 autocmd BufReadPre *.js let b:javascript_lib_use_prelude = 0
 autocmd BufReadPre *.js let b:javascript_lib_use_angularjs = 0
 
+"SrcExpl
+" // The switch of the Source Explorer 
+nmap <F8> :SrcExplToggle<CR> 
 
+" // Set the height of Source Explorer window 
+let g:SrcExpl_winHeight = 8 
+
+" // Set 100 ms for refreshing the Source Explorer 
+let g:SrcExpl_refreshTime = 100 
+
+" // Set "Enter" key to jump into the exact definition context 
+let g:SrcExpl_jumpKey = "<ENTER>" 
+
+" // Set "Space" key for back from the definition context 
+let g:SrcExpl_gobackKey = "<SPACE>" 
+
+" // In order to avoid conflicts, the Source Explorer should know what plugins
+" // except itself are using buffers. And you need add their buffer names into
+" // below listaccording to the command ":buffers!"
+let g:SrcExpl_pluginList = [ 
+        \ "__Tagbar__", 
+        \ "_NERD_tree_" 
+    \ ] 
+
+" // Enable/Disable the local definition searching, and note that this is not 
+" // guaranteed to work, the Source Explorer doesn't check the syntax for now. 
+" // It only searches for a match with the keyword according to command 'gd' 
+let g:SrcExpl_searchLocalDef = 1 
+
+" // Do not let the Source Explorer update the tags file when opening 
+let g:SrcExpl_isUpdateTags = 0 
+
+" // Use 'Exuberant Ctags' with '--sort=foldcase -R .' or '-L cscope.files' to 
+" // create/update the tags file 
+let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ." 
+
+" // Set "<F12>" key for updating the tags file artificially 
+let g:SrcExpl_updateTagsKey = "<F12>" 
+
+" // Set "<F3>" key for displaying the previous definition in the jump list 
+let g:SrcExpl_prevDefKey = "<F3>" 
+
+" // Set "<F4>" key for displaying the next definition in the jump list 
+let g:SrcExpl_nextDefKey = "<F4>" 
