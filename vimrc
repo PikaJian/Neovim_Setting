@@ -1,5 +1,4 @@
 
-set shiftwidth=4
 
 let g:pathogen_disabled = []
 if !has('gui_running')
@@ -70,9 +69,8 @@ set tm=500
 
 " TAB setting{
    set expandtab        "replace <TAB> with spaces
-   set softtabstop=3 
-   set shiftwidth=3 
-
+   set tabstop=8           " number of spaces a tab counts for
+   set shiftwidth=2        " spaces for autoindents
    au FileType Makefile set noexpandtab
 "}      							
 
@@ -298,12 +296,13 @@ let g:ctrlp_map = '<c-c>'
 let g:ctrlp_cmd = 'CtrlP'
 nnoremap <F10> :CtrlPBuffer<CR>
 "vim-indent-guides
-let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
-let g:indent_guides_enable_on_vim_startup = 0
+"let g:indent_guides_auto_colors = 1
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
+let g:indent_guides_enable_on_vim_startup = 1 
+let g:indent_guides_color_change_percent = 7
 let g:indent_guides_guide_size            = 1
-let g:indent_guides_start_level      = 2
+"let g:indent_guides_start_level      = 2
 
 
 " --- EasyMotion
@@ -459,3 +458,7 @@ autocmd BufReadPre *.js let b:javascript_lib_use_underscore = 1
 autocmd BufReadPre *.js let b:javascript_lib_use_backbone = 1
 autocmd BufReadPre *.js let b:javascript_lib_use_prelude = 0
 autocmd BufReadPre *.js let b:javascript_lib_use_angularjs = 0
+
+
+"linux coding style
+let g:loaded_linuxsty = 1
