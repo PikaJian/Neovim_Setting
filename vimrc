@@ -299,10 +299,10 @@ nnoremap <F10> :CtrlPBuffer<CR>
 "let g:indent_guides_auto_colors = 1
 "autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
 "autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
-let g:indent_guides_enable_on_vim_startup = 1 
+"let g:indent_guides_enable_on_vim_startup = 1 
 let g:indent_guides_color_change_percent = 7
-let g:indent_guides_guide_size            = 1
-"let g:indent_guides_start_level      = 2
+let g:indent_guides_guide_size            = 0
+let g:indent_guides_start_level      = 2
 
 
 " --- EasyMotion
@@ -460,5 +460,3 @@ autocmd BufReadPre *.js let b:javascript_lib_use_prelude = 0
 autocmd BufReadPre *.js let b:javascript_lib_use_angularjs = 0
 
 
-"linux coding style
-let g:loaded_linuxsty = 1
