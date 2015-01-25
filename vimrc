@@ -32,7 +32,8 @@ syntax on		" syntax highlight
 set hlsearch		" search highlighting
 
 if has("gui_running")	" GUI color and font settings
-  set guifont=Osaka-Mono:h20
+  "set guifont=Osaka-Mono:h20
+  set guifont=pika:h20
   set background=dark 
   set t_Co=256          " 256 color mode
   set cursorline        " highlight current line
@@ -80,6 +81,8 @@ set statusline=\ %{HasPaste()}%<%-15.25(%f%)%m%r%h\ %w\ \
 set statusline+=\ \ \ [%{&ff}/%Y] 
 set statusline+=\ \ \ %<%20.30(%{hostname()}:%{CurDir()}%)\ 
 set statusline+=%=%-10.(%l,%c%V%)\ %p%%/%L
+set fillchars+=stl:\ ,stlnc:\
+
 
 function! CurDir()
     let curdir = substitute(getcwd(), $HOME, "~", "")
@@ -233,7 +236,8 @@ autocmd BufNewFile,BufRead *.sass             set ft=sass.css
 set encoding=utf-8                                  
 set termencoding=utf-8
 set fileencoding=utf-8
-set fileencodings=ucs-bom,utf-8,big5,gb2312,latin1
+set fileencodings=utf-8,big5,gb2312,latin1
+"ucs-bom
 
 fun! ViewUTF8()
 	set encoding=utf-8                                  
@@ -340,7 +344,7 @@ nnoremap <silent> <F7> :TagbarToggle<CR>
 "let g:tagbar_autofocus = 1
 let g:tagbar_width=15
 " --- PowerLine
-" let g:Powerline_symbols = 'fancy' " require fontpatcher
+let g:Powerline_symbols = 'fancy' " require fontpatcher
 
 
 
