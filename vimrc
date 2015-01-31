@@ -515,8 +515,10 @@ let g:SrcExpl_prevDefKey = "<F3>"
 let g:SrcExpl_nextDefKey = "<F4>"
 
 "doxgen toolkit
-let g:DoxygenToolkit_briefTag_pre="@Synopsis  "
-let g:DoxygenToolkit_paramTag_pre="@Param "
+let g:DoxygenToolkit_briefTag_pre=""
+let g:DoxygenToolkit_briefTag_post = " - "
+let g:DoxygenToolkit_briefTag_funcName = "yes"
+let g:DoxygenToolkit_paramTag_pre="@ "
 let g:DoxygenToolkit_returnTag="@Returns   "
 "let g:DoxygenToolkit_blockHeader="--------------------------------------------------------------------------"
 "let g:DoxygenToolkit_blockFooter="----------------------------------------------------------------------------"
