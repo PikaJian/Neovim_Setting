@@ -512,4 +512,13 @@ let g:SrcExpl_updateTagsKey = "<F12>"
 let g:SrcExpl_prevDefKey = "<F3>" 
 
 " // Set "<F4>" key for displaying the next definition in the jump list 
-let g:SrcExpl_nextDefKey = "<F4>" 
+let g:SrcExpl_nextDefKey = "<F4>"
+
+"doxgen toolkit
+let g:DoxygenToolkit_briefTag_pre="@Synopsis  "
+let g:DoxygenToolkit_paramTag_pre="@Param "
+let g:DoxygenToolkit_returnTag="@Returns   "
+"let g:DoxygenToolkit_blockHeader="--------------------------------------------------------------------------"
+"let g:DoxygenToolkit_blockFooter="----------------------------------------------------------------------------"
+let g:DoxygenToolkit_authorName="Pika Jian"
+"let g:DoxygenToolkit_licenseTag="My own license"   <-- !!! Does not end with "\<enter>"
