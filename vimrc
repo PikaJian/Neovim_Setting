@@ -348,6 +348,7 @@ let g:Powerline_symbols = 'fancy' " require fontpatcher
 
 
 
+
 " --- coffee-script
 au BufWritePost *.coffee silent CoffeeMake! -b | cwindow | redraw! " recompile coffee scripts on write
 
@@ -462,6 +463,10 @@ autocmd BufReadPre *.js let b:javascript_lib_use_underscore = 1
 autocmd BufReadPre *.js let b:javascript_lib_use_backbone = 1
 autocmd BufReadPre *.js let b:javascript_lib_use_prelude = 0
 autocmd BufReadPre *.js let b:javascript_lib_use_angularjs = 0
+
+
+" Map start key separately from next key
+let g:multi_cursor_start_key='<F9>'
 
 "SrcExpl
 " // The switch of the Source Explorer 
