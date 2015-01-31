@@ -369,12 +369,12 @@ inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 
 "youcompleteme
 "YCM diagnostic
-let g:ycm_register_as_syntastic_checker = 1 "default 1
-let g:Show_diagnostics_ui = 1 "default 1
-let g:ycm_enable_diagnostic_signs = 1
-let g:ycm_enable_diagnostic_highlighting = 1
+let g:ycm_register_as_syntastic_checker = 0 "default 1
+let g:Show_diagnostics_ui = 0 "default 1
+let g:ycm_enable_diagnostic_signs = 0
+let g:ycm_enable_diagnostic_highlighting = 0
 let g:ycm_always_populate_location_list = 0 "default 0
-let g:ycm_open_loclist_on_ycm_diags = 1 "default 1
+let g:ycm_open_loclist_on_ycm_diags = 0 "default 1
 "YCM others options
 let g:ycm_key_invoke_completion = '<F8>'
 "let g:ycm_key_list_select_completion=['<c-n>']
@@ -440,7 +440,7 @@ let g:UltiSnipsSnippetDirectories=["bundle/vim-snippets/UltiSnips"]
 nmap <leader>bb :Tab /=<CR>
 nmap <leader>bn :Tab /
 "F9 to trigger clang-format
-autocmd FileType c,cpp,objc noremap <F9> :ClangFormat<CR>
+"autocmd FileType c,cpp,objc noremap <F9> :ClangFormat<CR>
 "auto-pairs
 let g:AutoPairs = {'<' : '>' ,'(' : ')', '[' : ']', '{' : '}', "'" : "'", '"' : '"', '`' : '`'}
 "fswitch
@@ -470,7 +470,7 @@ let g:multi_cursor_start_key='<F9>'
 
 "SrcExpl
 " // The switch of the Source Explorer 
-nmap <F8> :SrcExplToggle<CR> 
+"nmap <F8> :SrcExplToggle<CR> 
 
 " // Set the height of Source Explorer window 
 let g:SrcExpl_winHeight = 8 
