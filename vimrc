@@ -128,7 +128,8 @@ let g:mapleader=","
 map <leader>r :call Replace()<CR>
 
 " open the error console
-map <leader>cc :botright cope<CR> 
+map <leader>cv :botright cope<CR>
+map <leader>cx :cclose<CR>
 " move to next error
 map <leader>] :cn<CR>
 " move to the prev error
