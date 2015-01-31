@@ -112,12 +112,6 @@
 [submodule "bundle/syntastic"]
 	path = bundle/syntastic
 	url = https://github.com/scrooloose/syntastic
-[submodule "bundle/c"]
-	path = bundle/c
-	url = https://github.com/vim-scripts/c.vim.git
 [submodule "bundle/vim-addon-linux-coding-style"]
 	path = bundle/vim-addon-linux-coding-style
 	url = https://github.com/vivien/vim-addon-linux-coding-style.git
-[submodule "bundle/SrcExpl"]
-	path = bundle/SrcExpl
-	url = https://github.com/wesleyche/SrcExpl.git

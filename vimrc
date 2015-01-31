@@ -342,7 +342,7 @@ map  N <Plug>(easymotion-prev)
 nnoremap <silent> <F7> :TagbarToggle<CR> 
 " set focus to TagBar when opening it
 "let g:tagbar_autofocus = 1
-let g:tagbar_width=15
+let g:tagbar_width=25
 " --- PowerLine
 let g:Powerline_symbols = 'fancy' " require fontpatcher
 
