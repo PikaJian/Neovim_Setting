@@ -10,12 +10,6 @@
 [submodule "bundle/nerdcommenter"]
 	path = bundle/nerdcommenter
 	url = https://github.com/scrooloose/nerdcommenter.git
-[submodule "bundle/easymotion"]
-	path = bundle/easymotion
-	url = git://github.com/Lokaltog/vim-easymotion.git
-[submodule "bundle/tagbar"]
-	path = bundle/tagbar
-	url = git://github.com/majutsushi/tagbar
 [submodule "bundle/pythoncomplete"]
 	path = bundle/pythoncomplete
 	url = https://github.com/vim-scripts/pythoncomplete.git
@@ -31,12 +25,6 @@
 [submodule "bundle/emmet-vim"]
 	path = bundle/emmet-vim
 	url = https://github.com/mattn/emmet-vim.git
-[submodule "bundle/pyflakes-vim"]
-	path = bundle/pyflakes-vim
-	url = https://github.com/MiCHiLU/pyflakes-vim.git
-[submodule "bundle/vim-coffee-script"]
-	path = bundle/vim-coffee-script
-	url = https://github.com/kchmck/vim-coffee-script.git
 [submodule "bundle/vim-gitgutter"]
 	path = bundle/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter.git
@@ -52,9 +40,6 @@
 [submodule "bundle/vim-latex"]
 	path = bundle/vim-latex
 	url = https://vim-latex.git.sourceforge.net/gitroot/vim-latex/vim-latex/
-[submodule "bundle/indent-motion"]
-	path = bundle/indent-motion
-	url = https://github.com/vim-scripts/indent-motion.git
 [submodule "bundle/fugitive"]
 	path = bundle/fugitive
 	url = https://github.com/tpope/vim-fugitive.git
@@ -121,3 +106,15 @@
 [submodule "bundle/DoxygenToolkit"]
 	path = bundle/DoxygenToolkit
 	url = https://github.com/vim-scripts/DoxygenToolkit.vim.git
+[submodule "bundle/easymotion"]
+	path = bundle/easymotion
+	url = https://github.com/Lokaltog/vim-easymotion.git
+[submodule "bundle/indent-motion"]
+	path = bundle/indent-motion
+	url = http://github.com/vim-scripts/indent-motion.git
+[submodule "bundle/pyflakes-vim"]
+	path = bundle/pyflakes-vim
+	url = https://github.com/MiCHiLU/pyflakes-vim.git
+[submodule "bundle/tagbar"]
+	path = bundle/tagbar
+	url = https://github.com/majutsushi/tagbar.git
