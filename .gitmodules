@@ -106,9 +106,6 @@
 [submodule "bundle/indent-motion"]
 	path = bundle/indent-motion
 	url = http://github.com/vim-scripts/indent-motion.git
-[submodule "bundle/pyflakes-vim"]
-	path = bundle/pyflakes-vim
-	url = https://github.com/MiCHiLU/pyflakes-vim.git
 [submodule "bundle/tagbar"]
 	path = bundle/tagbar
 	url = https://github.com/majutsushi/tagbar.git
