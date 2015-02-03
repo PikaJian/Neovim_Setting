@@ -305,9 +305,9 @@ nnoremap <F10> :CtrlPBuffer<CR>
 "autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
 "autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
 "let g:indent_guides_enable_on_vim_startup = 1 
-let g:indent_guides_color_change_percent = 7
-let g:indent_guides_guide_size            = 0
-let g:indent_guides_start_level      = 2
+"let g:indent_guides_color_change_percent = 7
+"let g:indent_guides_guide_size            = 0
+"let g:indent_guides_start_level      = 2
 
 
 " --- EasyMotion
@@ -358,7 +358,6 @@ let g:gitgutter_enabled = 1
 
 
 "CPP Complete
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 set completeopt=longest,menu
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
@@ -383,10 +382,12 @@ let g:ycm_key_list_select_completion = ['<Down>']
 "let g:ycm_key_list_previous_completion=['<c-p>']
 let g:ycm_key_list_previous_completion = ['<Up>']
 let g:ycm_confirm_extra_conf=1
-let g:ycm_collect_identifiers_from_tags_files=1
+let g:ycm_global_ycm_extra_conf = '/home/pikachu123/test_src/.ycm_extra_conf.py'
+let g:ycm_collect_identifiers_from_tags_files=0
 let g:ycm_min_num_of_chars_for_completion=2
 let g:ycm_cache_omnifunc=0      
-let g:ycm_seed_identifiers_with_syntax=1    
+let g:ycm_seed_identifiers_with_syntax=1   
+let g:ycm_warning_symbol = '!'
 "nnoremap <leader>lo :lopen<CR> "open locationlist
 "nnoremap <leader>lc :lclose<CR>        "close locationlist
 inoremap <leader><leader> <C-x><C-o>
@@ -469,50 +470,6 @@ autocmd BufReadPre *.js let b:javascript_lib_use_angularjs = 0
 " Map start key separately from next key
 let g:multi_cursor_start_key='<F9>'
 
-"SrcExpl
-" // The switch of the Source Explorer 
-"nmap <F8> :SrcExplToggle<CR> 
-
-" // Set the height of Source Explorer window 
-let g:SrcExpl_winHeight = 8 
-
-" // Set 100 ms for refreshing the Source Explorer 
-let g:SrcExpl_refreshTime = 100 
-
-" // Set "Enter" key to jump into the exact definition context 
-let g:SrcExpl_jumpKey = "<ENTER>" 
-
-" // Set "Space" key for back from the definition context 
-let g:SrcExpl_gobackKey = "<SPACE>" 
-
-" // In order to avoid conflicts, the Source Explorer should know what plugins
-" // except itself are using buffers. And you need add their buffer names into
-" // below listaccording to the command ":buffers!"
-let g:SrcExpl_pluginList = [ 
-        \ "__Tagbar__", 
-        \ "_NERD_tree_" 
-    \ ] 
-
-" // Enable/Disable the local definition searching, and note that this is not 
-" // guaranteed to work, the Source Explorer doesn't check the syntax for now. 
-" // It only searches for a match with the keyword according to command 'gd' 
-let g:SrcExpl_searchLocalDef = 1 
-
-" // Do not let the Source Explorer update the tags file when opening 
-let g:SrcExpl_isUpdateTags = 0 
-
-" // Use 'Exuberant Ctags' with '--sort=foldcase -R .' or '-L cscope.files' to 
-" // create/update the tags file 
-let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ." 
-
-" // Set "<F12>" key for updating the tags file artificially 
-let g:SrcExpl_updateTagsKey = "<F12>" 
-
-" // Set "<F3>" key for displaying the previous definition in the jump list 
-let g:SrcExpl_prevDefKey = "<F3>" 
-
-" // Set "<F4>" key for displaying the next definition in the jump list 
-let g:SrcExpl_nextDefKey = "<F4>"
 
 "doxgen toolkit
 let g:DoxygenToolkit_briefTag_pre=""
