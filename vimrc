@@ -131,9 +131,9 @@ map <leader>r :call Replace()<CR>
 map <leader>cv :botright cope<CR>
 map <leader>cx :cclose<CR>
 " move to next error
-map <leader>] :cn<CR>
+map <leader>h :cn<CR>
 " move to the prev error
-map <leader>[ :cp<CR>
+map <leader>l :cp<CR>
 
 " --- move around splits {
 " move to and maximize the below split 
@@ -439,8 +439,8 @@ let g:UltiSnipsSnippetDirectories=["bundle/vim-snippets/UltiSnips"]
 
 
 "Tabular
-nmap <leader>bb :Tab /=<CR>
-nmap <leader>bn :Tab /
+"nmap <leader>bb :Tab /=<CR>
+"nmap <leader>bn :Tab /
 "F9 to trigger clang-format
 "autocmd FileType c,cpp,objc noremap <F9> :ClangFormat<CR>
 "auto-pairs
@@ -481,3 +481,15 @@ let g:DoxygenToolkit_returnTag="@Returns   "
 "let g:DoxygenToolkit_blockFooter="----------------------------------------------------------------------------"
 let g:DoxygenToolkit_authorName="Pika Jian"
 "let g:DoxygenToolkit_licenseTag="My own license"   <-- !!! Does not end with "\<enter>"
+
+"surround vim
+"- key
+let b:surround_105 = "(\r)"
+map <leader>gs      gSi
+
+
+"easy align
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
