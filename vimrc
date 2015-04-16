@@ -448,9 +448,9 @@ let g:AutoPairs = {'<' : '>' ,'(' : ')', '[' : ']', '{' : '}', "'" : "'", '"' : 
 "fswitch
 au BufEnter *.cpp let b:fswitchdst = 'hpp,h' | let b:fswitchlocs = './,./include,../include'
 au BufEnter *.c let b:fswitchdst = 'h,hh' | let b:fswitchlocs = './,./include,../include'
-au BufEnter *.hh let b:fswitchdst = 'cc,cpp' | let b:fswitchlocs = '../,./'
-au BufEnter *.h let b:fswitchdst = 'cpp,cc' | let b:fswitchlocs = './,../'
-
+au BufEnter *.hh let b:fswitchdst = 'c,cpp' | let b:fswitchlocs = '../,./'
+au BufEnter *.h let b:fswitchdst = 'cpp,c' | let b:fswitchlocs = './,../'
+nmap <silent> <Leader>of :FSHere<cr>
 "nerdtree
 let g:NERDTreeWinSize=15
 "nerdtree tab
