@@ -1,0 +1,1 @@
+/home/pikachu123/.nvimrc

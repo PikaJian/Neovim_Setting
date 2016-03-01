@@ -43,8 +43,6 @@ if has("cscope")
     " else add the database pointed to by environment variable 
     elseif $CSCOPE_DB != ""
         cs add $CSCOPE_DB
-    else
-        cs add /home/pikachu123/cscope/cscope.out
     endif
 
     " show msg when any other cscope db added

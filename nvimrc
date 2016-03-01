@@ -1,12 +1,24 @@
-
-
+"nvim only setting
+let g:python_host_prog = '/usr/bin/python2'
+"let g:python_host_skip_check = 1
+set mouse=r
+tnoremap <Esc> <C-\><C-n>
 let g:pathogen_disabled = []
 if !has('gui_running')
-   call add(g:pathogen_disabled, 'powerline')
 endif
 
+"if has('nvim')
+""  call add(g:pathogen_disabled, 'csapprox')
+"endif
+"call add(g:pathogen_disabled, 'csapprox')
+
+"if has('nvim')
+"    let s:editor_root=expand("~/.nvim")
+"else
+""    let s:editor_root=expand("~/.vim")
+"endif
+
 execute pathogen#infect()
-syntax on
 filetype plugin indent on
 " General Settings
 
@@ -25,11 +37,7 @@ filetype plugin on    " Enable filetype-specific plugins
 
 
 " auto reload vimrc when editing it
-autocmd! bufwritepost .vimrc source ~/.vimrc
-
-
-syntax on		" syntax highlight
-set hlsearch		" search highlighting
+autocmd! bufwritepost .nvimrc source ~/.nvimrc
 
 if has("gui_running")	" GUI color and font settings
   "set guifont=Osaka-Mono:h20
@@ -37,13 +45,37 @@ if has("gui_running")	" GUI color and font settings
   set background=dark 
   set t_Co=256          " 256 color mode
   set cursorline        " highlight current line
-  colors moria
+  colors solarized
+  set background=dark
   highlight CursorLine          guibg=#003853 ctermbg=24  gui=none cterm=none
 else
+  highlight CursorLine          guibg=#003853 ctermbg=24  gui=none cterm=none
+  set cursorline
 " terminal color settings
-   "colors vgod
-  color vgod
+  set t_Co=256          " 256 color mode
+  let g:solarized_termcolors = &t_Co
+  let g:solarized_termtrans = 0
+  let g:solarized_degrade = 0
+  let g:solarized_italic=0
+  let g:solarized_contrast = "nomal"
+  let g:solarized_visibility= "normal"
+  set t_AB=^[[48;5;%dm
+  set t_AF=^[[38;5;%dm
+  color solarized 
+  set background=dark
+  color solarized   "workaround for nvim, this cause nvim war color use now
+  set hlsearch		" search highlighting
+
+  set number
 endif
+
+
+"folding settings
+set foldmethod=indent   "fold based on indent
+set foldnestmax=10      "deepest fold is 10 levels
+set nofoldenable        "dont fold by default
+set foldlevel=1         "this is just what i use
+
 
 set clipboard=unnamed	" yank to the system register (*) by default
 set showmatch		" Cursor shows matching ) and }
@@ -70,7 +102,7 @@ set tm=500
 
 " TAB setting{
    set expandtab        "replace <TAB> with spaces
-   set tabstop=8           " number of spaces a tab counts for
+   set tabstop=2           " number of spaces a tab counts for
    set shiftwidth=2        " spaces for autoindents
    au FileType Makefile set noexpandtab
 "}      							
@@ -136,6 +168,10 @@ map <leader>h :cn<CR>
 map <leader>l :cp<CR>
 
 " --- move around splits {
+"decrease window
+map <leader><leader>j <C-W><
+"increase window
+map <leader><leader>l <C-W>>
 " move to and maximize the below split 
 map <C-J> <C-W>j<C-W>_
 " move to and maximize the above split 
@@ -151,9 +187,9 @@ set wmh=0                     " set the min height of a window to 0 so we can ma
 " move around tabs. conflict with the original screen top/bottom
 " comment them out if you want the original H/L
 " go to prev tab 
-map <S-H> gT
+"map <S-H> gT
 " go to next tab
-map <S-L> gt
+"map <S-L> gt
 
 " new tab
 map <C-t><C-t> :tabnew<CR>
@@ -234,7 +270,7 @@ autocmd BufNewFile,BufRead *.sass             set ft=sass.css
 "--------------------------------------------------------------------------- 
 " ENCODING SETTINGS
 "--------------------------------------------------------------------------- 
-set encoding=utf-8                                  
+"set encoding=utf-8                                  
 set termencoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8,big5,gb2312,latin1
@@ -280,7 +316,7 @@ let g:tex_flavor='latex'
 " --- AutoClose - Inserts matching bracket, paren, brace or quote 
 " fixed the arrow key problems caused by AutoClose
 if !has("gui_running")	
-   set term=linux
+   "set term=linux
    imap OA <ESC>ki
    imap OB <ESC>ji
    imap OC <ESC>li
@@ -344,11 +380,6 @@ nnoremap <silent> <F7> :TagbarToggle<CR>
 " set focus to TagBar when opening it
 "let g:tagbar_autofocus = 1
 let g:tagbar_width=25
-" --- PowerLine
-let g:Powerline_symbols = 'fancy' " require fontpatcher
-
-
-
 
 " --- coffee-script
 au BufWritePost *.coffee silent CoffeeMake! -b | cwindow | redraw! " recompile coffee scripts on write
@@ -369,6 +400,7 @@ inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 
 "youcompleteme
 "YCM diagnostic
+let g:ycm_extra_conf_globlist = ['~/.nvim/bundle/YouCompleteMe/*','~/*','./*']
 let g:ycm_register_as_syntastic_checker = 0 "default 1
 let g:Show_diagnostics_ui = 0 "default 1
 let g:ycm_enable_diagnostic_signs = 0
@@ -382,7 +414,7 @@ let g:ycm_key_list_select_completion = ['<Down>']
 "let g:ycm_key_list_previous_completion=['<c-p>']
 let g:ycm_key_list_previous_completion = ['<Up>']
 let g:ycm_confirm_extra_conf=1
-let g:ycm_global_ycm_extra_conf = '/home/pikachu123/test_src/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '~/.nvim/bundle/YouCompleteMe/.ycm_extra_conf.py'
 let g:ycm_collect_identifiers_from_tags_files=0
 let g:ycm_min_num_of_chars_for_completion=2
 let g:ycm_cache_omnifunc=0      
@@ -400,7 +432,18 @@ nnoremap <leader>y :YcmForceCompileAndDiagnostics
 "Jump to Definition
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nnoremap <leader>jx :YcmCompleter GoToDefinition<CR>
-
+let g:ycm_filetype_blacklist = {
+      \ 'tagbar' : 1,
+      \ 'qf' : 1,
+      \ 'notes' : 1,
+      \ 'markdown' : 1,
+      \ 'unite' : 1,
+      \ 'text' : 1,
+      \ 'vimwiki' : 1,
+      \ 'pandoc' : 1,
+      \ 'infolog' : 1,
+      \ 'mail' : 1
+      \}
 
 " --- syntastic
 "let g:syntastic_error_symbol = '@'      "set error or warning signs
@@ -452,7 +495,14 @@ au BufEnter *.hh let b:fswitchdst = 'c,cpp' | let b:fswitchlocs = '../,./'
 au BufEnter *.h let b:fswitchdst = 'cpp,c' | let b:fswitchlocs = './,../'
 nmap <silent> <Leader>of :FSHere<cr>
 "nerdtree
-let g:NERDTreeWinSize=15
+let g:NERDTreeWinSize=20
+let NERDTreeIgnore=['\~$', '\.pyc', '\.swp$', '\.git', '\.hg', '\.svn',
+\ '\.ropeproject', '\.o', '\.bzr', '\.ipynb_checkpoints$',
+\ '__pycache__',
+\ '\.egg$', '\.egg-info$', '\.tox$', '\.idea$', '\.sass-cache',
+\ '\.env$', '\.env[0-9]$', '\.coverage$', '\.tmp$', '\.gitkeep$',
+\ '\.coverage$', '\.webassets-cache$', '\.vagrant$', '\.DS_Store',
+\ '\.env-pypy$', 'tags', '\.a$']
 "nerdtree tab
 nnoremap <F6> :NERDTreeTabsToggle<CR>
 
@@ -493,3 +543,55 @@ map <leader>gs      gSi
 vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
+
+"airline
+let g:airline_theme="solarized" 
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline_section_y = airline#section#create(['','[TYPE:','filetype',']','[TIME:','%{strftime("%H:%M")}',']'])
+let g:airline_section_z = airline#section#create(['%3p%% ', g:airline_symbols.linenr .' ', 'linenr', ':%3c '])
+let g:airline#extensions#tabline#enabled = 1
+" Show just the filename
+let g:airline#extensions#tabline#fnamemod = ':t'
+" show buffer number
+let g:airline#extensions#tabline#buffer_nr_show = 1
+
+"buffergator
+" Use the right side of the screen
+let g:buffergator_viewport_split_policy = 'L'
+
+" I want my own keymappings...
+let g:buffergator_suppress_keymaps = 1
+
+let g:buffergator_vsplit_size = 20
+
+" Looper buffers
+"let g:buffergator_mru_cycle_loop = 1
+
+" Go to the previous buffer open
+nmap <leader>jj :BuffergatorMruCyclePrev<cr>
+
+" Go to the next buffer open
+nmap <leader>kk :BuffergatorMruCycleNext<cr>
+
+" View the entire list of buffers open
+nmap <leader>bl :BuffergatorOpen<cr>
+
+" Shared bindings from Solution #1 from earlier
+nmap <leader>T :enew<cr>
+nmap <leader>bq :bp <BAR> bd #<cr>
+
+"buffer map
+" Move to the next buffer
+nmap <S-L> :bnext<CR>
+" Move to the previous buffer
+nmap <S-H> :bprevious<CR>
+
+"silver searcher (Ag)
+let g:ag_prg="ag --column --ignore tags"
+
+augroup qf
+  autocmd!
+  autocmd FileType qf set nobuflisted
+augroup END
+
+"let g:loaded_linuxsty = 1
