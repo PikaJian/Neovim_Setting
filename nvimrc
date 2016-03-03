@@ -21,7 +21,7 @@ endif
 execute pathogen#infect()
 filetype plugin indent on
 " General Settings
-
+set hidden
 set nocompatible	" not compatible with the old-fashion vi mode
 set bs=2		" allow backspacing over everything in insert mode
 set history=50		" keep 50 lines of command line history
@@ -332,10 +332,6 @@ endif
 " ---yankring
 "let g:yankring_replace_n_nkey = '<c-r>'
 
-"ctrlp
-let g:ctrlp_map = '<c-c>'
-let g:ctrlp_cmd = 'CtrlP'
-nnoremap <F10> :CtrlPBuffer<CR>
 "vim-indent-guides
 "let g:indent_guides_auto_colors = 1
 "autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
@@ -345,8 +341,9 @@ nnoremap <F10> :CtrlPBuffer<CR>
 "let g:indent_guides_guide_size            = 0
 "let g:indent_guides_start_level      = 2
 
-
-" --- EasyMotion
+" ---------------------------------------------------------------------------
+" EasyMotion
+" --------------------------------------------------------------------------- 
 let g:EasyMotion_leader_key = '\' " default is <Leader>w
 hi link EasyMotionTarget ErrorMsg
 hi link EasyMotionShade  Comment
@@ -369,10 +366,42 @@ omap  tt <Plug>(easymotion-bd-tl)
 " These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
 " Without these mappings, `n` & `N` works fine. (These mappings just provide
 " different highlight method and have some other features )
-map  n <Plug>(easymotion-next)
-map  N <Plug>(easymotion-prev)
+map  <leader>n <Plug>(easymotion-next)
+map  <leader>N <Plug>(easymotion-prev)
 "smartcase(lazy search)
-"let g:EasyMotion_smartcase = 1
+let g:EasyMotion_smartcase = 1
+
+" You can use other keymappings like <C-l> instead of <CR> if you want to
+" use these mappings as default search and somtimes want to move cursor with
+" EasyMotion.
+function! s:incsearch_config_fuzzy(...) abort
+  return incsearch#util#deepextend(deepcopy({
+  \   'converters': [incsearch#config#fuzzy#converter()],
+  \   'modules': [incsearch#config#easymotion#module()],
+  \   'keymap': {
+  \     "\<CR>": '<Over>(easymotion)'
+  \   },
+  \   'is_expr': 0,
+  \   'is_stay': 0
+  \ }), get(a:, 1, {}))
+endfunction
+
+function! s:incsearch_config(...) abort
+  return incsearch#util#deepextend(deepcopy({
+  \   'modules': [incsearch#config#easymotion#module()],
+  \   'keymap': {
+  \     "\<CR>": '<Over>(easymotion)'
+  \   },
+  \   'is_expr': 0
+  \ }), get(a:, 1, {}))
+endfunction
+
+noremap <silent><expr> z/  incsearch#go(<SID>incsearch_config())
+noremap <silent><expr> z?  incsearch#go(<SID>incsearch_config({'command': '?'}))
+noremap <silent><expr> zg/ incsearch#go(<SID>incsearch_config({'is_stay': 1}))
+noremap <silent><expr> f/  incsearch#go(<SID>incsearch_config_fuzzy())
+noremap <silent><expr> f?  incsearch#go(<SID>incsearch_config_fuzzy({'command': '?'}))
+noremap <silent><expr> fg/ incsearch#go(<SID>incsearch_config_fuzzy({'is_stay': 1}))
 
 " --- TagBar
 " toggle TagBar with F7
@@ -401,12 +430,14 @@ inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 "youcompleteme
 "YCM diagnostic
 let g:ycm_extra_conf_globlist = ['~/.nvim/bundle/YouCompleteMe/*','~/*','./*']
-let g:ycm_register_as_syntastic_checker = 0 "default 1
-let g:Show_diagnostics_ui = 0 "default 1
-let g:ycm_enable_diagnostic_signs = 0
-let g:ycm_enable_diagnostic_highlighting = 0
-let g:ycm_always_populate_location_list = 0 "default 0
-let g:ycm_open_loclist_on_ycm_diags = 0 "default 1
+let g:ycm_global_ycm_extra_conf = '~/.nvim/bundle/YouCompleteMe/.ycm_extra_conf.py'
+let g:ycm_python_binary_path = '/usr/bin/python2'
+"let g:ycm_register_as_syntastic_checker = 0 "default 1
+let g:Show_diagnostics_ui = 1 "default 1
+let g:ycm_enable_diagnostic_signs = 1
+let g:ycm_enable_diagnostic_highlighting = 1
+let g:ycm_always_populate_location_list = 1 "default 0
+let g:ycm_open_loclist_on_ycm_diags = 1 "default 1
 "YCM others options
 let g:ycm_key_invoke_completion = '<F8>'
 "let g:ycm_key_list_select_completion=['<c-n>']
@@ -414,7 +445,6 @@ let g:ycm_key_list_select_completion = ['<Down>']
 "let g:ycm_key_list_previous_completion=['<c-p>']
 let g:ycm_key_list_previous_completion = ['<Up>']
 let g:ycm_confirm_extra_conf=1
-let g:ycm_global_ycm_extra_conf = '~/.nvim/bundle/YouCompleteMe/.ycm_extra_conf.py'
 let g:ycm_collect_identifiers_from_tags_files=0
 let g:ycm_min_num_of_chars_for_completion=2
 let g:ycm_cache_omnifunc=0      
@@ -428,7 +458,7 @@ let g:ycm_complete_in_strings = 1
 let g:ycm_collect_identifiers_from_comments_and_strings = 0
 let g:ycm_collect_identifiers_from_tags_files = 1
 "Check if the file is compilable
-nnoremap <leader>y :YcmForceCompileAndDiagnostics
+nnoremap <leader>jy :YcmForceCompileAndDiagnostics
 "Jump to Definition
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nnoremap <leader>jx :YcmCompleter GoToDefinition<CR>
@@ -476,7 +506,7 @@ let g:ycm_filetype_blacklist = {
 " Trigger configuration. Do not use <tab> if you use https://github.com/Vallor"ic/YouCompleteMe.
 "let g:UltiSnipsExpandTrigger="<c-tab>"
 "let g:UltiSnipsListSnippets="<c-s-tab>"
-let g:UltiSnipsSnippetDirectories=["bundle/vim-snippets/UltiSnips"]
+let g:UltiSnipsSnippetDirectories=["bundle/vim-snippets/"]
 
 
 
@@ -553,32 +583,15 @@ let g:airline#extensions#tabline#enabled = 1
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
 " show buffer number
-let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#buffer_nr_show = 0
+let g:airline#extensions#tabline#show_splits = 1
+let g:airline#extensions#tabline#show_tabs = 1
+let g:airline#extensions#tabline#excludes = ['[0-9]\+:zsh$']
 
-"buffergator
-" Use the right side of the screen
-let g:buffergator_viewport_split_policy = 'L'
 
-" I want my own keymappings...
-let g:buffergator_suppress_keymaps = 1
-
-let g:buffergator_vsplit_size = 20
-
-" Looper buffers
-"let g:buffergator_mru_cycle_loop = 1
-
-" Go to the previous buffer open
-nmap <leader>jj :BuffergatorMruCyclePrev<cr>
-
-" Go to the next buffer open
-nmap <leader>kk :BuffergatorMruCycleNext<cr>
-
-" View the entire list of buffers open
-nmap <leader>bl :BuffergatorOpen<cr>
-
-" Shared bindings from Solution #1 from earlier
+"buffer operation for tabline
 nmap <leader>T :enew<cr>
-nmap <leader>bq :bp <BAR> bd #<cr>
+nmap <leader>bq :bp <BAR> bd! #<cr>
 
 "buffer map
 " Move to the next buffer
@@ -588,6 +601,32 @@ nmap <S-H> :bprevious<CR>
 
 "silver searcher (Ag)
 let g:ag_prg="ag --column --ignore tags"
+
+
+"unite
+" Unite
+let g:unite_source_history_yank_enable = 1
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+
+if has('nvim')
+  nnoremap <leader>t :<C-u>Unite -no-split -buffer-name=files   -start-insert file_rec/neovim:!<cr>
+else
+  "require vimproc plugin
+  nnoremap <leader>t :<C-u>Unite -no-split -buffer-name=files   -start-insert file_rec/async:!<cr>
+endif
+nnoremap <leader>f :<C-u>Unite -no-split -buffer-name=files   -start-insert file<cr>
+nnoremap <leader>w :<C-u>Unite -no-split -buffer-name=mru     -start-insert file_mru<cr>
+nnoremap <leader>o :<C-u>Unite -no-split -buffer-name=outline -start-insert outline<cr>
+nnoremap <leader>y :<C-u>Unite -no-split -buffer-name=yank    history/yank<cr>
+nnoremap <leader>e :<C-u>Unite -no-split -buffer-name=buffer  buffer<cr>
+
+" Custom mappings for the unite buffer
+autocmd FileType unite call s:unite_settings()
+function! s:unite_settings()
+  " Enable navigation with control-j and control-k in insert mode
+  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
+  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
+endfunction
 
 augroup qf
   autocmd!
