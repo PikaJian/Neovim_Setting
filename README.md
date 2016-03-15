@@ -1,11 +1,10 @@
 vimrc
 =====
 
-#Neovim Setting
-  -use [unite] replace [ctrlp]
-  -add [incsearch] enhance [easymotion]
-  -use [ctrlspace] enhance [airline] tabline feature
-
+# Neovim Setting
+- use [unite] replace [ctrlp]
+- add [incsearch] enhance [easymotion]
+- use [ctrlspace] enhance [airline] tabline feature
 
 
 [unite]:https://github.com/Shougo/unite.vim
