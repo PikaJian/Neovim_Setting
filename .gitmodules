@@ -131,6 +131,21 @@
 [submodule "bundle/vim-airline-themes"]
 	path = bundle/vim-airline-themes
 	url = https://github.com/vim-airline/vim-airline-themes.git
+[submodule "bundle/vim-operator-flashy"]
+	path = bundle/vim-operator-flashy
+	url = https://github.com/haya14busa/vim-operator-flashy.git
+[submodule "bundle/incsearch"]
+	path = bundle/incsearch
+	url = https://github.com/haya14busa/incsearch.vim.git
+[submodule "bundle/bundle/incsearch-easymotion"]
+	path = bundle/bundle/incsearch-easymotion
+	url = https://github.com/haya14busa/incsearch-easymotion.vim.git
+[submodule "bundle/incsearch-easymotion"]
+	path = bundle/incsearch-easymotion
+	url = https://github.com/haya14busa/incsearch-easymotion.vim.git
+[submodule "bundle/incsearch-fuzzy"]
+	path = bundle/incsearch-fuzzy
+	url = https://github.com/haya14busa/incsearch-fuzzy.vim.git
 [submodule "bundle/vim-ctrlspace"]
 	path = bundle/vim-ctrlspace
 	url = https://github.com/vim-ctrlspace/vim-ctrlspace.git

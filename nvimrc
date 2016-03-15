@@ -3,7 +3,7 @@ let g:python_host_prog = '/usr/bin/python2'
 "let g:python_host_skip_check = 1
 set mouse=r
 tnoremap <Esc> <C-\><C-n>
-let g:pathogen_disabled = []
+let g:pathogen_disabled =[]
 if !has('gui_running')
 endif
 
@@ -15,7 +15,7 @@ endif
 "if has('nvim')
 "    let s:editor_root=expand("~/.nvim")
 "else
-""    let s:editor_root=expand("~/.vim")
+"    let s:editor_root=expand("~/.vim")
 "endif
 
 execute pathogen#infect()
@@ -27,7 +27,22 @@ set bs=2		" allow backspacing over everything in insert mode
 set history=50		" keep 50 lines of command line history
 set ruler		" show the cursor position all the time
 set autoread		" auto read when file is changed from outside
+setlocal textwidth=80
 
+
+autocmd FileType c,cpp call MyCodeStyle()
+
+function! MyCodeStyle()
+  highlight CodeFormatError ctermbg=red ctermfg=white guibg=#592929
+  match CodeFormatError /\%81v.\+/
+  "match CodeFormatError / \+\ze\t/          "spaces before tab
+  " Highlight trailing whitespace, unless we're in insert mode and the
+  " cursor's placed right after the whitespace. This prevents us from having
+  " to put up with whitespace being highlighted in the middle of typing
+  " something
+  autocmd InsertEnter * match CodeFormatError /\s\+\%#\@<!$/
+  autocmd InsertLeave * match CodeFormatError /\s\+$/
+endfunction
 
 filetype off          " necessary to make ftdetect work on Linux
 syntax on
@@ -415,7 +430,7 @@ au BufWritePost *.coffee silent CoffeeMake! -b | cwindow | redraw! " recompile c
 
 " --- vim-gitgutter
 let g:gitgutter_enabled = 1
-
+let g:gitgutter_signs = 1
 
 "CPP Complete
 set completeopt=longest,menu
@@ -434,9 +449,9 @@ let g:ycm_global_ycm_extra_conf = '~/.nvim/bundle/YouCompleteMe/.ycm_extra_conf.
 let g:ycm_python_binary_path = '/usr/bin/python2'
 "let g:ycm_register_as_syntastic_checker = 0 "default 1
 let g:Show_diagnostics_ui = 1 "default 1
-let g:ycm_enable_diagnostic_signs = 1
+let g:ycm_enable_diagnostic_signs = 2
 let g:ycm_enable_diagnostic_highlighting = 1
-let g:ycm_always_populate_location_list = 1 "default 0
+let g:ycm_always_populate_location_list = 0 "default 0
 let g:ycm_open_loclist_on_ycm_diags = 1 "default 1
 "YCM others options
 let g:ycm_key_invoke_completion = '<F8>'
@@ -450,6 +465,7 @@ let g:ycm_min_num_of_chars_for_completion=2
 let g:ycm_cache_omnifunc=0      
 let g:ycm_seed_identifiers_with_syntax=1   
 let g:ycm_warning_symbol = '!'
+let g:ycm_error_symbol = 'x'
 "nnoremap <leader>lo :lopen<CR> "open locationlist
 "nnoremap <leader>lc :lclose<CR>        "close locationlist
 inoremap <leader><leader> <C-x><C-o>
@@ -462,6 +478,7 @@ nnoremap <leader>jy :YcmForceCompileAndDiagnostics
 "Jump to Definition
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nnoremap <leader>jx :YcmCompleter GoToDefinition<CR>
+nnoremap <F10> :YcmDiags<CR>
 let g:ycm_filetype_blacklist = {
       \ 'tagbar' : 1,
       \ 'qf' : 1,
@@ -546,11 +563,32 @@ autocmd BufReadPre *.js let b:javascript_lib_use_backbone = 1
 autocmd BufReadPre *.js let b:javascript_lib_use_prelude = 0
 autocmd BufReadPre *.js let b:javascript_lib_use_angularjs = 0
 
-
+"multiple cursor
 " Map start key separately from next key
 let g:multi_cursor_start_key='<F9>'
-
-
+let g:multi_cursor_start_word_key='g<F9>'
+function! Multiple_cursors_before()                                               
+  if exists('*youcompleteme#EnableCursorMovedAutocommands')
+        call youcompleteme#DisableCursorMovedAutocommands()
+  endif
+  set foldmethod=manual
+  "let g:ycm_auto_trigger = 0
+  "let s:old_ycm_whitelist = g:ycm_filetype_whitelist                           
+  "let g:ycm_filetype_whitelist = {}         
+  let g:ycm_show_diagnostics_ui = 0
+  "let delimitMate_autoclose = 0
+endfunction                                                                      
+                                                                                 
+function! Multiple_cursors_after()                                                
+  if exists('*youcompleteme#EnableCursorMovedAutocommands')
+        call youcompleteme#EnableCursorMovedAutocommands()
+  endif
+  set foldmethod=syntax
+  "let g:ycm_auto_trigger = 1
+  "let g:ycm_filetype_whitelist = s:old_ycm_whitelist
+  let g:ycm_show_diagnostics_ui = 1
+  "let delimitMate_autoclose = 1
+endfunction   
 "doxgen toolkit
 let g:DoxygenToolkit_briefTag_pre=""
 let g:DoxygenToolkit_briefTag_post = " - "
@@ -575,19 +613,32 @@ vmap <Enter> <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 "airline
+let g:airline_powerline_fonts = 1
 let g:airline_theme="solarized" 
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline_section_y = airline#section#create(['','[TYPE:','filetype',']','[TIME:','%{strftime("%H:%M")}',']'])
 let g:airline_section_z = airline#section#create(['%3p%% ', g:airline_symbols.linenr .' ', 'linenr', ':%3c '])
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_tab_type = 0
+let g:airline#extensions#tabline#buffer_idx_mode = 1
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
 " show buffer number
-let g:airline#extensions#tabline#buffer_nr_show = 0
-let g:airline#extensions#tabline#show_splits = 1
-let g:airline#extensions#tabline#show_tabs = 1
+"let g:airline#extensions#tabline#buffer_nr_show = 1
+"let g:airline#extensions#tabline#show_splits = 1
+"let g:airline#extensions#tabline#show_tabs = 1
 let g:airline#extensions#tabline#excludes = ['[0-9]\+:zsh$']
-
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
+nmap <leader>- <Plug>AirlineSelectPrevTab
+nmap <leader>= <Plug>AirlineSelectNextTab
 
 "buffer operation for tabline
 nmap <leader>T :enew<cr>
@@ -633,4 +684,4 @@ augroup qf
   autocmd FileType qf set nobuflisted
 augroup END
 
-"let g:loaded_linuxsty = 1
+let g:linuxsty_patterns = [ "/linux/", "/kernel/" , "/linux-2.6/"]
