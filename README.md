@@ -1,4 +1,4 @@
-### Neovim_Setting
+# Neovim_Setting
 - use [unite] replace [ctrlp]
 - add [incsearch] enhance [easymotion]
 - use [ctrlspace] enhance [airline] tabline feature
