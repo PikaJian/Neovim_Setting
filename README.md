@@ -1,8 +1,5 @@
-vimrc
-=====
-
 # Neovim Setting
-- use [unite] replace [ctrlp]
+- <font size="16">use [unite] replace [ctrlp]</font>
 - add [incsearch] enhance [easymotion]
 - use [ctrlspace] enhance [airline] tabline feature
 
