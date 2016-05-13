@@ -1,1 +1,1 @@
-/home/pikachu123/.nvimrc
+nvimrc

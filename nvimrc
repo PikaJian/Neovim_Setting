@@ -367,10 +367,10 @@ let g:EasyMotion_use_upper = 1
 let g:EasyMotion_smartcase = 1
  " " Smartsign (type `3` and match `3`&`#`)
 let g:EasyMotion_use_smartsign_us = 1"
-map <Leader>l <Plug>(easymotion-lineforward)
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
-map <Leader>h <Plug>(easymotion-linebackward)
+map <Leader><leader>l <Plug>(easymotion-lineforward)
+map <Leader><leader>j <Plug>(easymotion-j)
+map <Leader><leader>k <Plug>(easymotion-k)
+map <Leader><leader>h <Plug>(easymotion-linebackward)
 " Gif config
 nmap s <Plug>(easymotion-s2)
 nmap t <Plug>(easymotion-t2)
@@ -572,9 +572,9 @@ function! Multiple_cursors_before()
         call youcompleteme#DisableCursorMovedAutocommands()
   endif
   set foldmethod=manual
-  "let g:ycm_auto_trigger = 0
-  "let s:old_ycm_whitelist = g:ycm_filetype_whitelist                           
-  "let g:ycm_filetype_whitelist = {}         
+  let g:ycm_auto_trigger = 0
+  let s:old_ycm_whitelist = g:ycm_filetype_whitelist                           
+  let g:ycm_filetype_whitelist = {}         
   let g:ycm_show_diagnostics_ui = 0
   "let delimitMate_autoclose = 0
 endfunction                                                                      
@@ -584,8 +584,8 @@ function! Multiple_cursors_after()
         call youcompleteme#EnableCursorMovedAutocommands()
   endif
   set foldmethod=syntax
-  "let g:ycm_auto_trigger = 1
-  "let g:ycm_filetype_whitelist = s:old_ycm_whitelist
+  let g:ycm_auto_trigger = 1
+  let g:ycm_filetype_whitelist = s:old_ycm_whitelist
   let g:ycm_show_diagnostics_ui = 1
   "let delimitMate_autoclose = 1
 endfunction   
@@ -625,8 +625,8 @@ let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 " show buffer number
 "let g:airline#extensions#tabline#buffer_nr_show = 1
-"let g:airline#extensions#tabline#show_splits = 1
-"let g:airline#extensions#tabline#show_tabs = 1
+let g:airline#extensions#tabline#show_splits = 1
+let g:airline#extensions#tabline#show_tabs = 1
 let g:airline#extensions#tabline#excludes = ['[0-9]\+:zsh$']
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
@@ -654,7 +654,6 @@ nmap <S-H> :bprevious<CR>
 let g:ag_prg="ag --column --ignore tags"
 
 
-"unite
 " Unite
 let g:unite_source_history_yank_enable = 1
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
@@ -685,3 +684,13 @@ augroup qf
 augroup END
 
 let g:linuxsty_patterns = [ "/linux/", "/kernel/" , "/linux-2.6/"]
+
+
+function! s:groovy_format()
+  set filetype=groovy
+  set expandtab        "replace <TAB> with spaces
+  set tabstop=4           " number of spaces a tab counts for
+  set shiftwidth=4        " spaces for autoindents
+endfunction
+au BufRead,BufNewFile *.{groovy,gradle}  call s:groovy_format()
+
