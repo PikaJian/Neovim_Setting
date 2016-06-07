@@ -149,9 +149,6 @@
 [submodule "bundle/vim-ctrlspace"]
 	path = bundle/vim-ctrlspace
 	url = https://github.com/vim-ctrlspace/vim-ctrlspace.git
-[submodule "bundle/vim-gradle"]
-	path = bundle/vim-gradle
-	url = https://github.com/tfnico/vim-gradle.git
 [submodule "bundle/tern_for_vim"]
 	path = bundle/tern_for_vim
 	url = https://github.com/ternjs/tern_for_vim.git
