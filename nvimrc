@@ -1,7 +1,7 @@
 "nvim only setting
 let g:python_host_prog = '/usr/bin/python2'
 "let g:python_host_skip_check = 1
-set mouse=r
+"set mouse=
 tnoremap <Esc> <C-\><C-n>
 let g:pathogen_disabled =[]
 if !has('gui_running')
@@ -478,7 +478,7 @@ nnoremap <leader>jy :YcmForceCompileAndDiagnostics
 "Jump to Definition
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nnoremap <leader>jx :YcmCompleter GoToDefinition<CR>
-nnoremap <F10> :YcmDiags<CR>
+"nnoremap <F10> :YcmDiags<CR>
 let g:ycm_filetype_blacklist = {
       \ 'tagbar' : 1,
       \ 'qf' : 1,
@@ -620,11 +620,12 @@ let g:airline_section_y = airline#section#create(['','[TYPE:','filetype',']','[T
 let g:airline_section_z = airline#section#create(['%3p%% ', g:airline_symbols.linenr .' ', 'linenr', ':%3c '])
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_tab_type = 0
-let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 0
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
 " show buffer number
 "let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#show_splits = 1
 let g:airline#extensions#tabline#show_tabs = 1
 let g:airline#extensions#tabline#excludes = ['[0-9]\+:zsh$']
@@ -694,3 +695,7 @@ function! s:groovy_format()
 endfunction
 au BufRead,BufNewFile *.{groovy,gradle}  call s:groovy_format()
 
+"vim-gradle
+nnoremap <F10> :compiler gradle<CR>:make build -Prtsp=true -Pconf_files=AU3522.h,AU3522_COM.h<CR>
+autocmd QuickFixCmdPost [^l]* nested botright cwindow
+autocmd QuickFixCmdPost    l* nested botright lwindow
