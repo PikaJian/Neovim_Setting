@@ -617,8 +617,10 @@ nmap ga <Plug>(EasyAlign)
 let g:airline_powerline_fonts = 1
 let g:airline_theme="solarized" 
 let g:airline#extensions#whitespace#enabled = 0
-let g:airline_section_y = airline#section#create(['','[TYPE:','filetype',']','[TIME:','%{strftime("%H:%M")}',']'])
+"let g:airline_section_y = airline#section#create(['','[TYPE:','filetype',']','[TIME:','%{strftime("%H:%M")}',']'])
 let g:airline_section_z = airline#section#create(['%3p%% ', g:airline_symbols.linenr .' ', 'linenr', ':%3c '])
+"git branch info 
+let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_tab_type = 0
 let g:airline#extensions#tabline#buffer_idx_mode = 0
@@ -736,3 +738,9 @@ au BufRead,BufNewFile *.{groovy,gradle}  call s:groovy_format()
 nnoremap <F10> :compiler gradle<CR>:make build -Prtsp=true -Pconf_files=AU3522.h,AU3522_COM.h<CR>
 autocmd QuickFixCmdPost [^l]* nested botright cwindow
 autocmd QuickFixCmdPost    l* nested botright lwindow
+"fugitive
+autocmd User fugitive 
+  \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
+  \   nnoremap <buffer> .. :edit %:h<CR> |
+  \ endif
+autocmd BufReadPost fugitive://* set bufhidden=hide
