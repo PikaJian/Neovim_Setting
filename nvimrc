@@ -86,7 +86,7 @@ endif
 
 
 "folding settings
-set foldmethod=indent   "fold based on indent
+set foldmethod=syntax   "fold based on indent
 set foldnestmax=10      "deepest fold is 10 levels
 set nofoldenable        "dont fold by default
 set foldlevel=1         "this is just what i use
@@ -496,8 +496,8 @@ let g:ycm_filetype_blacklist = {
 " --- syntastic
 let g:syntastic_error_symbol = 'X'      "set error or warning signs
 let g:syntastic_warning_symbol = '!'
-"let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
 let g:syntastic_loc_list_height = 8
 "let g:syntastic_check_on_open=1
 let g:syntastic_enable_highlighting = 1
@@ -723,7 +723,7 @@ augroup qf
   autocmd FileType qf set nobuflisted
 augroup END
 
-let g:linuxsty_patterns = [ "/linux/", "/kernel/" , "/linux-2.6/"]
+let g:linuxsty_patterns = [ "/linux/", "/linux-2.6/"]
 
 
 function! s:groovy_format()
