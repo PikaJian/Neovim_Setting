@@ -447,7 +447,8 @@ inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 let g:ycm_extra_conf_globlist = ['~/.nvim/bundle/YouCompleteMe/*','~/*','./*']
 let g:ycm_global_ycm_extra_conf = '~/.nvim/bundle/YouCompleteMe/.ycm_extra_conf.py'
 let g:ycm_python_binary_path = '/usr/bin/python2'
-"let g:ycm_register_as_syntastic_checker = 0 "default 1
+"use ycm clang module as syntastic checker
+let g:ycm_register_as_syntastic_checker = 0 "default 1
 let g:Show_diagnostics_ui = 1 "default 1
 let g:ycm_enable_diagnostic_signs = 2
 let g:ycm_enable_diagnostic_highlighting = 1
@@ -493,12 +494,15 @@ let g:ycm_filetype_blacklist = {
       \}
 
 " --- syntastic
-"let g:syntastic_error_symbol = '@'      "set error or warning signs
-"let g:syntastic_warning_symbol = '*'
+let g:syntastic_error_symbol = 'X'      "set error or warning signs
+let g:syntastic_warning_symbol = '!'
+"let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_loc_list_height = 8
 "let g:syntastic_check_on_open=1
-"let g:syntastic_enable_highlighting = 1
-"let g:syntastic_python_checker="flake8,pyflakes,pep8,pylint"
-"let g:syntastic_python_checkers=['pyflakes']
+let g:syntastic_enable_highlighting = 1
+let g:syntastic_python_checker="flake8,pyflakes,pep8,pylint"
+let g:syntastic_python_checkers=['pyflakes']
 "highlight SyntasticErrorSign guifg=white guibg=black
 
 "let g:syntastic_cpp_include_dirs = ['/usr/include/']
@@ -506,18 +510,15 @@ let g:ycm_filetype_blacklist = {
 "let g:syntastic_cpp_check_header = 1
 "let g:syntastic_cpp_compiler = 'clang++'
 "let g:syntastic_cpp_compiler_options = '-std=c++11 -stdlib=libstdc++'
-"let g:syntastic_enable_balloons = 1     "whether to show balloons
+let g:syntastic_enable_balloons = 1     "whether to show balloons
 "let g:syntastic_debug = 1
 "let g:syntastic_c_make_args = "-j4"
 "let g:syntastic_c_make_options = '-j4'
 "let g:syntastic_c_check_header = 1
 "let syntastic_c_cflags = '-nostdinc -include /home/pikachu123/test_src/include/linux/autoconf.h -D__KERNEL__ -D__nds32__ -mabi=2 -D__OPTIMIZE__ -G0 -D__ARCH_WANT_SYS_WAITPID -Unds32 -DSTRICT_MM_TYPECHECKS '
 "let g:syntastic_c_checkers = ['make']
-"let g:syntastic_c_compiler = 'nds32le-linux-gcc'
-"let g:syntastic_c_include_dirs = [ 
-"            \ '/home/pikachu123/test_src/arch/nds32/include',
-"            \ '/home/pikachu123/Andestech/BSPv321/toolchains/nds32le-linux-glibc-v2/lib/gcc/nds32le-linux/4.4.4/include',
-"            \ '/home/pikachu123/test_src/arch/nds32/include']
+let g:syntastic_c_compiler = 'nds32le-elf-gcc'
+let g:syntastic_c_config_file = '.syntastic_c_config'
 
 "UltiSnips
 " Trigger configuration. Do not use <tab> if you use https://github.com/Vallor"ic/YouCompleteMe.
@@ -670,6 +671,42 @@ nnoremap <leader>w :<C-u>Unite -no-split -buffer-name=mru     -start-insert file
 nnoremap <leader>o :<C-u>Unite -no-split -buffer-name=outline -start-insert outline<cr>
 nnoremap <leader>y :<C-u>Unite -no-split -buffer-name=yank    history/yank<cr>
 nnoremap <leader>e :<C-u>Unite -no-split -buffer-name=buffer  buffer<cr>
+let g:unite_source_menu_menus = get(g:,'unite_source_menu_menus',{})
+let g:unite_source_menu_menus.git = {
+    \ 'description' : '            gestionar repositorios git
+        \                            ⌘ [espacio]g',
+    \}
+let g:unite_source_menu_menus.git.command_candidates = [
+    \['▷ tig                                                        ⌘ ,gt',
+        \'normal ,gt'],
+    \['▷ git status       (Fugitive)                                ⌘ ,gs',
+        \'Gstatus'],
+    \['▷ git diff         (Fugitive)                                ⌘ ,gd',
+        \'Gdiff'],
+    \['▷ git commit       (Fugitive)                                ⌘ ,gc',
+        \'Gcommit'],
+    \['▷ git log          (Fugitive)                                ⌘ ,gl',
+        \'exe "silent Glog | Unite quickfix"'],
+    \['▷ git blame        (Fugitive)                                ⌘ ,gb',
+        \'Gblame'],
+    \['▷ git stage        (Fugitive)                                ⌘ ,gw',
+        \'Gwrite'],
+    \['▷ git checkout     (Fugitive)                                ⌘ ,go',
+        \'Gread'],
+    \['▷ git rm           (Fugitive)                                ⌘ ,gr',
+        \'Gremove'],
+    \['▷ git mv           (Fugitive)                                ⌘ ,gm',
+        \'exe "Gmove " input("destino: ")'],
+    \['▷ git push         (Fugitive, salida por buffer)             ⌘ ,gp',
+        \'Git! push'],
+    \['▷ git pull         (Fugitive, salida por buffer)             ⌘ ,gP',
+        \'Git! pull'],
+    \['▷ git prompt       (Fugitive, salida por buffer)             ⌘ ,gi',
+        \'exe "Git! " input("comando git: ")'],
+    \['▷ git cd           (Fugitive)',
+        \'Gcd'],
+    \]
+nnoremap <leader>m :Unite -no-split -silent -start-insert menu:git<CR>
 
 " Custom mappings for the unite buffer
 autocmd FileType unite call s:unite_settings()
