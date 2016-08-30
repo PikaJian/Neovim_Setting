@@ -28,7 +28,8 @@ set history=50		" keep 50 lines of command line history
 set ruler		" show the cursor position all the time
 set autoread		" auto read when file is changed from outside
 setlocal textwidth=80
-
+set number
+set relativenumber
 
 autocmd FileType c,cpp call MyCodeStyle()
 
@@ -80,8 +81,6 @@ else
   set background=dark
   color solarized   "workaround for nvim, this cause nvim war color use now
   set hlsearch		" search highlighting
-
-  set number
 endif
 
 
@@ -117,8 +116,8 @@ set tm=500
 
 " TAB setting{
    set expandtab        "replace <TAB> with spaces
-   set tabstop=2           " number of spaces a tab counts for
-   set shiftwidth=2        " spaces for autoindents
+   set tabstop=8           " number of spaces a tab counts for
+   set shiftwidth=8        " spaces for autoindents
    au FileType Makefile set noexpandtab
 "}      							
 
@@ -184,9 +183,9 @@ map <leader>l :cp<CR>
 
 " --- move around splits {
 "decrease window
-map <leader><leader>j <C-W><
+"map <leader><leader>j <C-W><
 "increase window
-map <leader><leader>l <C-W>>
+"map <leader><leader>l <C-W>>
 " move to and maximize the below split 
 map <C-J> <C-W>j<C-W>_
 " move to and maximize the above split 
@@ -285,7 +284,7 @@ autocmd BufNewFile,BufRead *.sass             set ft=sass.css
 "--------------------------------------------------------------------------- 
 " ENCODING SETTINGS
 "--------------------------------------------------------------------------- 
-"set encoding=utf-8                                  
+"set encoding=utf-8                                
 set termencoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8,big5,gb2312,latin1
@@ -307,7 +306,6 @@ fun! Big5()
 	set encoding=big5
 	set fileencoding=big5
 endfun
-
 
 "--------------------------------------------------------------------------- 
 " PLUGIN SETTINGS
@@ -443,9 +441,10 @@ inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 
 
 "youcompleteme
+let g:ycm_disable_for_files_larger_than_kb = 800
 "YCM diagnostic
-let g:ycm_extra_conf_globlist = ['~/.nvim/bundle/YouCompleteMe/*','~/*','./*']
-let g:ycm_global_ycm_extra_conf = '~/.nvim/bundle/YouCompleteMe/.ycm_extra_conf.py'
+let g:ycm_extra_conf_globlist = ['~/*', './*', '~/.nvim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/*']
+let g:ycm_global_ycm_extra_conf = '~/.nvim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 let g:ycm_python_binary_path = '/usr/bin/python2'
 "use ycm clang module as syntastic checker
 let g:ycm_register_as_syntastic_checker = 0 "default 1
@@ -627,7 +626,7 @@ let g:airline#extensions#tabline#buffer_idx_mode = 0
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
 " show buffer number
-"let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#buffer_nr_show = 0
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#show_splits = 1
 let g:airline#extensions#tabline#show_tabs = 1
@@ -735,7 +734,7 @@ endfunction
 au BufRead,BufNewFile *.{groovy,gradle}  call s:groovy_format()
 
 "vim-gradle
-nnoremap <F10> :compiler gradle<CR>:make build -Prtsp=true -Pconf_files=AU3522.h,AU3522_COM.h<CR>
+nnoremap <F10> :compiler gradle<CR>:make build -Prtsp=true -Pconf_files=AU3518P.h,AU3522_COM.h<CR>
 autocmd QuickFixCmdPost [^l]* nested botright cwindow
 autocmd QuickFixCmdPost    l* nested botright lwindow
 "fugitive
@@ -744,3 +743,108 @@ autocmd User fugitive
   \   nnoremap <buffer> .. :edit %:h<CR> |
   \ endif
 autocmd BufReadPost fugitive://* set bufhidden=hide
+
+
+"nerdCommenter
+let g:NERDSpaceDelims=1
+let g:NERDCommentEmptyLines = 1
+
+" SeeTab: toggles between showing tabs and using standard listchars
+fu! SeeTab()
+  if !exists("g:SeeTabEnabled")
+    let g:SeeTabEnabled = 1
+    let g:SeeTab_list = &list
+    let g:SeeTab_listchars = &listchars
+    let regA = @a
+    redir @a
+    hi SpecialKey
+    redir END
+    let g:SeeTabSpecialKey = @a
+    let @a = regA
+    silent! hi SpecialKey guifg=black guibg=magenta ctermfg=black ctermbg=magenta
+    set list
+    set listchars=tab:\|\
+  else
+    let &list = g:SeeTab_list
+    let &listchars = &listchars
+    silent! exe "hi ".substitute(g:SeeTabSpecialKey,'xxx','','e')
+    unlet g:SeeTabEnabled g:SeeTab_list g:SeeTab_listchars
+  endif
+endfunc
+com! -nargs=0 SeeTab :call SeeTab()
+
+"Gtags
+set cscopeprg=gtags-cscope
+
+let Gtags_Close_When_Single = 1
+let Gtags_Auto_Update = 0
+let g:cscope_silent = 1
+"au FileType php,pyhthon,c,cpp,javascrip,go map <C-]> :Gtags<CR><CR>
+"au FileType php,python,c,cpp,javascript,go map <C-[> :Gtags -r<CR><CR>
+nnoremap <leader><C-]> :execute 'Unite gtags/def:'.expand('<cword>')<CR>
+nnoremap <leader><C-[> :execute 'Unite gtags/ref:'.expand('<cword>')<CR>
+
+"CtrlP
+" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
+if executable('ag')
+  " Use Ag over Grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+
+"set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/.tmp/*,*/.sass-cache/*,*/node_modules/*,*.keep,*.DS_Store,*/.git/*
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
+
+let g:ctrlp_map = '<C-f>'
+let g:ctrlp_prompt_mappings = {
+  \ 'PrtBS()':              ['<bs>', '<c-]>'],
+  \ 'PrtDelete()':          ['<del>'],
+  \ 'PrtDeleteWord()':      ['<c-w>'],
+  \ 'PrtClear()':           ['<c-u>'],
+  \ 'PrtSelectMove("j")':   ['<c-j>', '<down>'],
+  \ 'PrtSelectMove("k")':   ['<c-k>', '<up>'],
+  \ 'PrtSelectMove("t")':   ['<Home>', '<kHome>'],
+  \ 'PrtSelectMove("b")':   ['<End>', '<kEnd>'],
+  \ 'PrtSelectMove("u")':   ['<PageUp>', '<kPageUp>'],
+  \ 'PrtSelectMove("d")':   ['<PageDown>', '<kPageDown>'],
+  \ 'PrtHistory(-1)':       ['<c-n>'],
+  \ 'PrtHistory(1)':        ['<c-p>'],
+  \ 'AcceptSelection("e")': ['<cr>', '<2-LeftMouse>'],
+  \ 'AcceptSelection("h")': ['<c-x>', '<c-cr>', '<c-s>'],
+  \ 'AcceptSelection("t")': ['<c-t>'],
+  \ 'AcceptSelection("v")': ['<c-v>', '<RightMouse>'],
+  \ 'ToggleFocus()':        ['<s-tab>'],
+  \ 'ToggleRegex()':        ['<c-r>'],
+  \ 'ToggleByFname()':      ['<c-d>'],
+  \ 'ToggleType(1)':        ['<c-f>', '<c-up>'],
+  \ 'ToggleType(-1)':       ['<c-b>', '<c-down>'],
+  \ 'PrtExpandDir()':       ['<tab>'],
+  \ 'PrtInsert("c")':       ['<MiddleMouse>', '<insert>'],
+  \ 'PrtInsert()':          ['<c-\>'],
+  \ 'PrtCurStart()':        ['<c-a>'],
+  \ 'PrtCurEnd()':          ['<c-e>'],
+  \ 'PrtCurLeft()':         ['<c-h>', '<left>', '<c-^>'],
+  \ 'PrtCurRight()':        ['<c-l>', '<right>'],
+  \ 'PrtClearCache()':      ['<F5>'],
+  \ 'PrtDeleteEnt()':       ['<F7>'],
+  \ 'CreateNewFile()':      ['<c-y>'],
+  \ 'MarkToOpen()':         ['<c-z>'],
+  \ 'OpenMulti()':          ['<c-o>'],
+  \ 'PrtExit()':            ['<esc>', '<c-c>', '<c-g>'],
+  \ }
+" ctrlp-funky
+let g:ctrlp_funky_syntax_highlight = 1
+nnoremap <Leader>fu :CtrlPFunky<Cr>
+" narrow the list down with a word under cursor
+nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+let g:ctrlp_funky_syntax_highlight = 1
+let g:ctrlp_extensions = ['funky']

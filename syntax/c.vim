@@ -483,6 +483,7 @@ unlet s:ft
 let &cpo = s:cpo_save
 unlet s:cpo_save
 " vim: ts=8
+
 syn region IfFoldContainer
     \ start="^\s*#\s*if\(n\?def\)\?\>"
     \ end="#\s*endif\>"
