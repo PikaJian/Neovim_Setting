@@ -11,7 +11,9 @@ endif
 ""  call add(g:pathogen_disabled, 'csapprox')
 "endif
 "call add(g:pathogen_disabled, 'csapprox')
-
+if has('nvim')
+  call add(g:pathogen_disabled, 'CuteErrorMarker')
+endif
 "if has('nvim')
 "    let s:editor_root=expand("~/.nvim")
 "else
@@ -30,7 +32,7 @@ set autoread		" auto read when file is changed from outside
 setlocal textwidth=80
 set number
 set relativenumber
-
+set list lcs=tab:\|\ 
 autocmd FileType c,cpp call MyCodeStyle()
 
 function! MyCodeStyle()
@@ -57,7 +59,8 @@ autocmd! bufwritepost .nvimrc source ~/.nvimrc
 
 if has("gui_running")	" GUI color and font settings
   "set guifont=Osaka-Mono:h20
-  set guifont=pika:h20
+  "set guifont=pika:h20
+  set guifont = Droid\ Sans\ Mono\ for\ Powerline\ Nerd\ Font\ Complete
   set background=dark 
   set t_Co=256          " 256 color mode
   set cursorline        " highlight current line
@@ -343,6 +346,8 @@ endif
 
 
 " ---yankring
+nnoremap <Leader>yr :YRShow<Cr>
+"for windows platorms, you must change yankring replace key <C-P> and <C-N>
 "let g:yankring_replace_n_nkey = '<c-r>'
 
 "vim-indent-guides
@@ -375,6 +380,7 @@ nmap t <Plug>(easymotion-t2)
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
 
+map  <Leader>w <Plug>(easymotion-bd-w)
 omap  tt <Plug>(easymotion-bd-tl)
 " These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
 " Without these mappings, `n` & `N` works fine. (These mappings just provide
@@ -478,6 +484,9 @@ nnoremap <leader>jy :YcmForceCompileAndDiagnostics
 "Jump to Definition
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nnoremap <leader>jx :YcmCompleter GoToDefinition<CR>
+nnoremap <leader>jh :YcmCompleter GoToInclude<CR>
+nnoremap <leader>gt :YcmCompleter GetType<CR>
+
 "nnoremap <F10> :YcmDiags<CR>
 let g:ycm_filetype_blacklist = {
       \ 'tagbar' : 1,
@@ -549,7 +558,7 @@ let NERDTreeIgnore=['\~$', '\.pyc', '\.swp$', '\.git', '\.hg', '\.svn',
 \ '\.egg$', '\.egg-info$', '\.tox$', '\.idea$', '\.sass-cache',
 \ '\.env$', '\.env[0-9]$', '\.coverage$', '\.tmp$', '\.gitkeep$',
 \ '\.coverage$', '\.webassets-cache$', '\.vagrant$', '\.DS_Store',
-\ '\.env-pypy$', 'tags', '\.a$']
+\ '\.env-pypy$', 'tags', '\.a$', 'GPATH', 'GRTAGS', 'GTAGS', 'gtags.files']
 "nerdtree tab
 nnoremap <F6> :NERDTreeTabsToggle<CR>
 
@@ -706,6 +715,8 @@ let g:unite_source_menu_menus.git.command_candidates = [
         \'exe "Git! " input("comando git: ")'],
     \['▷ git cd           (Fugitive)',
         \'Gcd'],
+    \['▷ git log2         (Fugitive)',
+        \'Gllog'],
     \]
 nnoremap <leader>m :Unite -no-split -silent -start-insert menu:git<CR>
 
@@ -848,3 +859,57 @@ nnoremap <Leader>fu :CtrlPFunky<Cr>
 nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 let g:ctrlp_funky_syntax_highlight = 1
 let g:ctrlp_extensions = ['funky']
+
+"indent line
+"this only for indent by tab
+"for indent with tab : set list lcs=tab:\|\ (here is a space)
+let g:indentLine_enabled = 0
+if has("gui_running")
+  let g:indentLine_color_gui = '#A4E57E'
+else
+  let g:indentLine_color_term = 239
+endif
+
+"indent guide line
+let g:indent_guides_guide_size = 1
+
+"haskell setting
+let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+
+"devicons
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let g:DevIconsEnableFoldersOpenClose = 1
+let g:webdevicons_enable_ctrlp = 1
+
+"clang-format for formating cpp code
+" //格式化最新的commit，并直接在原文件上修改
+" git diff -U0 HEAD^ | clang-format-diff.py -i -p1
+nnoremap <leader>cf :call FormatCode("Chromium")<CR>
+nnoremap <leader>lf :call FormatCode("LLVM")<CR>
+vnoremap <leader>cf :call FormatCode("Chromium")<CR>
+vnoremap <leader>lf :call FormatCode("LLVM")<CR>
+let g:autoformat_verbosemode = 1
+
+func s:FormatCode(style)
+  let firstline=line(".")
+  let lastline=line(".")
+  " Visual mode
+  if exists(a:firstline)
+    firstline = a:firstline
+    lastline = a:lastline
+  endif
+  let g:formatdef_clangformat = "'clang-format
+                          \ --lines='.a:firstline.':'.a:lastline.'        
+                          \ --assume-filename='.bufname('%').'            
+                          \ -style=" . a:style . "'"
+
+  let formatcommand = ":" . firstline . "," . lastline . "Autoformat"
+  exec formatcommand
+endfunc
+
+"command -nargs=1 PikaFormatCode call s:FormatCode(<f-args>)
