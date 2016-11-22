@@ -118,7 +118,7 @@ set t_vb=
 set tm=500
 
 " TAB setting{
-   set expandtab        "replace <TAB> with spaces
+   "set expandtab        "replace <TAB> with spaces
    set tabstop=8           " number of spaces a tab counts for
    set shiftwidth=8        " spaces for autoindents
    au FileType Makefile set noexpandtab
@@ -547,8 +547,8 @@ let g:AutoPairs = {'<' : '>' ,'(' : ')', '[' : ']', '{' : '}', "'" : "'", '"' : 
 "fswitch
 au BufEnter *.cpp let b:fswitchdst = 'hpp,h' | let b:fswitchlocs = './,./include,../include'
 au BufEnter *.c let b:fswitchdst = 'h,hh' | let b:fswitchlocs = './,./include,../include'
-au BufEnter *.hh let b:fswitchdst = 'c,cpp' | let b:fswitchlocs = '../,./'
-au BufEnter *.h let b:fswitchdst = 'cpp,c' | let b:fswitchlocs = './,../'
+au BufEnter *.hh let b:fswitchdst = 'c,cpp' | let b:fswitchlocs = '../,./,../src'
+au BufEnter *.h let b:fswitchdst = 'cpp,c' | let b:fswitchlocs = './,../,../src'
 nmap <silent> <Leader>of :FSHere<cr>
 "nerdtree
 let g:NERDTreeWinSize=20
@@ -744,6 +744,13 @@ function! s:groovy_format()
 endfunction
 au BufRead,BufNewFile *.{groovy,gradle}  call s:groovy_format()
 
+function! s:python_format()
+  set expandtab        "replace <TAB> with spaces
+  set tabstop=4           " number of spaces a tab counts for
+  set shiftwidth=4        " spaces for autoindents
+endfunction
+au BufRead,BufNewFile *.py  call s:python_format()
+
 "vim-gradle
 nnoremap <F10> :compiler gradle<CR>:make build -Prtsp=true -Pconf_files=AU3518P.h,AU3522_COM.h<CR>
 autocmd QuickFixCmdPost [^l]* nested botright cwindow
@@ -913,3 +920,11 @@ func s:FormatCode(style)
 endfunc
 
 "command -nargs=1 PikaFormatCode call s:FormatCode(<f-args>)
+
+"rename tmux tab window name to open filename 
+"note: tmux must install
+autocmd BufReadPost,FileReadPost,BufNewFile * call system('tmux rename-window '.expand("%:h"))
+
+"tmux navigator
+"let g:loaded_tmux_navigator = 1
+"let g:tmux_navigator_no_mappings = 1

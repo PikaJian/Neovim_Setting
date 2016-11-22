@@ -189,3 +189,6 @@
 [submodule "bundle/vim-indentwise"]
 	path = bundle/vim-indentwise
 	url = https://github.com/jeetsukumaran/vim-indentwise.git
+[submodule "bundle/vim-tmux-navigator"]
+	path = bundle/vim-tmux-navigator
+	url = https://github.com/christoomey/vim-tmux-navigator.git
