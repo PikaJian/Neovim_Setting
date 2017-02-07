@@ -1,28 +1,108 @@
+"
 "nvim only setting
-let g:python_host_prog = '/usr/bin/python2'
-"let g:python_host_skip_check = 1
-"set mouse=
-tnoremap <Esc> <C-\><C-n>
-let g:pathogen_disabled =[]
-if !has('gui_running')
-endif
-
-"if has('nvim')
-""  call add(g:pathogen_disabled, 'csapprox')
-"endif
-"call add(g:pathogen_disabled, 'csapprox')
 if has('nvim')
-  call add(g:pathogen_disabled, 'CuteErrorMarker')
+"let g:python2_host_prog = "/usr/bin/python2"
+let g:python3_host_prog = "/usr/bin/python3"
+"let g:python_host_skip_check = 1
+set mouse=a
+tnoremap <Esc> <C-\><C-n>
 endif
-"if has('nvim')
-"    let s:editor_root=expand("~/.nvim")
-"else
-"    let s:editor_root=expand("~/.vim")
-"endif
+"let g:pathogen_disabled =[]    
+"call add(g:pathogen_disabled, 'csapprox') 
+"call add(g:pathogen_disabled, 'yankring') 
+"call add(g:pathogen_disabled, 'CuteErrorMarker')
+"execute pathogen#infecto()
 
-execute pathogen#infect()
+call plug#begin('~/.vim/plugged')
+Plug 'junegunn/vim-easy-align'
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'vim-airline/vim-airline'
+Plug 'tpope/vim-surround'
+Plug 'mattn/emmet-vim'
+Plug 'sukima/xmledit'
+Plug 'tpope/vim-fugitive'
+Plug 'derekwyatt/vim-fswitch'
+Plug 'scrooloose/nerdtree'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'tpope/vim-repeat'
+Plug 'plasticboy/vim-markdown'
+Plug 'scrooloose/syntastic'
+Plug 'vim-scripts/VisIncr'
+Plug 'mileszs/ack.vim'
+Plug 'Valloric/YouCompleteMe', {'do': 'python3 ./install.py'}
+Plug 'kana/vim-operator-user'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'vim-scripts/DoxygenToolkit.vim'
+Plug 'Lokaltog/vim-easymotion'
+Plug 'majutsushi/tagbar'
+Plug 'kchmck/vim-coffee-script'
+Plug 'airblade/vim-gitgutter'
+Plug 'Raimondi/delimitMate'
+Plug 'junegunn/vim-easy-align'
+Plug 'bling/vim-airline'
+Plug 'altercation/vim-colors-solarized'
+Plug 'Shougo/unite.vim'
+Plug 'Shougo/unite-outline'
+Plug 'Shougo/neomru.vim'
+Plug 'Shougo/neoyank.vim'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'haya14busa/vim-operator-flashy'
+Plug 'haya14busa/incsearch.vim'
+Plug 'haya14busa/incsearch-easymotion.vim'
+Plug 'haya14busa/incsearch-easymotion.vim'
+Plug 'haya14busa/incsearch-fuzzy.vim'
+Plug 'vim-ctrlspace/vim-ctrlspace'
+Plug 'ternjs/tern_for_vim'
+Plug 'tpope/vim-unimpaired'
+Plug 'scrooloose/nerdcommenter'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'kshenoy/vim-signature'
+Plug 'hewes/unite-gtags'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tacahiroy/ctrlp-funky'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'ryanoasis/vim-devicons'
+Plug 'Yggdroot/indentLine'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'neovimhaskell/haskell-vim'
+Plug 'ryanss/vim-hackernews'
+Plug 'Chiel92/vim-autoformat'
+Plug 'KabbAmine/zeavim.vim'
+Plug 'jeetsukumaran/vim-indentwise'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'mhinz/vim-startify'
+
+Plug 'vim-scripts/YankRing.vim', { 'on': [] }
+Plug 'vivien/vim-addon-linux-coding-style', { 'on': [] }
+Plug 'Twinside/vim-cuteErrorMarker', { 'on': [] }
+Plug 'godlygeek/csapprox', { 'on': [] }
+" Initialize plugin system
+call plug#end()
+
+if has('nvim')
+    let s:editor_root=expand("~/.nvim")
+else
+    let s:editor_root=expand("~/.vim")
+endif
+
+" --- AutoClose - Inserts matching bracket, paren, brace or quote 
+" fixed the arrow key problems caused by AutoClose
+if !has("gui_running")	
+"   "set term=linux
+"   imap OA <ESC>ki
+"   imap OB <ESC>ji
+"   imap OC <ESC>li
+"   imap OD <ESC>hi
+    nmap OA k
+    nmap OB j
+    nmap OC l
+    nmap OD h
+    "for tmux wired character
+    map <Esc>[B <Down>
+endif
+
 filetype plugin indent on
-" General Settings
+" General SETTINGS 
 set hidden
 set nocompatible	" not compatible with the old-fashion vi mode
 set bs=2		" allow backspacing over everything in insert mode
@@ -31,7 +111,7 @@ set ruler		" show the cursor position all the time
 set autoread		" auto read when file is changed from outside
 setlocal textwidth=80
 set number
-set relativenumber
+"set relativenumber
 set list lcs=tab:\|\ 
 autocmd FileType c,cpp call MyCodeStyle()
 
@@ -53,14 +133,15 @@ filetype on           " Enable filetype detection
 filetype indent on    " Enable filetype-specific indenting
 filetype plugin on    " Enable filetype-specific plugins
 
-
 " auto reload vimrc when editing it
-autocmd! bufwritepost .nvimrc source ~/.nvimrc
+autocmd! bufwritepost .vimrc source ~/vimrc
 
 if has("gui_running")	" GUI color and font settings
+  set autochdir
   "set guifont=Osaka-Mono:h20
   "set guifont=pika:h20
-  set guifont = Droid\ Sans\ Mono\ for\ Powerline\ Nerd\ Font\ Complete
+  set guifont =Droid\ Sans\ Mono\ for\ Powerline:h20
+  "set guifont =Droid\ Sans\ Mono\ for\ Powerline\ Nerd\ Font\ Complete
   set background=dark 
   set t_Co=256          " 256 color mode
   set cursorline        " highlight current line
@@ -78,8 +159,9 @@ else
   let g:solarized_italic=0
   let g:solarized_contrast = "nomal"
   let g:solarized_visibility= "normal"
-  set t_AB=^[[48;5;%dm
-  set t_AF=^[[38;5;%dm
+  "terminal setting
+  "set t_AB=^[[48;5;%dm
+  "set t_AF=^[[38;5;%dm
   color solarized 
   set background=dark
   color solarized   "workaround for nvim, this cause nvim war color use now
@@ -93,8 +175,7 @@ set foldnestmax=10      "deepest fold is 10 levels
 set nofoldenable        "dont fold by default
 set foldlevel=1         "this is just what i use
 
-
-set clipboard=unnamed	" yank to the system register (*) by default
+set clipboard=unnamed,unnamedplus " yank to the system register (*) by default
 set showmatch		" Cursor shows matching ) and }
 set showmode		" Show current mode
 set wildchar=<TAB>	" start wild expansion in the command line using <TAB>
@@ -118,9 +199,9 @@ set t_vb=
 set tm=500
 
 " TAB setting{
-   "set expandtab        "replace <TAB> with spaces
-   set tabstop=8           " number of spaces a tab counts for
-   set shiftwidth=8        " spaces for autoindents
+   set expandtab        "replace <TAB> with spaces
+   set tabstop=4           " number of spaces a tab counts for
+   set shiftwidth=4        " spaces for autoindents
    au FileType Makefile set noexpandtab
 "}      							
 
@@ -172,6 +253,9 @@ endfun
 " set leader to ,
 let mapleader=","
 let g:mapleader=","
+
+"map esc key
+inoremap jk <ESC>
 
 "replace the current word in all opened buffers
 map <leader>r :call Replace()<CR>
@@ -329,22 +413,6 @@ let g:tex_flavor='latex'
 "}
 
 
-" --- AutoClose - Inserts matching bracket, paren, brace or quote 
-" fixed the arrow key problems caused by AutoClose
-if !has("gui_running")	
-   "set term=linux
-   imap OA <ESC>ki
-   imap OB <ESC>ji
-   imap OC <ESC>li
-   imap OD <ESC>hi
-
-   nmap OA k
-   nmap OB j
-   nmap OC l
-   nmap OD h
-endif
-
-
 " ---yankring
 nnoremap <Leader>yr :YRShow<Cr>
 "for windows platorms, you must change yankring replace key <C-P> and <C-N>
@@ -449,16 +517,18 @@ inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 "youcompleteme
 let g:ycm_disable_for_files_larger_than_kb = 800
 "YCM diagnostic
-let g:ycm_extra_conf_globlist = ['~/*', './*', '~/.nvim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/*']
-let g:ycm_global_ycm_extra_conf = '~/.nvim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-let g:ycm_python_binary_path = '/usr/bin/python2'
+let g:ycm_extra_conf_globlist = ['~/*', './*', '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/*']
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+let g:ycm_python_binary_path = '/usr/bin/python3'
+let g:ycm_server_python_interpreter = '/usr/bin/python3'
 "use ycm clang module as syntastic checker
 let g:ycm_register_as_syntastic_checker = 0 "default 1
-let g:Show_diagnostics_ui = 1 "default 1
+let g:Show_diagnostics_ui = 0 "default 1
 let g:ycm_enable_diagnostic_signs = 2
 let g:ycm_enable_diagnostic_highlighting = 1
 let g:ycm_always_populate_location_list = 0 "default 0
 let g:ycm_open_loclist_on_ycm_diags = 1 "default 1
+let g:ycm_max_diagnostics_to_display = 30
 "YCM others options
 let g:ycm_key_invoke_completion = '<F8>'
 "let g:ycm_key_list_select_completion=['<c-n>']
@@ -468,12 +538,14 @@ let g:ycm_key_list_previous_completion = ['<Up>']
 let g:ycm_confirm_extra_conf=1
 let g:ycm_collect_identifiers_from_tags_files=0
 let g:ycm_min_num_of_chars_for_completion=2
-let g:ycm_cache_omnifunc=0      
-let g:ycm_seed_identifiers_with_syntax=1   
+let g:ycm_cache_omnifunc=0
+let g:ycm_seed_identifiers_with_syntax=1
 let g:ycm_warning_symbol = '!'
 let g:ycm_error_symbol = 'x'
-"nnoremap <leader>lo :lopen<CR> "open locationlist
-"nnoremap <leader>lc :lclose<CR>        "close locationlist
+"open locationlist
+nnoremap <leader>lo :lopen<CR>
+"close locationlist
+nnoremap <leader>lc :lclose<CR>
 inoremap <leader><leader> <C-x><C-o>
 let g:ycm_complete_in_comments = 1
 let g:ycm_complete_in_strings = 1
@@ -507,6 +579,7 @@ let g:syntastic_warning_symbol = '!'
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_loc_list_height = 8
+let g:syntastic_check_on_wq = 0
 "let g:syntastic_check_on_open=1
 let g:syntastic_enable_highlighting = 1
 let g:syntastic_python_checker="flake8,pyflakes,pep8,pylint"
@@ -523,8 +596,6 @@ let g:syntastic_enable_balloons = 1     "whether to show balloons
 "let g:syntastic_c_make_args = "-j4"
 "let g:syntastic_c_make_options = '-j4'
 "let g:syntastic_c_check_header = 1
-"let syntastic_c_cflags = '-nostdinc -include /home/pikachu123/test_src/include/linux/autoconf.h -D__KERNEL__ -D__nds32__ -mabi=2 -D__OPTIMIZE__ -G0 -D__ARCH_WANT_SYS_WAITPID -Unds32 -DSTRICT_MM_TYPECHECKS '
-"let g:syntastic_c_checkers = ['make']
 let g:syntastic_c_compiler = 'nds32le-elf-gcc'
 let g:syntastic_c_config_file = '.syntastic_c_config'
 
@@ -561,6 +632,7 @@ let NERDTreeIgnore=['\~$', '\.pyc', '\.swp$', '\.git', '\.hg', '\.svn',
 \ '\.env-pypy$', 'tags', '\.a$', 'GPATH', 'GRTAGS', 'GTAGS', 'gtags.files']
 "nerdtree tab
 nnoremap <F6> :NERDTreeTabsToggle<CR>
+let g:nerdtree_tabs_open_on_gui_startup=0
 
 "support markdown hightlight
 au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn}   set filetype=mkd
@@ -622,16 +694,22 @@ vmap <Enter> <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 "airline
+"
+let g:airline#extensions#disable_rtp_load = 1
+let g:airline_extensions = ['branch', 'tabline']
 let g:airline_powerline_fonts = 1
 let g:airline_theme="solarized" 
 let g:airline#extensions#whitespace#enabled = 0
-"let g:airline_section_y = airline#section#create(['','[TYPE:','filetype',']','[TIME:','%{strftime("%H:%M")}',']'])
-let g:airline_section_z = airline#section#create(['%3p%% ', g:airline_symbols.linenr .' ', 'linenr', ':%3c '])
+let g:airline_section_y = airline#section#create(['','[TYPE:','filetype',']','[TIME:','%{strftime("%H:%M")}',']'])
+"let g:airline_section_z = airline#section#create(['%3p%% ', g:airline_symbols.linenr .' ', 'linenr', ':%3c '])
 "git branch info 
 let g:airline#extensions#branch#enabled = 1
+
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_close_button = 1
 let g:airline#extensions#tabline#show_tab_type = 0
-let g:airline#extensions#tabline#buffer_idx_mode = 0
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#extensions#tabline#middle_click_preserves_windows = 0
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
 " show buffer number
@@ -671,16 +749,16 @@ let g:unite_source_history_yank_enable = 1
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
 if has('nvim')
-  nnoremap <leader>t :<C-u>Unite -no-split -buffer-name=files   -start-insert file_rec/neovim:!<cr>
+  nnoremap <leader>t :<C-u>Unite -winheight=20 -direction=dynamicbottom -buffer-name=files -start-insert file_rec/neovim:!<cr>
 else
   "require vimproc plugin
-  nnoremap <leader>t :<C-u>Unite -no-split -buffer-name=files   -start-insert file_rec/async:!<cr>
+  nnoremap <leader>t :<C-u>Unite -winheight=20 -direction=dynamicbottom -buffer-name=files  -start-insert file_rec/async:!<cr>
 endif
-nnoremap <leader>f :<C-u>Unite -no-split -buffer-name=files   -start-insert file<cr>
-nnoremap <leader>w :<C-u>Unite -no-split -buffer-name=mru     -start-insert file_mru<cr>
-nnoremap <leader>o :<C-u>Unite -no-split -buffer-name=outline -start-insert outline<cr>
-nnoremap <leader>y :<C-u>Unite -no-split -buffer-name=yank    history/yank<cr>
-nnoremap <leader>e :<C-u>Unite -no-split -buffer-name=buffer  buffer<cr>
+nnoremap <leader>f :<C-u>Unite -winheight=20 -direction=dynamicbottom -buffer-name=files -start-insert file<cr>
+nnoremap <leader>w :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=mru  -start-insert file_mru<cr>
+nnoremap <leader>o :<C-u>Unite -winheight=20 -direction=dynamicbottom -buffer-name=outline -start-insert outline<cr>
+nnoremap <leader>y :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=yank    history/yank<cr>
+nnoremap <leader>e :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=buffer  -start-insert buffer<cr>
 let g:unite_source_menu_menus = get(g:,'unite_source_menu_menus',{})
 let g:unite_source_menu_menus.git = {
     \ 'description' : '            gestionar repositorios git
@@ -815,6 +893,8 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:200'
+
 "set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/.tmp/*,*/.sass-cache/*,*/node_modules/*,*.keep,*.DS_Store,*/.git/*
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
@@ -822,7 +902,8 @@ let g:ctrlp_custom_ignore = {
   \ 'link': 'some_bad_symbolic_links',
   \ }
 
-let g:ctrlp_map = '<C-f>'
+let g:ctrlp_map = '<C-p>'
+let g:ctrlp_cmd = 'CtrlPBuffer'
 let g:ctrlp_prompt_mappings = {
   \ 'PrtBS()':              ['<bs>', '<c-]>'],
   \ 'PrtDelete()':          ['<del>'],
@@ -836,9 +917,9 @@ let g:ctrlp_prompt_mappings = {
   \ 'PrtSelectMove("d")':   ['<PageDown>', '<kPageDown>'],
   \ 'PrtHistory(-1)':       ['<c-n>'],
   \ 'PrtHistory(1)':        ['<c-p>'],
-  \ 'AcceptSelection("e")': ['<cr>', '<2-LeftMouse>'],
+  \ 'AcceptSelection("e")': ['<cr>'],
   \ 'AcceptSelection("h")': ['<c-x>', '<c-cr>', '<c-s>'],
-  \ 'AcceptSelection("t")': ['<c-t>'],
+  \ 'AcceptSelection("t")': ['<c-t>', '<2-LeftMouse>'],
   \ 'AcceptSelection("v")': ['<c-v>', '<RightMouse>'],
   \ 'ToggleFocus()':        ['<s-tab>'],
   \ 'ToggleRegex()':        ['<c-r>'],
@@ -892,6 +973,8 @@ let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:DevIconsEnableFoldersOpenClose = 1
 let g:webdevicons_enable_ctrlp = 1
+" adding to vim-airline's tabline 
+let g:webdevicons_enable_airline_tabline = 0
 
 "clang-format for formating cpp code
 " //格式化最新的commit，并直接在原文件上修改
@@ -900,9 +983,10 @@ nnoremap <leader>cf :call FormatCode("Chromium")<CR>
 nnoremap <leader>lf :call FormatCode("LLVM")<CR>
 vnoremap <leader>cf :call FormatCode("Chromium")<CR>
 vnoremap <leader>lf :call FormatCode("LLVM")<CR>
-let g:autoformat_verbosemode = 1
+"let g:autoformat_verbosemode = 1
+let g:autoformat_autoindent = 1
 
-func s:FormatCode(style)
+func! FormatCode(style)
   let firstline=line(".")
   let lastline=line(".")
   " Visual mode
@@ -910,21 +994,26 @@ func s:FormatCode(style)
     firstline = a:firstline
     lastline = a:lastline
   endif
-  let g:formatdef_clangformat = "'clang-format
+  let g:formatdef_clangformat = "'clang-format-3.8
                           \ --lines='.a:firstline.':'.a:lastline.'        
                           \ --assume-filename='.bufname('%').'            
                           \ -style=" . a:style . "'"
-
   let formatcommand = ":" . firstline . "," . lastline . "Autoformat"
   exec formatcommand
 endfunc
 
-"command -nargs=1 PikaFormatCode call s:FormatCode(<f-args>)
+"command -nargs=1 PikaFormatCode :call FormatCode(<f-args>)
 
 "rename tmux tab window name to open filename 
-"note: tmux must install
-autocmd BufReadPost,FileReadPost,BufNewFile * call system('tmux rename-window '.expand("%:h"))
-
+"check tmux installed
+if executable('tmux')
+  autocmd BufReadPost,FileReadPost,BufNewFile * call system('tmux rename-window '.expand("%:h"))
+endif
 "tmux navigator
 "let g:loaded_tmux_navigator = 1
 "let g:tmux_navigator_no_mappings = 1
+
+"command! -bar -nargs=+ -complete=customlist,functions#GitBugComplete Gbug Git bug <q-args>
+"command! -bar -nargs=+ -complete=customlist,functions#GitFeatureComplete Gfeature Git feature <q-args>
+"command! -bar -nargs=+ -complete=customlist,functions#GitRefactorComplete Grefactor Git refactor <q-args>
+
