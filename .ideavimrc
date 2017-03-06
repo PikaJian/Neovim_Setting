@@ -1,0 +1,78 @@
+set ignorecase
+set smartcase
+set hlsearch
+set showmode
+set scrolloff=3         " 3 lines above/below cursor when scrolling
+
+" Integrate with system clipboard
+set clipboard=unnamedplus,unnamed
+
+"set surround plugin
+set surround
+
+let mapleader = ","
+
+imap jk <Esc>
+vmap ,. <Esc>
+nnoremap Y y$
+
+" Use Q for formatting the current paragraph (or visual selection)
+vmap Q gq
+nmap Q gqap
+
+" These create newlines like o and O but stay in normal mode
+nmap zj o<Esc>k
+nmap zk O<Esc>j
+
+" key bindings for quickly moving between windows
+" h left, l right, k up, j down
+nmap <leader>h <c-w>h
+nmap <leader>l <c-w>l
+nmap <leader>k <c-w>k
+nmap <leader>j <c-w>j
+
+" IdeaVim uses 'a' for alt instead of Vim's 'm'
+nmap <a-j> 15gj
+nmap <a-k> 15gk
+
+" Won't work in visual mode (with vmap) for some reason.
+" Use default map of <c-/> for that.
+nmap gcc :action CommentByLineComment<cr>
+
+" ============================================================================
+" IDE actions
+" ============================================================================
+
+nnoremap / :action Find<CR>
+nnoremap n :action FindNext<CR>
+nnoremap N :action FindPrevious<CR>
+nnoremap ; :action AceJumpAction<CR>
+
+
+nnoremap <leader>gi :action GotoImplementation<cr>
+nnoremap <leader>gs :action GotoSuperMethod<cr>
+nnoremap <leader>gd :action GotoDeclaration<cr>
+nmap <leader>ns :action GotoSymbol<cr>
+nmap <leader>gt :action GotoFile<cr>
+nmap <leader>gc :action GotoClass<cr>
+nmap <leader>b :action Back<cr>
+nmap <leader>f :action Forward<cr>
+nmap <leader>nm :action FileStructurePopup<cr>
+nmap <leader>d :action ShowErrorDescription<cr>
+nmap <leader>u :action FindUsage<cr>
+nnoremap ]q :action NextOccurence<cr>
+nnoremap [q :action PreviousOccurence<cr>
+nnoremap ]m :action MethodDown<cr>
+nnoremap [m :action MethodUp<cr>
+nnoremap ]c :action VcsShowNextChangeMarker<cr>
+nnoremap [c :action VcsShowPrevChangeMarker<cr>
+nnoremap ]e :action GotoNextError<cr>
+nnoremap [e :action GotoPreviousError<cr>
+
+" Cursive
+nnoremap <leader>W :action :cursive.actions.paredit/wrap-paren<cr>
+nnoremap <leader>w[ :action :cursive.actions.paredit/wrap-square<cr>
+nnoremap <leader>w{ :action :cursive.actions.paredit/wrap-curly<cr>
+nnoremap <leader>w" :action :cursive.actions.paredit/wrap-quotes<cr>
+nnoremap <leader>< :action :cursive.actions.paredit/barf-forwards<cr>
+nnoremap <leader>> :action :cursive.actions.paredit/slurp-forwards<cr>
