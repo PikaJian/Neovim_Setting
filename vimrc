@@ -7,6 +7,7 @@ let g:python3_host_prog = "/usr/bin/python3"
 set mouse=a
 tnoremap <Esc> <C-\><C-n>
 endif
+
 "let g:pathogen_disabled =[]    
 "call add(g:pathogen_disabled, 'csapprox') 
 "call add(g:pathogen_disabled, 'yankring') 
@@ -15,7 +16,7 @@ endif
 
 call plug#begin('~/.vim/plugged')
 Plug 'junegunn/vim-easy-align'
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'honza/vim-snippets'
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
@@ -26,10 +27,11 @@ Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'tpope/vim-repeat'
 Plug 'plasticboy/vim-markdown'
-Plug 'scrooloose/syntastic'
+Plug 'scrooloose/syntastic', { 'for': ['c', 'cpp'] } 
 Plug 'vim-scripts/VisIncr'
 Plug 'mileszs/ack.vim'
-Plug 'Valloric/YouCompleteMe', {'do': 'python3 ./install.py'}
+Plug 'Valloric/YouCompleteMe', { 'do': 'python3 ./install.py', 'on': [] }
+Plug 'SirVer/ultisnips', { 'on': [] }
 Plug 'kana/vim-operator-user'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'vim-scripts/DoxygenToolkit.vim'
@@ -71,12 +73,21 @@ Plug 'KabbAmine/zeavim.vim'
 Plug 'jeetsukumaran/vim-indentwise'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'mhinz/vim-startify'
+Plug 'terryma/vim-expand-region'
+Plug 'gregsexton/gitv'
 
+Plug 'dyng/ctrlsf.vim', { 'on': [] }
 Plug 'vim-scripts/YankRing.vim', { 'on': [] }
 Plug 'vivien/vim-addon-linux-coding-style', { 'on': [] }
 Plug 'Twinside/vim-cuteErrorMarker', { 'on': [] }
 Plug 'godlygeek/csapprox', { 'on': [] }
+Plug 'justinmk/vim-sneak', { 'on': [] }
 " Initialize plugin system
+augroup load_us_ycm
+  autocmd!
+  autocmd InsertEnter * call plug#load('ultisnips', 'YouCompleteMe')
+                     \| autocmd! FileType c,cpp,py load_us_ycm
+augroup END
 call plug#end()
 
 if has('nvim')
@@ -246,6 +257,20 @@ fun! Replace()
     :unlet! s:word 
 endfun 
 
+"Twiddle Case
+"press ~ to convert the text to  UPPER CASE, then to lower case, then to Title Case
+function! TwiddleCase(str)
+  if a:str ==# toupper(a:str)
+    let result = tolower(a:str)
+  elseif a:str ==# tolower(a:str)
+    let result = substitute(a:str,'\(\<\w\+\>\)', '\u\1', 'g')
+  else
+    let result = toupper(a:str)
+  endif
+  return result
+endfunction
+vnoremap ~ y:call setreg('', TwiddleCase(@"), getregtype(''))<CR>gv""Pgv
+
 
 "--------------------------------------------------------------------------- 
 " USEFUL SHORTCUTS
@@ -264,23 +289,23 @@ map <leader>r :call Replace()<CR>
 map <leader>cv :botright cope<CR>
 map <leader>cx :cclose<CR>
 " move to next error
-map <leader>h :cn<CR>
+map ]e :cn<CR>
 " move to the prev error
-map <leader>l :cp<CR>
+map [e :cp<CR>
 
 " --- move around splits {
 "decrease window
-"map <leader><leader>j <C-W><
+map <leader><leader>l <C-W><
 "increase window
-"map <leader><leader>l <C-W>>
+map <leader><leader>h <C-W>>
 " move to and maximize the below split 
-map <C-J> <C-W>j<C-W>_
+map <C-j> <C-w>j<C-w>_
 " move to and maximize the above split 
-map <C-K> <C-W>k<C-W>_
+map <C-k> <C-w>k<C-w>_
 " move to and maximize the left split 
-nmap <c-h> <c-w>h<c-w><bar>
+nmap <C-h> <c-w>h<c-w><bar>
 " move to and maximize the right split  
-nmap <c-l> <c-w>l<c-w><bar>
+nmap <C-l> <c-w>l<c-w><bar>
 set wmw=0                     " set the min width of a window to 0 so we can maximize others 
 set wmh=0                     " set the min height of a window to 0 so we can maximize others
 " }
@@ -303,7 +328,11 @@ nmap <leader>/ :nohl<CR>
 " Bash like keys for the command line
 cnoremap <C-A>      <Home>
 cnoremap <C-E>      <End>
-cnoremap <C-K>      <C-U>
+"cnoremap <C-K>      <C-U>
+cnoremap <C-k>      <Up>
+cnoremap <C-j>      <Down>
+cnoremap <C-h>      <Left>
+cnoremap <C-l>      <Right>
 
 " ,p toggles paste mode
 nmap <leader>p :set paste!<BAR>set paste?<CR>
@@ -438,17 +467,17 @@ let g:EasyMotion_use_upper = 1
 let g:EasyMotion_smartcase = 1
  " " Smartsign (type `3` and match `3`&`#`)
 let g:EasyMotion_use_smartsign_us = 1"
-map <Leader><leader>l <Plug>(easymotion-lineforward)
-map <Leader><leader>j <Plug>(easymotion-j)
-map <Leader><leader>k <Plug>(easymotion-k)
-map <Leader><leader>h <Plug>(easymotion-linebackward)
+map <leader>l <Plug>(easymotion-lineforward)
+map <leader>j <Plug>(easymotion-j)
+map <leader>k <Plug>(easymotion-k)
+map <leader>h <Plug>(easymotion-linebackward)
 " Gif config
-nmap s <Plug>(easymotion-s2)
-nmap t <Plug>(easymotion-t2)
+nmap <leader>s <Plug>(easymotion-s2)
+nmap <leader>t <Plug>(easymotion-t2)
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
 
-map  <Leader>w <Plug>(easymotion-bd-w)
+map  ww <Plug>(easymotion-bd-w)
 omap  tt <Plug>(easymotion-bd-tl)
 " These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
 " Without these mappings, `n` & `N` works fine. (These mappings just provide
@@ -532,9 +561,9 @@ let g:ycm_max_diagnostics_to_display = 30
 "YCM others options
 let g:ycm_key_invoke_completion = '<F8>'
 "let g:ycm_key_list_select_completion=['<c-n>']
-let g:ycm_key_list_select_completion = ['<Down>']
+let g:ycm_key_list_select_completion = ['<Down>', '<c-j>']
 "let g:ycm_key_list_previous_completion=['<c-p>']
-let g:ycm_key_list_previous_completion = ['<Up>']
+let g:ycm_key_list_previous_completion = ['<Up>', '<c-k>']
 let g:ycm_confirm_extra_conf=1
 let g:ycm_collect_identifiers_from_tags_files=0
 let g:ycm_min_num_of_chars_for_completion=2
@@ -736,9 +765,9 @@ nmap <leader>bq :bp <BAR> bd! #<cr>
 
 "buffer map
 " Move to the next buffer
-nmap <S-L> :bnext<CR>
+nmap <leader>l :bnext<CR>
 " Move to the previous buffer
-nmap <S-H> :bprevious<CR>
+nmap <leader>h :bprevious<CR>
 
 "silver searcher (Ag)
 let g:ag_prg="ag --column --ignore tags"
@@ -1017,3 +1046,10 @@ endif
 "command! -bar -nargs=+ -complete=customlist,functions#GitFeatureComplete Gfeature Git feature <q-args>
 "command! -bar -nargs=+ -complete=customlist,functions#GitRefactorComplete Grefactor Git refactor <q-args>
 
+"vim-sneak
+let g:sneak#label = 1
+
+"vim-ack
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif

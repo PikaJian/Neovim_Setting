@@ -1,32 +1,109 @@
+"
 "nvim only setting
 if has('nvim')
 "let g:python2_host_prog = "/usr/bin/python2"
 let g:python3_host_prog = "/usr/bin/python3"
-endif
 "let g:python_host_skip_check = 1
-"set mouse=
-if has('nvim')
+set mouse=a
 tnoremap <Esc> <C-\><C-n>
 endif
 
-let g:pathogen_disabled =[]
-    
-call add(g:pathogen_disabled, 'csapprox') 
-call add(g:pathogen_disabled, 'yankring') 
+"let g:pathogen_disabled =[]    
+"call add(g:pathogen_disabled, 'csapprox') 
+"call add(g:pathogen_disabled, 'yankring') 
+"call add(g:pathogen_disabled, 'CuteErrorMarker')
+"execute pathogen#infecto()
 
-"if has('nvim')
-""  call add(g:pathogen_disabled, 'csapprox')
-"endif
-if has('nvim')
-  call add(g:pathogen_disabled, 'CuteErrorMarker')
-endif
+call plug#begin('~/.vim/plugged')
+Plug 'junegunn/vim-easy-align'
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'vim-airline/vim-airline'
+Plug 'tpope/vim-surround'
+Plug 'mattn/emmet-vim'
+Plug 'sukima/xmledit'
+Plug 'tpope/vim-fugitive'
+Plug 'derekwyatt/vim-fswitch'
+Plug 'scrooloose/nerdtree'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'tpope/vim-repeat'
+Plug 'plasticboy/vim-markdown'
+Plug 'scrooloose/syntastic', { 'for': ['c', 'cpp'] } 
+Plug 'vim-scripts/VisIncr'
+Plug 'mileszs/ack.vim'
+Plug 'Valloric/YouCompleteMe', { 'do': 'python3 ./install.py', 'for': ['c', 'cpp', 'py'] }
+Plug 'kana/vim-operator-user'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'vim-scripts/DoxygenToolkit.vim'
+Plug 'Lokaltog/vim-easymotion'
+Plug 'majutsushi/tagbar'
+Plug 'kchmck/vim-coffee-script'
+Plug 'airblade/vim-gitgutter'
+Plug 'Raimondi/delimitMate'
+Plug 'junegunn/vim-easy-align'
+Plug 'bling/vim-airline'
+Plug 'altercation/vim-colors-solarized'
+Plug 'Shougo/unite.vim'
+Plug 'Shougo/unite-outline'
+Plug 'Shougo/neomru.vim'
+Plug 'Shougo/neoyank.vim'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'haya14busa/vim-operator-flashy'
+Plug 'haya14busa/incsearch.vim'
+Plug 'haya14busa/incsearch-easymotion.vim'
+Plug 'haya14busa/incsearch-easymotion.vim'
+Plug 'haya14busa/incsearch-fuzzy.vim'
+Plug 'vim-ctrlspace/vim-ctrlspace'
+Plug 'ternjs/tern_for_vim'
+Plug 'tpope/vim-unimpaired'
+Plug 'scrooloose/nerdcommenter'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'kshenoy/vim-signature'
+Plug 'hewes/unite-gtags'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tacahiroy/ctrlp-funky'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'ryanoasis/vim-devicons'
+Plug 'Yggdroot/indentLine'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'neovimhaskell/haskell-vim'
+Plug 'ryanss/vim-hackernews'
+Plug 'Chiel92/vim-autoformat'
+Plug 'KabbAmine/zeavim.vim'
+Plug 'jeetsukumaran/vim-indentwise'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'mhinz/vim-startify'
+Plug 'terryma/vim-expand-region'
+Plug 'justinmk/vim-sneak'
+
+Plug 'vim-scripts/YankRing.vim', { 'on': [] }
+Plug 'vivien/vim-addon-linux-coding-style', { 'on': [] }
+Plug 'Twinside/vim-cuteErrorMarker', { 'on': [] }
+Plug 'godlygeek/csapprox', { 'on': [] }
+" Initialize plugin system
+call plug#end()
+
 if has('nvim')
     let s:editor_root=expand("~/.nvim")
 else
     let s:editor_root=expand("~/.vim")
 endif
 
-execute pathogen#infect()
+" --- AutoClose - Inserts matching bracket, paren, brace or quote 
+" fixed the arrow key problems caused by AutoClose
+if !has("gui_running")	
+"   "set term=linux
+"   imap OA <ESC>ki
+"   imap OB <ESC>ji
+"   imap OC <ESC>li
+"   imap OD <ESC>hi
+    nmap OA k
+    nmap OB j
+    nmap OC l
+    nmap OD h
+    "for tmux wired character
+    map <Esc>[B <Down>
+endif
+
 filetype plugin indent on
 " General SETTINGS 
 set hidden
@@ -60,12 +137,13 @@ filetype indent on    " Enable filetype-specific indenting
 filetype plugin on    " Enable filetype-specific plugins
 
 " auto reload vimrc when editing it
-autocmd! bufwritepost .vimrc source ~/.vimrc
+autocmd! bufwritepost .vimrc source ~/vimrc
 
 if has("gui_running")	" GUI color and font settings
+  set autochdir
   "set guifont=Osaka-Mono:h20
   "set guifont=pika:h20
-  set guifont =Droid\ Sans\ Mono\ for\ Powerline\ 14
+  set guifont =Droid\ Sans\ Mono\ for\ Powerline:h20
   "set guifont =Droid\ Sans\ Mono\ for\ Powerline\ Nerd\ Font\ Complete
   set background=dark 
   set t_Co=256          " 256 color mode
@@ -100,8 +178,7 @@ set foldnestmax=10      "deepest fold is 10 levels
 set nofoldenable        "dont fold by default
 set foldlevel=1         "this is just what i use
 
-
-set clipboard=unnamed	" yank to the system register (*) by default
+set clipboard=unnamed,unnamedplus " yank to the system register (*) by default
 set showmatch		" Cursor shows matching ) and }
 set showmode		" Show current mode
 set wildchar=<TAB>	" start wild expansion in the command line using <TAB>
@@ -179,6 +256,9 @@ endfun
 " set leader to ,
 let mapleader=","
 let g:mapleader=","
+
+"map esc key
+inoremap jk <ESC>
 
 "replace the current word in all opened buffers
 map <leader>r :call Replace()<CR>
@@ -334,22 +414,6 @@ set grepprg=grep\ -nH\ $*
 let g:tex_flavor='latex'
 
 "}
-
-
-" --- AutoClose - Inserts matching bracket, paren, brace or quote 
-" fixed the arrow key problems caused by AutoClose
-if !has("gui_running")	
-   "set term=linux
-   imap OA <ESC>ki
-   imap OB <ESC>ji
-   imap OC <ESC>li
-   imap OD <ESC>hi
-
-   nmap OA k
-   nmap OB j
-   nmap OC l
-   nmap OD h
-endif
 
 
 " ---yankring
@@ -571,6 +635,7 @@ let NERDTreeIgnore=['\~$', '\.pyc', '\.swp$', '\.git', '\.hg', '\.svn',
 \ '\.env-pypy$', 'tags', '\.a$', 'GPATH', 'GRTAGS', 'GTAGS', 'gtags.files']
 "nerdtree tab
 nnoremap <F6> :NERDTreeTabsToggle<CR>
+let g:nerdtree_tabs_open_on_gui_startup=0
 
 "support markdown hightlight
 au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn}   set filetype=mkd
@@ -642,10 +707,11 @@ let g:airline_section_y = airline#section#create(['','[TYPE:','filetype',']','[T
 "let g:airline_section_z = airline#section#create(['%3p%% ', g:airline_symbols.linenr .' ', 'linenr', ':%3c '])
 "git branch info 
 let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#tabline#show_close_button = 1
+
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_close_button = 1
 let g:airline#extensions#tabline#show_tab_type = 0
-let g:airline#extensions#tabline#buffer_idx_mode = 0
+let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#middle_click_preserves_windows = 0
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
@@ -839,7 +905,7 @@ let g:ctrlp_custom_ignore = {
   \ 'link': 'some_bad_symbolic_links',
   \ }
 
-let g:ctrlp_map = '<C-f>'
+let g:ctrlp_map = '<C-p>'
 let g:ctrlp_cmd = 'CtrlPBuffer'
 let g:ctrlp_prompt_mappings = {
   \ 'PrtBS()':              ['<bs>', '<c-]>'],
@@ -854,9 +920,9 @@ let g:ctrlp_prompt_mappings = {
   \ 'PrtSelectMove("d")':   ['<PageDown>', '<kPageDown>'],
   \ 'PrtHistory(-1)':       ['<c-n>'],
   \ 'PrtHistory(1)':        ['<c-p>'],
-  \ 'AcceptSelection("e")': ['<cr>', '<2-LeftMouse>'],
+  \ 'AcceptSelection("e")': ['<cr>'],
   \ 'AcceptSelection("h")': ['<c-x>', '<c-cr>', '<c-s>'],
-  \ 'AcceptSelection("t")': ['<c-t>'],
+  \ 'AcceptSelection("t")': ['<c-t>', '<2-LeftMouse>'],
   \ 'AcceptSelection("v")': ['<c-v>', '<RightMouse>'],
   \ 'ToggleFocus()':        ['<s-tab>'],
   \ 'ToggleRegex()':        ['<c-r>'],
@@ -910,6 +976,8 @@ let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:DevIconsEnableFoldersOpenClose = 1
 let g:webdevicons_enable_ctrlp = 1
+" adding to vim-airline's tabline 
+let g:webdevicons_enable_airline_tabline = 0
 
 "clang-format for formating cpp code
 " //格式化最新的commit，并直接在原文件上修改
