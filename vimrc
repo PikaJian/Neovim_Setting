@@ -27,7 +27,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'tpope/vim-repeat'
 Plug 'plasticboy/vim-markdown'
-Plug 'scrooloose/syntastic', { 'for': ['c', 'cpp'] } 
+Plug 'scrooloose/syntastic', { 'on': [] } 
 Plug 'vim-scripts/VisIncr'
 Plug 'mileszs/ack.vim'
 Plug 'Valloric/YouCompleteMe', { 'do': 'python3 ./install.py', 'on': [] }
@@ -85,8 +85,8 @@ Plug 'justinmk/vim-sneak', { 'on': [] }
 " Initialize plugin system
 augroup load_us_ycm
   autocmd!
-  autocmd InsertEnter * call plug#load('ultisnips', 'YouCompleteMe')
-                     \| autocmd! FileType c,cpp,py load_us_ycm
+  autocmd InsertEnter * call plug#load('ultisnips', 'YouCompleteMe', 'syntastic')
+                     \| autocmd! load_us_ycm FileType c,cpp,py 
 augroup END
 call plug#end()
 
@@ -609,7 +609,7 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_loc_list_height = 8
 let g:syntastic_check_on_wq = 0
-"let g:syntastic_check_on_open=1
+let g:syntastic_check_on_open=1
 let g:syntastic_enable_highlighting = 1
 let g:syntastic_python_checker="flake8,pyflakes,pep8,pylint"
 let g:syntastic_python_checkers=['pyflakes']
