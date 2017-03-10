@@ -18,19 +18,20 @@ call plug#begin('~/.vim/plugged')
 Plug 'junegunn/vim-easy-align'
 Plug 'honza/vim-snippets'
 Plug 'vim-airline/vim-airline'
-Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
 Plug 'sukima/xmledit'
-Plug 'tpope/vim-fugitive'
 Plug 'derekwyatt/vim-fswitch'
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
+Plug 'scrooloose/nerdcommenter'
 Plug 'plasticboy/vim-markdown'
 Plug 'scrooloose/syntastic', { 'on': [] } 
 Plug 'vim-scripts/VisIncr'
 Plug 'mileszs/ack.vim'
-Plug 'Valloric/YouCompleteMe', { 'do': 'python3 ./install.py', 'on': [] }
+Plug 'Valloric/YouCompleteMe', { 'on': [] }
 Plug 'SirVer/ultisnips', { 'on': [] }
 Plug 'kana/vim-operator-user'
 Plug 'terryma/vim-multiple-cursors'
@@ -56,7 +57,6 @@ Plug 'haya14busa/incsearch-fuzzy.vim'
 Plug 'vim-ctrlspace/vim-ctrlspace'
 Plug 'ternjs/tern_for_vim'
 Plug 'tpope/vim-unimpaired'
-Plug 'scrooloose/nerdcommenter'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'kshenoy/vim-signature'
 Plug 'hewes/unite-gtags'
@@ -82,6 +82,7 @@ Plug 'vivien/vim-addon-linux-coding-style', { 'on': [] }
 Plug 'Twinside/vim-cuteErrorMarker', { 'on': [] }
 Plug 'godlygeek/csapprox', { 'on': [] }
 Plug 'justinmk/vim-sneak', { 'on': [] }
+Plug 'tpope/vim-commentary', { 'on': [] }
 " Initialize plugin system
 augroup load_us_ycm
   autocmd!
@@ -127,8 +128,11 @@ set list lcs=tab:\|\
 autocmd FileType c,cpp call MyCodeStyle()
 
 function! MyCodeStyle()
-  highlight CodeFormatError ctermbg=red ctermfg=white guibg=#592929
-  match CodeFormatError /\%81v.\+/
+  "highlight CodeFormatError ctermbg=red ctermfg=white guibg=#592929
+  highlight default link CodeFormatError ErrorMsg
+  syn match CodeFormatError / \+\ze\t/     " spaces before tab
+  syn match CodeFormatError /\%81v.\+/     " virtual column 81 and more
+
   "match CodeFormatError / \+\ze\t/          "spaces before tab
   " Highlight trailing whitespace, unless we're in insert mode and the
   " cursor's placed right after the whitespace. This prevents us from having
@@ -256,6 +260,29 @@ fun! Replace()
     :exe 'bufdo! %s/\<' . expand('<cword>') . '\>/' . s:word . '/ge' 
     :unlet! s:word 
 endfun 
+
+"--------------------------------------------------------------------------- 
+" insert ; after )
+"---------------------------------------------------------------------------
+ 
+inoremap <silent> ; <Esc>:call <SID>InsSemiColon()<CR>
+function! <SID>InsSemiColon() abort
+    let l:line = line('.')
+    let l:content = getline('.')
+    let l:eol = ';'
+    " If the line ends with a semicolon we simply insert one.
+    if l:content[col('$') - 2] ==# ';'
+        normal! a;
+        normal! l
+        startinsert
+    else
+        if search('(', 'bcn', l:line)
+            let l:eol = search(')', 'cn', l:line) ?  ';' : ');'
+        endif
+        call setline(l:line, l:content . l:eol)
+        startinsert!
+    endif
+endfunction
 
 "Twiddle Case
 "press ~ to convert the text to  UPPER CASE, then to lower case, then to Title Case
@@ -640,8 +667,8 @@ let g:UltiSnipsSnippetDirectories=["bundle/vim-snippets/"]
 "Tabular
 "nmap <leader>bb :Tab /=<CR>
 "nmap <leader>bn :Tab /
-"F9 to trigger clang-format
-"autocmd FileType c,cpp,objc noremap <F9> :ClangFormat<CR>
+
+
 "auto-pairs
 let g:AutoPairs = {'<' : '>' ,'(' : ')', '[' : ']', '{' : '}', "'" : "'", '"' : '"', '`' : '`'}
 "fswitch
@@ -873,6 +900,10 @@ autocmd BufReadPost fugitive://* set bufhidden=hide
 "nerdCommenter
 let g:NERDSpaceDelims=1
 let g:NERDCommentEmptyLines = 1
+map gcc <plug>NERDCommenterComment
+map gcs <plug>NERDCommenterSexy
+map gcA <plug>NERDCommenterAppend
+map gca <plug>NERDCommenterAltDelims
 
 " SeeTab: toggles between showing tabs and using standard listchars
 fu! SeeTab()
