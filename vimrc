@@ -2,8 +2,10 @@
 "nvim only setting
 if has('nvim')
 "let g:python2_host_prog = "/usr/bin/python2"
-let g:python3_host_prog = "/usr/bin/python3"
-"let g:python_host_skip_check = 1
+"let g:python3_host_prog = "/usr/bin/python3"
+let g:python_host_skip_check = 1
+let g:python3_host_skip_check = 1
+
 set mouse=a
 tnoremap <Esc> <C-\><C-n>
 endif
@@ -17,7 +19,6 @@ endif
 call plug#begin('~/.vim/plugged')
 Plug 'junegunn/vim-easy-align'
 Plug 'honza/vim-snippets'
-Plug 'vim-airline/vim-airline'
 Plug 'mattn/emmet-vim'
 Plug 'sukima/xmledit'
 Plug 'derekwyatt/vim-fswitch'
@@ -28,13 +29,9 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/nerdcommenter'
 Plug 'plasticboy/vim-markdown'
-Plug 'scrooloose/syntastic', { 'on': [] } 
 Plug 'vim-scripts/VisIncr'
 Plug 'mileszs/ack.vim'
-Plug 'Valloric/YouCompleteMe', { 'on': [] }
-Plug 'SirVer/ultisnips', { 'on': [] }
 Plug 'kana/vim-operator-user'
-Plug 'terryma/vim-multiple-cursors'
 Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'majutsushi/tagbar'
@@ -42,13 +39,7 @@ Plug 'kchmck/vim-coffee-script'
 Plug 'airblade/vim-gitgutter'
 Plug 'Raimondi/delimitMate'
 Plug 'junegunn/vim-easy-align'
-Plug 'bling/vim-airline'
 Plug 'altercation/vim-colors-solarized'
-Plug 'Shougo/unite.vim'
-Plug 'Shougo/unite-outline'
-Plug 'Shougo/neomru.vim'
-Plug 'Shougo/neoyank.vim'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'haya14busa/vim-operator-flashy'
 Plug 'haya14busa/incsearch.vim'
 Plug 'haya14busa/incsearch-easymotion.vim'
@@ -64,17 +55,22 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tacahiroy/ctrlp-funky'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
-Plug 'Yggdroot/indentLine'
-Plug 'nathanaelkane/vim-indent-guides'
 Plug 'neovimhaskell/haskell-vim'
-Plug 'ryanss/vim-hackernews'
 Plug 'Chiel92/vim-autoformat'
-Plug 'KabbAmine/zeavim.vim'
 Plug 'jeetsukumaran/vim-indentwise'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'mhinz/vim-startify'
 Plug 'terryma/vim-expand-region'
 Plug 'gregsexton/gitv'
+Plug 'Shougo/unite.vim'
+Plug 'Shougo/unite-outline'
+Plug 'Shougo/neomru.vim'
+Plug 'Shougo/neoyank.vim'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'terryma/vim-smooth-scroll'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
 Plug 'dyng/ctrlsf.vim', { 'on': [] }
 Plug 'vim-scripts/YankRing.vim', { 'on': [] }
@@ -83,6 +79,16 @@ Plug 'Twinside/vim-cuteErrorMarker', { 'on': [] }
 Plug 'godlygeek/csapprox', { 'on': [] }
 Plug 'justinmk/vim-sneak', { 'on': [] }
 Plug 'tpope/vim-commentary', { 'on': [] }
+Plug 'Yggdroot/indentLine', { 'on': [] }
+Plug 'KabbAmine/zeavim.vim', { 'on': [] }
+Plug 'ryanss/vim-hackernews', { 'on': [] }
+Plug 'nathanaelkane/vim-indent-guides', { 'on': [] }
+
+"lazy loadin plugins
+Plug 'scrooloose/syntastic', { 'on': [] } 
+Plug 'Valloric/YouCompleteMe', { 'on': [] }
+Plug 'SirVer/ultisnips', { 'on': [] }
+
 " Initialize plugin system
 augroup load_us_ycm
   autocmd!
@@ -185,10 +191,19 @@ endif
 
 
 "folding settings
-set foldmethod=syntax   "fold based on indent
+set foldmethod=indent   "fold based on indent
 set foldnestmax=10      "deepest fold is 10 levels
 set nofoldenable        "dont fold by default
 set foldlevel=1         "this is just what i use
+
+function! ChangeFold()
+    if &foldmethod == 'syntax'
+        set foldmethod=indent 
+    else
+        set foldmethod=syntax 
+    endif
+endfunction
+nnoremap  fd :call ChangeFold()<CR> 
 
 set clipboard=unnamed,unnamedplus " yank to the system register (*) by default
 set showmatch		" Cursor shows matching ) and }
@@ -196,7 +211,7 @@ set showmode		" Show current mode
 set wildchar=<TAB>	" start wild expansion in the command line using <TAB>
 set wildmenu            " wild char completion menu
 
-" ignore these files while expanding wild chars
+" ignore ]f ese files while expanding wild chars
 set wildignore=*.o,*.class,*.pyc
 
 set autoindent		" auto indentation
@@ -756,7 +771,7 @@ let g:airline_extensions = ['branch', 'tabline']
 let g:airline_powerline_fonts = 1
 let g:airline_theme="solarized" 
 let g:airline#extensions#whitespace#enabled = 0
-let g:airline_section_y = airline#section#create(['','[TYPE:','filetype',']','[TIME:','%{strftime("%H:%M")}',']'])
+"let g:airline_section_y = airline#section#create(['','[TYPE:','filetype',']','[TIME:','%{strftime("%H:%M")}',']'])
 "let g:airline_section_z = airline#section#create(['%3p%% ', g:airline_symbols.linenr .' ', 'linenr', ':%3c '])
 "git branch info 
 let g:airline#extensions#branch#enabled = 1
@@ -964,6 +979,8 @@ let g:ctrlp_custom_ignore = {
 
 let g:ctrlp_map = '<C-p>'
 let g:ctrlp_cmd = 'CtrlPBuffer'
+let g:ctrlp_user_command = 'find %s -type f'
+let g:ctrlp_types = ['buf', 'mru']
 let g:ctrlp_prompt_mappings = {
   \ 'PrtBS()':              ['<bs>', '<c-]>'],
   \ 'PrtDelete()':          ['<del>'],
@@ -1154,3 +1171,13 @@ hi StartifyNumber  ctermfg=215
 hi StartifyPath    ctermfg=245
 hi StartifySlash   ctermfg=240
 hi StartifySpecial ctermfg=240
+
+"FZF
+nnoremap <leader><Enter> :FZF<CR>
+tnoremap jk <C-c>   
+
+"smooth scrolling
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
+noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
