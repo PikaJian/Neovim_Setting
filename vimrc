@@ -71,6 +71,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'terryma/vim-smooth-scroll'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 
 Plug 'dyng/ctrlsf.vim', { 'on': [] }
 Plug 'vim-scripts/YankRing.vim', { 'on': [] }
