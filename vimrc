@@ -63,6 +63,7 @@ Plug 'mhinz/vim-startify'
 Plug 'terryma/vim-expand-region'
 Plug 'gregsexton/gitv'
 Plug 'Shougo/unite.vim'
+Plug 'tsukkee/unite-tag'
 Plug 'Shougo/unite-outline'
 Plug 'Shougo/neomru.vim'
 Plug 'Shougo/neoyank.vim'
@@ -510,10 +511,10 @@ let g:EasyMotion_use_upper = 1
 let g:EasyMotion_smartcase = 1
  " " Smartsign (type `3` and match `3`&`#`)
 let g:EasyMotion_use_smartsign_us = 1"
-map <leader>l <Plug>(easymotion-lineforward)
-map <leader>j <Plug>(easymotion-j)
-map <leader>k <Plug>(easymotion-k)
-map <leader>h <Plug>(easymotion-linebackward)
+"map <leader>l <Plug>(easymotion-lineforward)
+"map <leader>j <Plug>(easymotion-j)
+"map <leader>k <Plug>(easymotion-k)
+"map <leader>h <Plug>(easymotion-linebackward)
 " Gif config
 nmap <leader>s <Plug>(easymotion-s2)
 nmap <leader>t <Plug>(easymotion-t2)
@@ -808,9 +809,9 @@ nmap <leader>bq :bp <BAR> bd! #<cr>
 
 "buffer map
 " Move to the next buffer
-nmap <leader>l :bnext<CR>
+"nmap <leader>l :bnext<CR>
 " Move to the previous buffer
-nmap <leader>h :bprevious<CR>
+"nmap <leader>h :bprevious<CR>
 
 "silver searcher (Ag)
 let g:ag_prg="ag --column --ignore tags"
@@ -821,16 +822,21 @@ let g:unite_source_history_yank_enable = 1
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
 if has('nvim')
-  nnoremap <leader>t :<C-u>Unite -winheight=20 -direction=dynamicbottom -buffer-name=files -start-insert file_rec/neovim:!<cr>
+  nnoremap <leader>fs :<C-u>Unite -winheight=20 -direction=dynamicbottom -buffer-name=files -start-insert file_rec/neovim:!<cr>
 else
   "require vimproc plugin
-  nnoremap <leader>t :<C-u>Unite -winheight=20 -direction=dynamicbottom -buffer-name=files  -start-insert file_rec/async:!<cr>
+  nnoremap <leader>fs :<C-u>Unite -winheight=20 -direction=dynamicbottom -buffer-name=files  -start-insert file_rec/async:!<cr>
 endif
+
 nnoremap <leader>f :<C-u>Unite -winheight=20 -direction=dynamicbottom -buffer-name=files -start-insert file<cr>
 nnoremap <leader>w :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=mru  -start-insert file_mru<cr>
 nnoremap <leader>o :<C-u>Unite -winheight=20 -direction=dynamicbottom -buffer-name=outline -start-insert outline<cr>
 nnoremap <leader>y :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=yank    history/yank<cr>
 nnoremap <leader>e :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=buffer  -start-insert buffer<cr>
+nnoremap <leader>l :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=line  -start-insert line<cr>
+nnoremap <leader>j :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=line  -start-insert jump<cr>
+nnoremap <leader>t :Unite tag:%<CR> 
+
 let g:unite_source_menu_menus = get(g:,'unite_source_menu_menus',{})
 let g:unite_source_menu_menus.git = {
     \ 'description' : '            gestionar repositorios git
