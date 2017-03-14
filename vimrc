@@ -511,15 +511,15 @@ let g:EasyMotion_use_upper = 1
 let g:EasyMotion_smartcase = 1
  " " Smartsign (type `3` and match `3`&`#`)
 let g:EasyMotion_use_smartsign_us = 1"
-"map <leader>l <Plug>(easymotion-lineforward)
-"map <leader>j <Plug>(easymotion-j)
-"map <leader>k <Plug>(easymotion-k)
-"map <leader>h <Plug>(easymotion-linebackward)
+map <leader>l <Plug>(easymotion-lineforward)
+map <leader>j <Plug>(easymotion-j)
+map <leader>k <Plug>(easymotion-k)
+map <leader>h <Plug>(easymotion-linebackward)
 " Gif config
-nmap <leader>s <Plug>(easymotion-s2)
-nmap <leader>t <Plug>(easymotion-t2)
-map  / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
+"nmap <leader>s <Plug>(easymotion-s2)
+"nmap <leader>t <Plug>(easymotion-t2)
+map  <leader>/ <Plug>(easymotion-sn)
+omap <leader>/ <Plug>(easymotion-tn)
 
 map  ww <Plug>(easymotion-bd-w)
 omap  tt <Plug>(easymotion-bd-tl)
@@ -828,14 +828,14 @@ else
   nnoremap <leader>fs :<C-u>Unite -winheight=20 -direction=dynamicbottom -buffer-name=files  -start-insert file_rec/async:!<cr>
 endif
 
-nnoremap <leader>f :<C-u>Unite -winheight=20 -direction=dynamicbottom -buffer-name=files -start-insert file<cr>
-nnoremap <leader>w :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=mru  -start-insert file_mru<cr>
-nnoremap <leader>o :<C-u>Unite -winheight=20 -direction=dynamicbottom -buffer-name=outline -start-insert outline<cr>
-nnoremap <leader>y :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=yank    history/yank<cr>
-nnoremap <leader>e :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=buffer  -start-insert buffer<cr>
-nnoremap <leader>l :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=line  -start-insert line<cr>
 nnoremap <leader>j :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=line  -start-insert jump<cr>
-nnoremap <leader>t :Unite tag:%<CR> 
+"nnoremap <leader>f :<C-u>Unite -winheight=20 -direction=dynamicbottom -buffer-name=files -start-insert file<cr>
+"nnoremap <leader>w :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=mru  -start-insert file_mru<cr>
+"nnoremap <leader>o :<C-u>Unite -winheight=20 -direction=dynamicbottom -buffer-name=outline -start-insert outline<cr>
+"nnoremap <leader>y :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=yank    history/yank<cr>
+"nnoremap <leader>e :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=buffer  -start-insert buffer<cr>
+"nnoremap <leader>l :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=line  -start-insert line<cr>
+"nnoremap <leader>t :Unite tag:%<CR> 
 
 let g:unite_source_menu_menus = get(g:,'unite_source_menu_menus',{})
 let g:unite_source_menu_menus.git = {
@@ -1182,6 +1182,58 @@ hi StartifySpecial ctermfg=240
 "FZF
 nnoremap <leader><Enter> :FZF<CR>
 tnoremap jk <C-c>   
+
+" Augmenting Rg command using fzf#vim#with_preview function
+"   * fzf#vim#with_preview([[options], preview window, [toggle keys...]])
+"   * Preview script requires Ruby
+"   * Install Highlight or CodeRay to enable syntax highlighting
+"
+"   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
+"   :Ag! - Start fzf in fullscreen and display the preview window above
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
+command! FZFMru call fzf#run({
+\ 'source':  reverse(s:all_files()),
+\ 'sink':    'edit',
+\ 'options': '-m -x +s',
+\ 'down':    '40%' })
+
+function! s:all_files()
+  return extend(
+  \ filter(copy(v:oldfiles),
+  \        "v:val !~ 'fugitive:\\|NERD_tree\\|^/tmp/\\|.git/|term:\\\\'"),
+  \ map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), 'bufname(v:val)'))
+endfunction
+
+nnoremap <leader>f :Files<CR>
+nnoremap <leader>w :FZFMru<CR>
+nnoremap <leader>y :History:<CR>
+nnoremap <leader>e :Buffers<CR>
+nnoremap <leader>l :BLine<CR>
+nnoremap <leader>t :Tags<CR>
+nnoremap <leader>d :call fzf#vim#tags(expand('<cword>'), {'options': '--exact --select-1 --exit-0'})<CR>
+
+
+" Replace the default dictionary completion with fzf-based fuzzy completion
+"inoremap <expr> <c-x><c-k> fzf#complete('cat /usr/share/dict/words')
+" Mapping selecting mappings
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+imap <c-x><c-b> <plug>(fzf-complete-buffer-line)
 
 "smooth scrolling
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
