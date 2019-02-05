@@ -1,22 +1,32 @@
 "
 "nvim only setting
 if has('nvim')
-"let g:python2_host_prog = "/usr/bin/python2"
-"let g:python3_host_prog = "/usr/bin/python3"
-let g:python_host_skip_check = 1
-let g:python3_host_skip_check = 1
+    let g:python2_host_prog = "/usr/bin/python2"
+    if has('mac')
+        let g:python3_host_prog = "/usr/local/bin/python3"
+    elseif
+        let g:python3_host_prog = "/usr/bin/python3"
+    endif
+    let g:python_host_skip_check = 1
+    let g:python3_host_skip_check = 1
 
-set mouse=a
-tnoremap <Esc> <C-\><C-n>
+    set mouse=a
+    tnoremap <Esc> <C-\><C-n>
+    "Restore cursor to file position in previous editing session
+    set viminfo='10,\"100,:20,%,n~/.nviminfo
+    au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
+elseif
+    "Restore cursor to file position in previous editing session
+    set viminfo='10,\"100,:20,%,n~/.viminfo
+    au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 endif
 
-"let g:pathogen_disabled =[]    
-"call add(g:pathogen_disabled, 'csapprox') 
-"call add(g:pathogen_disabled, 'yankring') 
-"call add(g:pathogen_disabled, 'CuteErrorMarker')
-"execute pathogen#infecto()
 
-call plug#begin('~/.vim/plugged')
+if has('nvim')
+    call plug#begin('~/.config/nvim/plugged')
+elseif
+    call plug#begin('~/.vim/plugged')
+endif
 Plug 'junegunn/vim-easy-align'
 Plug 'honza/vim-snippets'
 Plug 'mattn/emmet-vim'
@@ -70,32 +80,50 @@ Plug 'Shougo/neoyank.vim'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'terryma/vim-smooth-scroll'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-
+Plug 'tpope/vim-dispatch'
+Plug 'Twinside/vim-cuteErrorMarker'
+Plug 'terryma/vim-smooth-scroll', { 'on' : []}
 Plug 'dyng/ctrlsf.vim', { 'on': [] }
 Plug 'vim-scripts/YankRing.vim', { 'on': [] }
-Plug 'vivien/vim-addon-linux-coding-style', { 'on': [] }
-Plug 'Twinside/vim-cuteErrorMarker', { 'on': [] }
-Plug 'godlygeek/csapprox', { 'on': [] }
 Plug 'justinmk/vim-sneak', { 'on': [] }
 Plug 'tpope/vim-commentary', { 'on': [] }
-Plug 'Yggdroot/indentLine', { 'on': [] }
-Plug 'KabbAmine/zeavim.vim', { 'on': [] }
-Plug 'ryanss/vim-hackernews', { 'on': [] }
-Plug 'nathanaelkane/vim-indent-guides', { 'on': [] }
+Plug 'Quramy/tsuquyomi', { 'for': ['typescript', 'javascript'] } 
+Plug 'leafgarland/typescript-vim' 
+Plug 'Shougo/vimproc.vim'
+Plug 'lervag/vimtex'
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'on': [],
+    \ 'branch': 'next',
+    \ 'do': './install.sh',
+    \ }
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 "lazy loadin plugins
-Plug 'scrooloose/syntastic', { 'on': [] } 
+Plug 'scrooloose/syntastic', { 'on': [] }
 Plug 'Valloric/YouCompleteMe', { 'on': [] }
 Plug 'SirVer/ultisnips', { 'on': [] }
 
+
 " Initialize plugin system
+
+augroup load_typescript
+  autocmd!
+  autocmd InsertEnter *.ts,*.js call plug#load('ultisnips', 'syntastic')  
+                     \| autocmd! load_typescript FileType typescript,javascript 
+augroup END
+
+augroup load_latex
+  autocmd!
+  autocmd InsertEnter *.latex call plug#load('ultisnips', 'syntastic', 'YouCompleteMe')  
+                     \| autocmd! load_latex FileType latex
+augroup END
+
 augroup load_us_ycm
   autocmd!
-  autocmd InsertEnter * call plug#load('ultisnips', 'YouCompleteMe', 'syntastic')
-                     \| autocmd! load_us_ycm FileType c,cpp,py 
+  autocmd InsertEnter *.c,*.cpp,*.py call plug#load('ultisnips', 'YouCompleteMe', 'syntastic')
+                     \| autocmd! load_us_ycm FileType c,cpp,py
 augroup END
 call plug#end()
 
@@ -107,7 +135,7 @@ endif
 
 " --- AutoClose - Inserts matching bracket, paren, brace or quote 
 " fixed the arrow key problems caused by AutoClose
-if !has("gui_running")	
+if !has("gui_running")  
 "   "set term=linux
 "   imap OA <ESC>ki
 "   imap OB <ESC>ji
@@ -124,11 +152,11 @@ endif
 filetype plugin indent on
 " General SETTINGS 
 set hidden
-set nocompatible	" not compatible with the old-fashion vi mode
-set bs=2		" allow backspacing over everything in insert mode
-set history=50		" keep 50 lines of command line history
-set ruler		" show the cursor position all the time
-set autoread		" auto read when file is changed from outside
+set nocompatible    " not compatible with the old-fashion vi mode
+set bs=2        " allow backspacing over everything in insert mode
+set history=50      " keep 50 lines of command line history
+set ruler       " show the cursor position all the time
+set autoread        " auto read when file is changed from outside
 setlocal textwidth=80
 set number
 "set relativenumber
@@ -137,10 +165,9 @@ autocmd FileType c,cpp call MyCodeStyle()
 
 function! MyCodeStyle()
   "highlight CodeFormatError ctermbg=red ctermfg=white guibg=#592929
-  highlight default link CodeFormatError ErrorMsg
   syn match CodeFormatError / \+\ze\t/     " spaces before tab
   syn match CodeFormatError /\%81v.\+/     " virtual column 81 and more
-
+  highlight default link CodeFormatError ErrorMsg
   "match CodeFormatError / \+\ze\t/          "spaces before tab
   " Highlight trailing whitespace, unless we're in insert mode and the
   " cursor's placed right after the whitespace. This prevents us from having
@@ -159,7 +186,7 @@ filetype plugin on    " Enable filetype-specific plugins
 " auto reload vimrc when editing it
 autocmd! bufwritepost .vimrc source ~/vimrc
 
-if has("gui_running")	" GUI color and font settings
+if has("gui_running")   " GUI color and font settings
   set autochdir
   "set guifont=Osaka-Mono:h20
   "set guifont=pika:h20
@@ -188,14 +215,21 @@ else
   color solarized 
   set background=dark
   color solarized   "workaround for nvim, this cause nvim war color use now
-  set hlsearch		" search highlighting
+  set hlsearch      " search highlighting
 endif
+
+"spell check on
+function! s:spell_on()
+    set spell spelllang=en_us
+endfunction
+command! SpellOn call s:spell_on()
+nnoremap <C-C> z=
 
 
 "folding settings
 set foldmethod=indent   "fold based on indent
 set foldnestmax=10      "deepest fold is 10 levels
-set nofoldenable        "dont fold by default
+set nofoldenable        "donnt fold by default
 set foldlevel=1         "this is just what i use
 
 function! ChangeFold()
@@ -207,22 +241,23 @@ function! ChangeFold()
 endfunction
 nnoremap  fd :call ChangeFold()<CR> 
 
+set updatetime=100
 set clipboard=unnamed,unnamedplus " yank to the system register (*) by default
-set showmatch		" Cursor shows matching ) and }
-set showmode		" Show current mode
-set wildchar=<TAB>	" start wild expansion in the command line using <TAB>
+set showmatch       " Cursor shows matching ) and }
+set showmode        " Show current mode
+set wildchar=<TAB>  " start wild expansion in the command line using <TAB>
 set wildmenu            " wild char completion menu
 
 " ignore ]f ese files while expanding wild chars
 set wildignore=*.o,*.class,*.pyc
 
-set autoindent		" auto indentation
-set incsearch		" incremental search
-set nobackup		" no *~ backup files
-set copyindent		" copy the previous indentation on autoindenting
-set ignorecase		" ignore case when searching
-set smartcase		" ignore case if search pattern is all lowercase,case-sensitive otherwise
-set smarttab		" insert tabs on the start of a line according to context
+set autoindent      " auto indentation
+set incsearch       " incremental search
+set nobackup        " no *~ backup files
+set copyindent      " copy the previous indentation on autoindenting
+set ignorecase      " ignore case when searching
+set smartcase       " ignore case if search pattern is all lowercase,case-sensitive otherwise
+set smarttab        " insert tabs on the start of a line according to context
 
 " disable sound on errors
 set noerrorbells
@@ -235,7 +270,7 @@ set tm=500
    set tabstop=4           " number of spaces a tab counts for
    set shiftwidth=4        " spaces for autoindents
    au FileType Makefile set noexpandtab
-"}      							
+"}                                  
 
 " status line {
 set laststatus=2
@@ -265,9 +300,25 @@ endfunction
 " C/C++ specific settings
 autocmd FileType c,cpp,cc  set cindent comments=sr:/*,mb:*,el:*/,:// cino=>s,e0,n0,f0,{0,}0,^-1s,:0,=s,g0,h1s,p2,t0,+2,(2,)20,*30
 
-"Restore cursor to file position in previous editing session
-set viminfo='10,\"100,:20,%,n~/.viminfo
-au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
+" Automatically open, but do not go to (if there are errors) the quickfix /
+" location list window, or close it when is has become empty.
+"
+" Note: Must allow nesting of autocmds to enable any customizations for quickfix
+" buffers.
+" Note: Normally, :cwindow jumps to the quickfix window if the command opens it
+" (but not if it's already open). However, as part of the autocmd, this doesn't
+" seem to happen.
+autocmd QuickFixCmdPost [^l]* nested cwindow
+autocmd QuickFixCmdPost    l* nested lwindow
+"autocmd FileType c,cpp,cc set shellpipe=1>
+
+
+"--------------------------------------------------------------------------- 
+" USEFUL SHORTCUTS
+"--------------------------------------------------------------------------- 
+" set leader to ,
+let mapleader=","
+let g:mapleader=","
 
 "--------------------------------------------------------------------------- 
 " Tip #382: Search for <cword> and replace with input() in all open buffers 
@@ -280,9 +331,7 @@ endfun
 
 "--------------------------------------------------------------------------- 
 " insert ; after )
-"---------------------------------------------------------------------------
- 
-inoremap <silent> ; <Esc>:call <SID>InsSemiColon()<CR>
+"--------------------------------------------------------------------------- 
 function! <SID>InsSemiColon() abort
     let l:line = line('.')
     let l:content = getline('.')
@@ -315,22 +364,33 @@ function! TwiddleCase(str)
 endfunction
 vnoremap ~ y:call setreg('', TwiddleCase(@"), getregtype(''))<CR>gv""Pgv
 
+" If the current buffer has never been saved, it will have no name,
+" call the file browser to save it, otherwise just save it.
+command! -nargs=0 -bar Update if &modified 
+                           \|    if empty(bufname('%'))
+                           \|        browse confirm write
+                           \|    else
+                           \|        confirm write
+                           \|    endif
+                           \|endif
+nnoremap <silent> <C-S> :<C-u>Update<CR>
 
-"--------------------------------------------------------------------------- 
-" USEFUL SHORTCUTS
-"--------------------------------------------------------------------------- 
-" set leader to ,
-let mapleader=","
-let g:mapleader=","
+"Insert semicolon
+inoremap <silent> ; <Esc>:call <SID>InsSemiColon()<CR>
+
+"replace the current word in all opened buffers
+map <leader>rw :call Replace()<CR>
 
 "map esc key
 inoremap jk <ESC>
+vnoremap jk <ESC>
 
-"replace the current word in all opened buffers
-map <leader>r :call Replace()<CR>
+"movement in insert mode
+inoremap <C-w> <S-RIGHT>
+inoremap <C-b> <S-LEFT>
 
 " open the error console
-map <leader>cv :botright cope<CR>
+map <leader>co :botright cope<CR>
 map <leader>cx :cclose<CR>
 " move to next error
 map ]e :cn<CR>
@@ -342,14 +402,18 @@ map [e :cp<CR>
 map <leader><leader>l <C-W><
 "increase window
 map <leader><leader>h <C-W>>
+"decrease window
+map <leader><leader>j <C-W>-
+"increase window
+map <leader><leader>k <C-W>+
 " move to and maximize the below split 
-map <C-j> <C-w>j<C-w>_
+"map <C-j> <C-w>j<C-w>_
 " move to and maximize the above split 
-map <C-k> <C-w>k<C-w>_
+"map <C-k> <C-w>k<C-w>_
 " move to and maximize the left split 
-nmap <C-h> <c-w>h<c-w><bar>
+"nmap <C-h> <c-w>h<c-w><bar>
 " move to and maximize the right split  
-nmap <C-l> <c-w>l<c-w><bar>
+"nmap <C-l> <c-w>l<c-w><bar>
 set wmw=0                     " set the min width of a window to 0 so we can maximize others 
 set wmh=0                     " set the min height of a window to 0 so we can maximize others
 " }
@@ -390,25 +454,28 @@ cmap cd. lcd %:p:h
 
 " Writing Restructured Text (Sphinx Documentation) {
    " Ctrl-u 1:    underline Parts w/ #'s
-   noremap  <C-u>1 yyPVr#yyjp
-   inoremap <C-u>1 <esc>yyPVr#yyjpA
-   " Ctrl-u 2:    underline Chapters w/ *'s
-   noremap  <C-u>2 yyPVr*yyjp
-   inoremap <C-u>2 <esc>yyPVr*yyjpA
-   " Ctrl-u 3:    underline Section Level 1 w/ ='s
-   noremap  <C-u>3 yypVr=
-   inoremap <C-u>3 <esc>yypVr=A
-   " Ctrl-u 4:    underline Section Level 2 w/ -'s
-   noremap  <C-u>4 yypVr-
-   inoremap <C-u>4 <esc>yypVr-A
-   " Ctrl-u 5:    underline Section Level 3 w/ ^'s
-   noremap  <C-u>5 yypVr^
-   inoremap <C-u>5 <esc>yypVr^A
+   " noremap  <C-u>1 yyPVr#yyjp
+   " inoremap <C-u>1 <esc>yyPVr#yyjpA
+   " " Ctrl-u 2:    underline Chapters w/ *'s
+   " noremap  <C-u>2 yyPVr*yyjp
+   " inoremap <C-u>2 <esc>yyPVr*yyjpA
+   " " Ctrl-u 3:    underline Section Level 1 w/ ='s
+   " noremap  <C-u>3 yypVr=
+   " inoremap <C-u>3 <esc>yypVr=A
+   " " Ctrl-u 4:    underline Section Level 2 w/ -'s
+   " noremap  <C-u>4 yypVr-
+   " inoremap <C-u>4 <esc>yypVr-A
+   " " Ctrl-u 5:    underline Section Level 3 w/ ^'s
+   " noremap  <C-u>5 yypVr^
+   " inoremap <C-u>5 <esc>yypVr^A
 "}
 
 "--------------------------------------------------------------------------- 
 " PROGRAMMING SHORTCUTS
 "--------------------------------------------------------------------------- 
+"split line
+nnoremap K i<CR><Esc>
+nnoremap <F8> :Make build -Prtsp=true -Pnet=true -Pconf_files=AU3518P_WIFI.h,AU3522_COM.h,CONFIG_CHK.h<CR>
 
 " Ctrl-[ jump out of the tag stack (undo Ctrl-])
 map <C-[> <ESC>:po<CR>
@@ -451,40 +518,25 @@ set fileencodings=utf-8,big5,gb2312,latin1
 "ucs-bom
 
 fun! ViewUTF8()
-	set encoding=utf-8                                  
-	set termencoding=big5
+    set encoding=utf-8                                  
+    set termencoding=big5
 endfun
 
 fun! UTF8()
-	set encoding=utf-8                                  
-	set termencoding=big5
-	set fileencoding=utf-8
-	set fileencodings=ucs-bom,big5,utf-8,latin1
+    set encoding=utf-8                                  
+    set termencoding=big5
+    set fileencoding=utf-8
+    set fileencodings=ucs-bom,big5,utf-8,latin1
 endfun
 
 fun! Big5()
-	set encoding=big5
-	set fileencoding=big5
+    set encoding=big5
+    set fileencoding=big5
 endfun
 
 "--------------------------------------------------------------------------- 
 " PLUGIN SETTINGS
 "--------------------------------------------------------------------------- 
-
-
-" ------- vim-latex - many latex shortcuts and snippets {
-
-" IMPORTANT: win32 users will need to have 'shellslash' set so that latex
-" can be called correctly.
-set shellslash
-set grepprg=grep\ -nH\ $*
-" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
-" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
-" The following changes the default filetype back to 'tex':
-let g:tex_flavor='latex'
-
-"}
-
 
 " ---yankring
 nnoremap <Leader>yr :YRShow<Cr>
@@ -565,7 +617,7 @@ noremap <silent><expr> fg/ incsearch#go(<SID>incsearch_config_fuzzy({'is_stay': 
 
 " --- TagBar
 " toggle TagBar with F7
-nnoremap <silent> <F7> :TagbarToggle<CR> 
+nnoremap <silent> <leader>t :TagbarToggle<CR> 
 " set focus to TagBar when opening it
 "let g:tagbar_autofocus = 1
 let g:tagbar_width=25
@@ -574,7 +626,7 @@ let g:tagbar_width=25
 au BufWritePost *.coffee silent CoffeeMake! -b | cwindow | redraw! " recompile coffee scripts on write
 
 " --- vim-gitgutter
-let g:gitgutter_enabled = 1
+let g:gitgutter_enabled = 0
 let g:gitgutter_signs = 1
 
 "CPP Complete
@@ -592,18 +644,24 @@ let g:ycm_disable_for_files_larger_than_kb = 800
 "YCM diagnostic
 let g:ycm_extra_conf_globlist = ['~/*', './*', '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/*']
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-let g:ycm_python_binary_path = '/usr/bin/python3'
-let g:ycm_server_python_interpreter = '/usr/bin/python3'
+if has('mac')
+    let g:ycm_python_binary_path = '/usr/local/bin/python3'
+    let g:ycm_server_python_interpreter = '/usr/local/bin/python3'
+elseif
+    let g:ycm_python_binary_path = '/usr/bin/python3'
+    let g:ycm_server_python_interpreter = '/usr/bin/python3'
+endif
 "use ycm clang module as syntastic checker
 let g:ycm_register_as_syntastic_checker = 0 "default 1
-let g:Show_diagnostics_ui = 0 "default 1
-let g:ycm_enable_diagnostic_signs = 2
+let g:ycm_show_diagnostics_ui = 0 "default 1
+let g:ycm_enable_diagnostic_signs = 0
 let g:ycm_enable_diagnostic_highlighting = 1
 let g:ycm_always_populate_location_list = 0 "default 0
-let g:ycm_open_loclist_on_ycm_diags = 1 "default 1
+let g:ycm_open_loclist_on_ycm_diags = 0 "default 1
 let g:ycm_max_diagnostics_to_display = 30
+
 "YCM others options
-let g:ycm_key_invoke_completion = '<F8>'
+let g:ycm_key_invoke_completion = '<C-T>'
 "let g:ycm_key_list_select_completion=['<c-n>']
 let g:ycm_key_list_select_completion = ['<Down>', '<c-j>']
 "let g:ycm_key_list_previous_completion=['<c-p>']
@@ -619,7 +677,14 @@ let g:ycm_error_symbol = 'x'
 nnoremap <leader>lo :lopen<CR>
 "close locationlist
 nnoremap <leader>lc :lclose<CR>
-inoremap <leader><leader> <C-x><C-o>
+
+"map ctrl-space to trigger autocomplete under terminal
+if !has("gui_running")
+    inoremap <C-@> <C-x><C-o>
+else
+    inoremap <C-Space> <C-x><C-o>
+endif
+
 let g:ycm_complete_in_comments = 1
 let g:ycm_complete_in_strings = 1
 let g:ycm_collect_identifiers_from_comments_and_strings = 0
@@ -647,30 +712,33 @@ let g:ycm_filetype_blacklist = {
       \}
 
 " --- syntastic
-let g:syntastic_error_symbol = 'X'      "set error or warning signs
-let g:syntastic_warning_symbol = '!'
+let g:syntastic_error_symbol = '✘'      "set error or warning signs
+let g:syntastic_warning_symbol = '⚠'
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_loc_list_height = 8
 let g:syntastic_check_on_wq = 0
-let g:syntastic_check_on_open=1
+let g:syntastic_check_on_open=0
 let g:syntastic_enable_highlighting = 1
-let g:syntastic_python_checker="flake8,pyflakes,pep8,pylint"
-let g:syntastic_python_checkers=['pyflakes']
-"highlight SyntasticErrorSign guifg=white guibg=black
-
+highlight SyntasticErrorSign guifg=green guibg=red ctermbg=black ctermfg=red
 "let g:syntastic_cpp_include_dirs = ['/usr/include/']
 "let g:syntastic_cpp_remove_include_errors = 1
 "let g:syntastic_cpp_check_header = 1
 "let g:syntastic_cpp_compiler = 'clang++'
 "let g:syntastic_cpp_compiler_options = '-std=c++11 -stdlib=libstdc++'
-let g:syntastic_enable_balloons = 1     "whether to show balloons
-"let g:syntastic_debug = 1
 "let g:syntastic_c_make_args = "-j4"
 "let g:syntastic_c_make_options = '-j4'
-"let g:syntastic_c_check_header = 1
 let g:syntastic_c_compiler = 'nds32le-elf-gcc'
+let g:syntastic_enable_balloons = 1     "whether to show balloons
+let g:syntastic_debug = 0
+let g:syntastic_c_check_header = 1
 let g:syntastic_c_config_file = '.syntastic_c_config'
+
+"special checker
+let g:tsuquyomi_disable_quickfix = 1
+let g:syntastic_typescript_checkers = ['tsuquyomi']
+let g:syntastic_python_checker="flake8,pyflakes,pep8,pylint"
+let g:syntastic_python_checkers=['pyflakes']
 
 "UltiSnips
 " Trigger configuration. Do not use <tab> if you use https://github.com/Vallor"ic/YouCompleteMe.
@@ -704,7 +772,7 @@ let NERDTreeIgnore=['\~$', '\.pyc', '\.swp$', '\.git', '\.hg', '\.svn',
 \ '\.coverage$', '\.webassets-cache$', '\.vagrant$', '\.DS_Store',
 \ '\.env-pypy$', 'tags', '\.a$', 'GPATH', 'GRTAGS', 'GTAGS', 'gtags.files']
 "nerdtree tab
-nnoremap <F6> :NERDTreeTabsToggle<CR>
+nnoremap <leader>nd :NERDTreeTabsToggle<CR>
 let g:nerdtree_tabs_open_on_gui_startup=0
 
 "support markdown hightlight
@@ -719,8 +787,8 @@ autocmd BufReadPre *.js let b:javascript_lib_use_angularjs = 0
 
 "multiple cursor
 " Map start key separately from next key
-let g:multi_cursor_start_key='<F9>'
-let g:multi_cursor_start_word_key='g<F9>'
+let g:multi_cursor_start_key='<leader>c'
+let g:multi_cursor_start_word_key='<leader>cw'
 function! Multiple_cursors_before()                                               
   if exists('*youcompleteme#EnableCursorMovedAutocommands')
         call youcompleteme#DisableCursorMovedAutocommands()
@@ -744,10 +812,15 @@ function! Multiple_cursors_after()
   "let delimitMate_autoclose = 1
 endfunction   
 "doxgen toolkit
-let g:DoxygenToolkit_briefTag_pre=""
-let g:DoxygenToolkit_briefTag_post = " - "
+let g:DoxygenToolkit_interCommentTag = ""
+let g:DoxygenToolkit_interCommentBlock = ""
+let g:DoxygenToolkit_endCommentTag = " */"
+let g:DoxygenToolkit_endCommentBlock = "*/"
+"let g:DoxygenToolkit_briefTag_pre=""
 let g:DoxygenToolkit_briefTag_funcName = "yes"
-let g:DoxygenToolkit_paramTag_pre="@ "
+let g:DoxygenToolkit_briefTag_post = " - "
+let g:DoxygenToolkit_paramTag_pre="@Param "
+let g:DoxygenToolkit_paramTag_post=" : "
 let g:DoxygenToolkit_returnTag="@Returns   "
 "let g:DoxygenToolkit_blockHeader="--------------------------------------------------------------------------"
 "let g:DoxygenToolkit_blockFooter="----------------------------------------------------------------------------"
@@ -758,7 +831,6 @@ let g:DoxygenToolkit_authorName="Pika Jian"
 "- key
 let b:surround_105 = "(\r)"
 map <leader>gs      gSi
-
 
 "easy align
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
@@ -805,14 +877,16 @@ nmap <leader>= <Plug>AirlineSelectNextTab
 
 "buffer operation for tabline
 nmap <leader>T :enew<cr>
-nmap <leader>bq :bp <BAR> bd! #<cr>
+nmap <leader>bd :bp <BAR> bd! #<cr>
 
 "buffer map
 " Move to the next buffer
-"nmap <leader>l :bnext<CR>
+nmap <S-l> :bnext<CR>
 " Move to the previous buffer
-"nmap <leader>h :bprevious<CR>
+nmap <S-h> :bprevious<CR>
 
+"ctrlspace
+let g:CtrlSpaceDefaultMappingKey = "<C-Space>"
 "silver searcher (Ag)
 let g:ag_prg="ag --column --ignore tags"
 
@@ -830,12 +904,12 @@ endif
 
 nnoremap <leader>j :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=line  -start-insert jump<cr>
 "nnoremap <leader>f :<C-u>Unite -winheight=20 -direction=dynamicbottom -buffer-name=files -start-insert file<cr>
-"nnoremap <leader>w :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=mru  -start-insert file_mru<cr>
-"nnoremap <leader>o :<C-u>Unite -winheight=20 -direction=dynamicbottom -buffer-name=outline -start-insert outline<cr>
+"nnoremap <leader>u :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=mru  -start-insert file_mru<cr>
+nnoremap <leader>ol :<C-u>Unite -winheight=20 -direction=dynamicbottom -buffer-name=outline -start-insert outline<cr>
 "nnoremap <leader>y :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=yank    history/yank<cr>
 "nnoremap <leader>e :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=buffer  -start-insert buffer<cr>
 "nnoremap <leader>l :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=line  -start-insert line<cr>
-"nnoremap <leader>t :Unite tag:%<CR> 
+nnoremap <leader>ut :Unite tag:%<CR> 
 
 let g:unite_source_menu_menus = get(g:,'unite_source_menu_menus',{})
 let g:unite_source_menu_menus.git = {
@@ -884,6 +958,9 @@ function! s:unite_settings()
   imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
 endfunction
 
+"unite-neomru
+let g:neomru#directory_mru_limit = 100
+
 augroup qf
   autocmd!
   autocmd FileType qf set nobuflisted
@@ -905,7 +982,14 @@ function! s:python_format()
   set tabstop=4           " number of spaces a tab counts for
   set shiftwidth=4        " spaces for autoindents
 endfunction
+
+function! s:js_format()
+  set expandtab        "replace <TAB> with spaces
+  set tabstop=2           " number of spaces a tab counts for
+  set shiftwidth=2        " spaces for autoindents
+endfunction
 au BufRead,BufNewFile *.py  call s:python_format()
+au BufRead,BufNewFile *.js,*.jsx,*.ts,*.tsx  call s:js_format()
 
 "vim-gradle
 nnoremap <F10> :compiler gradle<CR>:make build -Prtsp=true -Pconf_files=AU3518P.h,AU3522_COM.h<CR>
@@ -920,12 +1004,20 @@ autocmd BufReadPost fugitive://* set bufhidden=hide
 
 
 "nerdCommenter
-let g:NERDSpaceDelims=1
+let g:NERDSpaceDelims=0
+" Allow commenting and inverting empty lines (useful when commenting a region)
 let g:NERDCommentEmptyLines = 1
+let g:NERDCustomDelimiters = { 'c': { 'left': '//', 'leftAlt': '/* ', 'rightAlt': ' */' } }
 map gcc <plug>NERDCommenterComment
+
 map gcs <plug>NERDCommenterSexy
 map gcA <plug>NERDCommenterAppend
+map gcy <plug>NERDCommenterYank
 map gca <plug>NERDCommenterAltDelims
+map gcl <plug>NERDCommenterAlignLeft
+map gcb <plug>NERDCommenterAlignBoth
+map gcm <plug>NERDCommenterMinimal
+map gcu <plug>NERDCommenterUncomment
 
 " SeeTab: toggles between showing tabs and using standard listchars
 fu! SeeTab()
@@ -1063,10 +1155,12 @@ let g:webdevicons_enable_airline_tabline = 0
 "clang-format for formating cpp code
 " //格式化最新的commit，并直接在原文件上修改
 " git diff -U0 HEAD^ | clang-format-diff.py -i -p1
-nnoremap <leader>cf :call FormatCode("Chromium")<CR>
 nnoremap <leader>lf :call FormatCode("LLVM")<CR>
-vnoremap <leader>cf :call FormatCode("Chromium")<CR>
 vnoremap <leader>lf :call FormatCode("LLVM")<CR>
+vnoremap <leader>cf :call FormatCode("Chromium")<CR>
+nnoremap <leader>cf :call FormatCode("Chromium")<CR>
+nnoremap <leader>gf :call FormatCode("Google")<CR>
+vnoremap <leader>gf :call FormatCode("Google")<CR>
 "let g:autoformat_verbosemode = 1
 let g:autoformat_autoindent = 1
 
@@ -1180,8 +1274,12 @@ hi StartifySlash   ctermfg=240
 hi StartifySpecial ctermfg=240
 
 "FZF
+autocmd FileType qf wincmd J
 nnoremap <leader><Enter> :FZF<CR>
+
+if has('nvim')
 tnoremap jk <C-c>   
+endif
 
 " Augmenting Rg command using fzf#vim#with_preview function
 "   * fzf#vim#with_preview([[options], preview window, [toggle keys...]])
@@ -1190,12 +1288,29 @@ tnoremap jk <C-c>
 "
 "   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
 "   :Ag! - Start fzf in fullscreen and display the preview window above
-command! -bang -nargs=* Rg
+command! -bang -nargs=* -complete=file Rg
   \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   'rg --column --line-number --no-heading --color=always '.
+  \   shellescape(<q-args>)[1:strlen(shellescape(<q-args>)) - 2],
+  \   1,
   \   <bang>0 ? fzf#vim#with_preview('up:60%')
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
+
+" Augmenting Ag command using fzf#vim#with_preview function
+"   * fzf#vim#with_preview([[options], preview window, [toggle keys...]])
+"     * For syntax-highlighting, Ruby and any of the following tools are required:
+"       - Highlight: http://www.andre-simon.de/doku/highlight/en/highlight.php
+"       - CodeRay: http://coderay.rubychan.de/
+"       - Rouge: https://github.com/jneen/rouge
+"
+"   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
+"   :Ag! - Start fzf in fullscreen and display the preview window above
+command! -bang -nargs=* Ag
+  \ call fzf#vim#ag(<q-args>,
+  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \                 <bang>0)
 
 command! -bang -nargs=? -complete=dir Files
   \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
@@ -1215,12 +1330,13 @@ endfunction
 
 nnoremap <leader>f :Files<CR>
 nnoremap <leader>w :FZFMru<CR>
-nnoremap <leader>y :History:<CR>
+nnoremap <leader>y :History<CR>
 nnoremap <leader>e :Buffers<CR>
 nnoremap <leader>l :BLine<CR>
-nnoremap <leader>t :Tags<CR>
-nnoremap <leader>d :call fzf#vim#tags(expand('<cword>'), {'options': '--exact --select-1 --exit-0'})<CR>
-
+"nnoremap <leader>t :Tags<CR>
+nnoremap bt :BTags<CR>
+nnoremap <leader>s :Rg <C-r><C-w><CR>
+nnoremap bs :vimgrep <C-r><C-w> %<CR>
 
 " Replace the default dictionary completion with fzf-based fuzzy completion
 "inoremap <expr> <c-x><c-k> fzf#complete('cat /usr/share/dict/words')
@@ -1236,7 +1352,56 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 imap <c-x><c-b> <plug>(fzf-complete-buffer-line)
 
 "smooth scrolling
-noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
-noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
-noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
-noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
+"noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+"noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+"noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
+"noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
+
+" ----------------------------------------------------------------------------
+" DiffRev
+" ----------------------------------------------------------------------------
+let s:git_status_dictionary = {
+            \ "A": "Added",
+            \ "B": "Broken",
+            \ "C": "Copied",
+            \ "D": "Deleted",
+            \ "M": "Modified",
+            \ "R": "Renamed",
+            \ "T": "Changed",
+            \ "U": "Unmerged",
+            \ "X": "Unknown"
+            \ }
+function! s:get_diff_files(rev)
+  let list = map(split(system(
+              \ 'git diff --name-status '.a:rev), '\n'),
+              \ '{"filename":matchstr(v:val, "\\S\\+$"),"text":s:git_status_dictionary[matchstr(v:val, "^\\w")]}'
+              \ )
+  call setqflist(list)
+  copen
+endfunction
+
+command! -nargs=1 DiffRev call s:get_diff_files(<q-args>)
+
+"vim-tex
+if !exists('g:ycm_semantic_triggers')
+    let g:ycm_semantic_triggers = {}
+endif
+let g:ycm_semantic_triggers.tex = g:vimtex#re#youcompleteme
+
+"emmet
+let g:user_emmet_leader_key='<C-Z>'
+
+"Language Server for vim
+"let g:LanguageClient_loadSettings = 1
+"let g:LanguageClient_diagnosticsEnable = 0
+"let g:LanguageClient_settingsPath = expand('~/.vim/languageclient.json')
+"let g:LanguageClient_selectionUI = 'quickfix'
+"let g:LanguageClient_diagnosticsList = v:null
+"let g:LanguageClient_hoverPreview = 'Never'
+"let g:LanguageClient_serverCommands = {}
+"let g:LanguageClient_serverCommands.c = ['cquery']
+"let g:LanguageClient_serverCommands.cpp = ['cquery']
+"
+"noremap <leader>rd :call LanguageClient#textDocument_definition()<cr>
+"noremap <leader>rr :call LanguageClient#textDocument_references()<cr>
+"noremap <leader>rv :call LanguageClient#textDocument_hover()<cr>
