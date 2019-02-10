@@ -27,104 +27,84 @@ if has('nvim')
 elseif
     call plug#begin('~/.vim/plugged')
 endif
-Plug 'junegunn/vim-easy-align'
-Plug 'honza/vim-snippets'
-Plug 'mattn/emmet-vim'
-Plug 'sukima/xmledit'
+
+"" beautiful ui
+Plug 'altercation/vim-colors-solarized'
+Plug 'ryanoasis/vim-devicons'
+Plug 'mhinz/vim-startify'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-ctrlspace/vim-ctrlspace'
+
+"" file navigation
 Plug 'derekwyatt/vim-fswitch'
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-fugitive'
+
+"" c related
+Plug 'Twinside/vim-cuteErrorMarker'
+Plug 'Chiel92/vim-autoformat'
+
+"" code comment
 Plug 'scrooloose/nerdcommenter'
-Plug 'plasticboy/vim-markdown'
-Plug 'vim-scripts/VisIncr'
-Plug 'mileszs/ack.vim'
-Plug 'kana/vim-operator-user'
 Plug 'vim-scripts/DoxygenToolkit.vim'
-Plug 'Lokaltog/vim-easymotion'
-Plug 'majutsushi/tagbar'
-Plug 'kchmck/vim-coffee-script'
-Plug 'airblade/vim-gitgutter'
-Plug 'Raimondi/delimitMate'
+
+"" code editing enhancement
+Plug 'SirVer/ultisnips'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'honza/vim-snippets'
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()} }
+
+"" awesome edit 
 Plug 'junegunn/vim-easy-align'
-Plug 'altercation/vim-colors-solarized'
-Plug 'haya14busa/vim-operator-flashy'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'vim-scripts/VisIncr'
+Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary', { 'on': [] }
+
+"" code navigation
+Plug 'majutsushi/tagbar'
+Plug 'bbchung/gtags.vim'
+Plug 'terryma/vim-expand-region'
+Plug 'kshenoy/vim-signature'
+
+" git
+Plug 'gregsexton/gitv'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+"" Search
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tacahiroy/ctrlp-funky'
+Plug 'mileszs/ack.vim'
+
+"" Motion
+Plug 'justinmk/vim-sneak', { 'on': [] }
+Plug 'easymotion/vim-easymotion'
 Plug 'haya14busa/incsearch.vim'
 Plug 'haya14busa/incsearch-easymotion.vim'
 Plug 'haya14busa/incsearch-easymotion.vim'
 Plug 'haya14busa/incsearch-fuzzy.vim'
-Plug 'vim-ctrlspace/vim-ctrlspace'
-Plug 'ternjs/tern_for_vim'
-Plug 'tpope/vim-unimpaired'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'kshenoy/vim-signature'
-Plug 'hewes/unite-gtags'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'tacahiroy/ctrlp-funky'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'ryanoasis/vim-devicons'
-Plug 'neovimhaskell/haskell-vim'
-Plug 'Chiel92/vim-autoformat'
+Plug 'haya14busa/vim-operator-flashy'
 Plug 'jeetsukumaran/vim-indentwise'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'mhinz/vim-startify'
-Plug 'terryma/vim-expand-region'
-Plug 'gregsexton/gitv'
-Plug 'Shougo/unite.vim'
-Plug 'tsukkee/unite-tag'
-Plug 'Shougo/unite-outline'
-Plug 'Shougo/neomru.vim'
-Plug 'Shougo/neoyank.vim'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-dispatch'
-Plug 'Twinside/vim-cuteErrorMarker'
-Plug 'terryma/vim-smooth-scroll', { 'on' : []}
-Plug 'dyng/ctrlsf.vim', { 'on': [] }
-Plug 'vim-scripts/YankRing.vim', { 'on': [] }
-Plug 'justinmk/vim-sneak', { 'on': [] }
-Plug 'tpope/vim-commentary', { 'on': [] }
-Plug 'Quramy/tsuquyomi', { 'for': ['typescript', 'javascript'] } 
-Plug 'leafgarland/typescript-vim' 
+
+"" others
 Plug 'Shougo/vimproc.vim'
 Plug 'lervag/vimtex'
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'on': [],
-    \ 'branch': 'next',
-    \ 'do': './install.sh',
-    \ }
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'dyng/ctrlsf.vim', { 'on': [] }
+Plug 'vim-scripts/YankRing.vim', { 'on': [] }
+Plug 'mattn/emmet-vim'
+Plug 'tpope/vim-repeat'
+Plug 'plasticboy/vim-markdown'
+Plug 'kana/vim-operator-user'
 
-"lazy loadin plugins
-Plug 'scrooloose/syntastic', { 'on': [] }
-Plug 'Valloric/YouCompleteMe', { 'on': [] }
-Plug 'SirVer/ultisnips', { 'on': [] }
-
-
-" Initialize plugin system
-
-augroup load_typescript
-  autocmd!
-  autocmd InsertEnter *.ts,*.js call plug#load('ultisnips', 'syntastic')  
-                     \| autocmd! load_typescript FileType typescript,javascript 
-augroup END
-
-augroup load_latex
-  autocmd!
-  autocmd InsertEnter *.latex call plug#load('ultisnips', 'syntastic', 'YouCompleteMe')  
-                     \| autocmd! load_latex FileType latex
-augroup END
-
-augroup load_us_ycm
-  autocmd!
-  autocmd InsertEnter *.c,*.cpp,*.py call plug#load('ultisnips', 'YouCompleteMe', 'syntastic')
-                     \| autocmd! load_us_ycm FileType c,cpp,py
-augroup END
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'tpope/vim-dispatch'
 call plug#end()
 
 if has('nvim')
@@ -184,7 +164,7 @@ filetype indent on    " Enable filetype-specific indenting
 filetype plugin on    " Enable filetype-specific plugins
 
 " auto reload vimrc when editing it
-autocmd! bufwritepost .vimrc source ~/vimrc
+autocmd! bufwritepost .vimrc source ~/.vimrc
 
 if has("gui_running")   " GUI color and font settings
   set autochdir
@@ -570,8 +550,12 @@ map <leader>h <Plug>(easymotion-linebackward)
 " Gif config
 "nmap <leader>s <Plug>(easymotion-s2)
 "nmap <leader>t <Plug>(easymotion-t2)
-map  <leader>/ <Plug>(easymotion-sn)
-omap <leader>/ <Plug>(easymotion-tn)
+
+"without incsearch
+"map  / <Plug>(easymotion-sn)
+"omap / <Plug>(easymotion-tn)
+
+noremap <silent><expr> /  incsearch#go(<SID>incsearch_config())
 
 map  ww <Plug>(easymotion-bd-w)
 omap  tt <Plug>(easymotion-bd-tl)
@@ -622,61 +606,9 @@ nnoremap <silent> <leader>t :TagbarToggle<CR>
 "let g:tagbar_autofocus = 1
 let g:tagbar_width=25
 
-" --- coffee-script
-au BufWritePost *.coffee silent CoffeeMake! -b | cwindow | redraw! " recompile coffee scripts on write
-
 " --- vim-gitgutter
 let g:gitgutter_enabled = 0
 let g:gitgutter_signs = 1
-
-"CPP Complete
-set completeopt=longest,menu
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif
-inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
-inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
-inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
-inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
-inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
-
-
-"youcompleteme
-let g:ycm_disable_for_files_larger_than_kb = 800
-"YCM diagnostic
-let g:ycm_extra_conf_globlist = ['~/*', './*', '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/*']
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-if has('mac')
-    let g:ycm_python_binary_path = '/usr/local/bin/python3'
-    let g:ycm_server_python_interpreter = '/usr/local/bin/python3'
-elseif
-    let g:ycm_python_binary_path = '/usr/bin/python3'
-    let g:ycm_server_python_interpreter = '/usr/bin/python3'
-endif
-"use ycm clang module as syntastic checker
-let g:ycm_register_as_syntastic_checker = 0 "default 1
-let g:ycm_show_diagnostics_ui = 0 "default 1
-let g:ycm_enable_diagnostic_signs = 0
-let g:ycm_enable_diagnostic_highlighting = 1
-let g:ycm_always_populate_location_list = 0 "default 0
-let g:ycm_open_loclist_on_ycm_diags = 0 "default 1
-let g:ycm_max_diagnostics_to_display = 30
-
-"YCM others options
-let g:ycm_key_invoke_completion = '<C-T>'
-"let g:ycm_key_list_select_completion=['<c-n>']
-let g:ycm_key_list_select_completion = ['<Down>', '<c-j>']
-"let g:ycm_key_list_previous_completion=['<c-p>']
-let g:ycm_key_list_previous_completion = ['<Up>', '<c-k>']
-let g:ycm_confirm_extra_conf=1
-let g:ycm_collect_identifiers_from_tags_files=0
-let g:ycm_min_num_of_chars_for_completion=2
-let g:ycm_cache_omnifunc=0
-let g:ycm_seed_identifiers_with_syntax=1
-let g:ycm_warning_symbol = '!'
-let g:ycm_error_symbol = 'x'
-"open locationlist
-nnoremap <leader>lo :lopen<CR>
-"close locationlist
-nnoremap <leader>lc :lclose<CR>
 
 "map ctrl-space to trigger autocomplete under terminal
 if !has("gui_running")
@@ -685,83 +617,22 @@ else
     inoremap <C-Space> <C-x><C-o>
 endif
 
-let g:ycm_complete_in_comments = 1
-let g:ycm_complete_in_strings = 1
-let g:ycm_collect_identifiers_from_comments_and_strings = 0
-let g:ycm_collect_identifiers_from_tags_files = 1
-"Check if the file is compilable
-nnoremap <leader>jy :YcmForceCompileAndDiagnostics
-"Jump to Definition
-nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
-nnoremap <leader>jx :YcmCompleter GoToDefinition<CR>
-nnoremap <leader>jh :YcmCompleter GoToInclude<CR>
-nnoremap <leader>gt :YcmCompleter GetType<CR>
-
-"nnoremap <F10> :YcmDiags<CR>
-let g:ycm_filetype_blacklist = {
-      \ 'tagbar' : 1,
-      \ 'qf' : 1,
-      \ 'notes' : 1,
-      \ 'markdown' : 1,
-      \ 'unite' : 1,
-      \ 'text' : 1,
-      \ 'vimwiki' : 1,
-      \ 'pandoc' : 1,
-      \ 'infolog' : 1,
-      \ 'mail' : 1
-      \}
-
-" --- syntastic
-let g:syntastic_error_symbol = '✘'      "set error or warning signs
-let g:syntastic_warning_symbol = '⚠'
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_loc_list_height = 8
-let g:syntastic_check_on_wq = 0
-let g:syntastic_check_on_open=0
-let g:syntastic_enable_highlighting = 1
-highlight SyntasticErrorSign guifg=green guibg=red ctermbg=black ctermfg=red
-"let g:syntastic_cpp_include_dirs = ['/usr/include/']
-"let g:syntastic_cpp_remove_include_errors = 1
-"let g:syntastic_cpp_check_header = 1
-"let g:syntastic_cpp_compiler = 'clang++'
-"let g:syntastic_cpp_compiler_options = '-std=c++11 -stdlib=libstdc++'
-"let g:syntastic_c_make_args = "-j4"
-"let g:syntastic_c_make_options = '-j4'
-let g:syntastic_c_compiler = 'nds32le-elf-gcc'
-let g:syntastic_enable_balloons = 1     "whether to show balloons
-let g:syntastic_debug = 0
-let g:syntastic_c_check_header = 1
-let g:syntastic_c_config_file = '.syntastic_c_config'
-
-"special checker
-let g:tsuquyomi_disable_quickfix = 1
-let g:syntastic_typescript_checkers = ['tsuquyomi']
-let g:syntastic_python_checker="flake8,pyflakes,pep8,pylint"
-let g:syntastic_python_checkers=['pyflakes']
-
 "UltiSnips
 " Trigger configuration. Do not use <tab> if you use https://github.com/Vallor"ic/YouCompleteMe.
 "let g:UltiSnipsExpandTrigger="<c-tab>"
 "let g:UltiSnipsListSnippets="<c-s-tab>"
 let g:UltiSnipsSnippetDirectories=["bundle/vim-snippets/"]
 
-
-
-
-"Tabular
-"nmap <leader>bb :Tab /=<CR>
-"nmap <leader>bn :Tab /
-
-
 "auto-pairs
 let g:AutoPairs = {'<' : '>' ,'(' : ')', '[' : ']', '{' : '}', "'" : "'", '"' : '"', '`' : '`'}
+
 "fswitch
 au BufEnter *.cpp let b:fswitchdst = 'hpp,h' | let b:fswitchlocs = './,./include,../include'
 au BufEnter *.c let b:fswitchdst = 'h,hh' | let b:fswitchlocs = './,./include,../include'
 au BufEnter *.hh let b:fswitchdst = 'c,cpp' | let b:fswitchlocs = '../,./,../src'
 au BufEnter *.h let b:fswitchdst = 'cpp,c' | let b:fswitchlocs = './,../,../src'
 nmap <silent> <Leader>of :FSHere<cr>
+
 "nerdtree
 let g:NERDTreeWinSize=20
 let NERDTreeIgnore=['\~$', '\.pyc', '\.swp$', '\.git', '\.hg', '\.svn',
@@ -771,6 +642,7 @@ let NERDTreeIgnore=['\~$', '\.pyc', '\.swp$', '\.git', '\.hg', '\.svn',
 \ '\.env$', '\.env[0-9]$', '\.coverage$', '\.tmp$', '\.gitkeep$',
 \ '\.coverage$', '\.webassets-cache$', '\.vagrant$', '\.DS_Store',
 \ '\.env-pypy$', 'tags', '\.a$', 'GPATH', 'GRTAGS', 'GTAGS', 'gtags.files']
+
 "nerdtree tab
 nnoremap <leader>nd :NERDTreeTabsToggle<CR>
 let g:nerdtree_tabs_open_on_gui_startup=0
@@ -778,39 +650,11 @@ let g:nerdtree_tabs_open_on_gui_startup=0
 "support markdown hightlight
 au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn}   set filetype=mkd
 
-
-autocmd BufReadPre *.js let b:javascript_lib_use_jquery = 1
-autocmd BufReadPre *.js let b:javascript_lib_use_underscore = 1
-autocmd BufReadPre *.js let b:javascript_lib_use_backbone = 1
-autocmd BufReadPre *.js let b:javascript_lib_use_prelude = 0
-autocmd BufReadPre *.js let b:javascript_lib_use_angularjs = 0
-
 "multiple cursor
 " Map start key separately from next key
 let g:multi_cursor_start_key='<leader>c'
 let g:multi_cursor_start_word_key='<leader>cw'
-function! Multiple_cursors_before()                                               
-  if exists('*youcompleteme#EnableCursorMovedAutocommands')
-        call youcompleteme#DisableCursorMovedAutocommands()
-  endif
-  set foldmethod=manual
-  let g:ycm_auto_trigger = 0
-  let s:old_ycm_whitelist = g:ycm_filetype_whitelist                           
-  let g:ycm_filetype_whitelist = {}         
-  let g:ycm_show_diagnostics_ui = 0
-  "let delimitMate_autoclose = 0
-endfunction                                                                      
-                                                                                 
-function! Multiple_cursors_after()                                                
-  if exists('*youcompleteme#EnableCursorMovedAutocommands')
-        call youcompleteme#EnableCursorMovedAutocommands()
-  endif
-  set foldmethod=syntax
-  let g:ycm_auto_trigger = 1
-  let g:ycm_filetype_whitelist = s:old_ycm_whitelist
-  let g:ycm_show_diagnostics_ui = 1
-  "let delimitMate_autoclose = 1
-endfunction   
+
 "doxgen toolkit
 let g:DoxygenToolkit_interCommentTag = ""
 let g:DoxygenToolkit_interCommentBlock = ""
@@ -891,76 +735,6 @@ let g:CtrlSpaceDefaultMappingKey = "<C-Space>"
 let g:ag_prg="ag --column --ignore tags"
 
 
-" Unite
-let g:unite_source_history_yank_enable = 1
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-
-if has('nvim')
-  nnoremap <leader>fs :<C-u>Unite -winheight=20 -direction=dynamicbottom -buffer-name=files -start-insert file_rec/neovim:!<cr>
-else
-  "require vimproc plugin
-  nnoremap <leader>fs :<C-u>Unite -winheight=20 -direction=dynamicbottom -buffer-name=files  -start-insert file_rec/async:!<cr>
-endif
-
-nnoremap <leader>j :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=line  -start-insert jump<cr>
-"nnoremap <leader>f :<C-u>Unite -winheight=20 -direction=dynamicbottom -buffer-name=files -start-insert file<cr>
-"nnoremap <leader>u :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=mru  -start-insert file_mru<cr>
-nnoremap <leader>ol :<C-u>Unite -winheight=20 -direction=dynamicbottom -buffer-name=outline -start-insert outline<cr>
-"nnoremap <leader>y :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=yank    history/yank<cr>
-"nnoremap <leader>e :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=buffer  -start-insert buffer<cr>
-"nnoremap <leader>l :<C-u>Unite -winheight=10 -direction=dynamicbottom -buffer-name=line  -start-insert line<cr>
-nnoremap <leader>ut :Unite tag:%<CR> 
-
-let g:unite_source_menu_menus = get(g:,'unite_source_menu_menus',{})
-let g:unite_source_menu_menus.git = {
-    \ 'description' : '            gestionar repositorios git
-        \                            ⌘ [espacio]g',
-    \}
-let g:unite_source_menu_menus.git.command_candidates = [
-    \['▷ tig                                                        ⌘ ,gt',
-        \'normal ,gt'],
-    \['▷ git status       (Fugitive)                                ⌘ ,gs',
-        \'Gstatus'],
-    \['▷ git diff         (Fugitive)                                ⌘ ,gd',
-        \'Gdiff'],
-    \['▷ git commit       (Fugitive)                                ⌘ ,gc',
-        \'Gcommit'],
-    \['▷ git log          (Fugitive)                                ⌘ ,gl',
-        \'exe "silent Glog | Unite quickfix"'],
-    \['▷ git blame        (Fugitive)                                ⌘ ,gb',
-        \'Gblame'],
-    \['▷ git stage        (Fugitive)                                ⌘ ,gw',
-        \'Gwrite'],
-    \['▷ git checkout     (Fugitive)                                ⌘ ,go',
-        \'Gread'],
-    \['▷ git rm           (Fugitive)                                ⌘ ,gr',
-        \'Gremove'],
-    \['▷ git mv           (Fugitive)                                ⌘ ,gm',
-        \'exe "Gmove " input("destino: ")'],
-    \['▷ git push         (Fugitive, salida por buffer)             ⌘ ,gp',
-        \'Git! push'],
-    \['▷ git pull         (Fugitive, salida por buffer)             ⌘ ,gP',
-        \'Git! pull'],
-    \['▷ git prompt       (Fugitive, salida por buffer)             ⌘ ,gi',
-        \'exe "Git! " input("comando git: ")'],
-    \['▷ git cd           (Fugitive)',
-        \'Gcd'],
-    \['▷ git log2         (Fugitive)',
-        \'Gllog'],
-    \]
-nnoremap <leader>m :Unite -no-split -silent -start-insert menu:git<CR>
-
-" Custom mappings for the unite buffer
-autocmd FileType unite call s:unite_settings()
-function! s:unite_settings()
-  " Enable navigation with control-j and control-k in insert mode
-  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
-  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
-endfunction
-
-"unite-neomru
-let g:neomru#directory_mru_limit = 100
-
 augroup qf
   autocmd!
   autocmd FileType qf set nobuflisted
@@ -968,40 +742,12 @@ augroup END
 
 let g:linuxsty_patterns = [ "/linux/", "/linux-2.6/"]
 
-
-function! s:groovy_format()
-  set filetype=groovy
-  set expandtab        "replace <TAB> with spaces
-  set tabstop=4           " number of spaces a tab counts for
-  set shiftwidth=4        " spaces for autoindents
-endfunction
-au BufRead,BufNewFile *.{groovy,gradle}  call s:groovy_format()
-
-function! s:python_format()
-  set expandtab        "replace <TAB> with spaces
-  set tabstop=4           " number of spaces a tab counts for
-  set shiftwidth=4        " spaces for autoindents
-endfunction
-
-function! s:js_format()
-  set expandtab        "replace <TAB> with spaces
-  set tabstop=2           " number of spaces a tab counts for
-  set shiftwidth=2        " spaces for autoindents
-endfunction
-au BufRead,BufNewFile *.py  call s:python_format()
-au BufRead,BufNewFile *.js,*.jsx,*.ts,*.tsx  call s:js_format()
-
-"vim-gradle
-nnoremap <F10> :compiler gradle<CR>:make build -Prtsp=true -Pconf_files=AU3518P.h,AU3522_COM.h<CR>
-autocmd QuickFixCmdPost [^l]* nested botright cwindow
-autocmd QuickFixCmdPost    l* nested botright lwindow
 "fugitive
 autocmd User fugitive 
   \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
   \   nnoremap <buffer> .. :edit %:h<CR> |
   \ endif
 autocmd BufReadPost fugitive://* set bufhidden=hide
-
 
 "nerdCommenter
 let g:NERDSpaceDelims=0
@@ -1018,31 +764,7 @@ map gcl <plug>NERDCommenterAlignLeft
 map gcb <plug>NERDCommenterAlignBoth
 map gcm <plug>NERDCommenterMinimal
 map gcu <plug>NERDCommenterUncomment
-
-" SeeTab: toggles between showing tabs and using standard listchars
-fu! SeeTab()
-  if !exists("g:SeeTabEnabled")
-    let g:SeeTabEnabled = 1
-    let g:SeeTab_list = &list
-    let g:SeeTab_listchars = &listchars
-    let regA = @a
-    redir @a
-    hi SpecialKey
-    redir END
-    let g:SeeTabSpecialKey = @a
-    let @a = regA
-    silent! hi SpecialKey guifg=black guibg=magenta ctermfg=black ctermbg=magenta
-    set list
-    set listchars=tab:\|\
-  else
-    let &list = g:SeeTab_list
-    let &listchars = &listchars
-    silent! exe "hi ".substitute(g:SeeTabSpecialKey,'xxx','','e')
-    unlet g:SeeTabEnabled g:SeeTab_list g:SeeTab_listchars
-  endif
-endfunc
-com! -nargs=0 SeeTab :call SeeTab()
-
+ 
 "Gtags
 set cscopeprg=gtags-cscope
 
@@ -1051,8 +773,6 @@ let Gtags_Auto_Update = 0
 let g:cscope_silent = 1
 "au FileType php,pyhthon,c,cpp,javascrip,go map <C-]> :Gtags<CR><CR>
 "au FileType php,python,c,cpp,javascript,go map <C-[> :Gtags -r<CR><CR>
-nnoremap <leader><C-]> :execute 'Unite gtags/def:'.expand('<cword>')<CR>
-nnoremap <leader><C-[> :execute 'Unite gtags/ref:'.expand('<cword>')<CR>
 
 "CtrlP
 " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
@@ -1124,26 +844,8 @@ nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 let g:ctrlp_funky_syntax_highlight = 1
 let g:ctrlp_extensions = ['funky']
 
-"indent line
-"this only for indent by tab
-"for indent with tab : set list lcs=tab:\|\ (here is a space)
-let g:indentLine_enabled = 0
-if has("gui_running")
-  let g:indentLine_color_gui = '#A4E57E'
-else
-  let g:indentLine_color_term = 239
-endif
-
 "indent guide line
 let g:indent_guides_guide_size = 1
-
-"haskell setting
-let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
-let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
-let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
-let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
-let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
-let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
 
 "devicons
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
@@ -1351,13 +1053,38 @@ imap <c-x><c-j> <plug>(fzf-complete-file-ag)
 imap <c-x><c-l> <plug>(fzf-complete-line)
 imap <c-x><c-b> <plug>(fzf-complete-buffer-line)
 
-"smooth scrolling
-"noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
-"noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
-"noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
-"noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
+"coc.vim {{{
 
-" ----------------------------------------------------------------------------
+" Use `[c` and `]c` for navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> <leader>jd <Plug>(coc-definition)
+nmap <silent> <leader>jy <Plug>(coc-type-definition)
+nmap <silent> <leader>ji <Plug>(coc-implementation)
+nmap <silent> <leader>jr <Plug>(coc-references)
+
+" Use K for show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+"}}}
+
+
+"----------------------------------------------------------------------------
 " DiffRev
 " ----------------------------------------------------------------------------
 let s:git_status_dictionary = {
@@ -1382,26 +1109,32 @@ endfunction
 
 command! -nargs=1 DiffRev call s:get_diff_files(<q-args>)
 
-"vim-tex
-if !exists('g:ycm_semantic_triggers')
-    let g:ycm_semantic_triggers = {}
-endif
-let g:ycm_semantic_triggers.tex = g:vimtex#re#youcompleteme
+" ============================================================================
+" Functions
+" ============================================================================
+" Add Functions Here {{{
 
-"emmet
-let g:user_emmet_leader_key='<C-Z>'
+" SeeTab: toggles between showing tabs and using standard listchars
+fu! SeeTab()
+  if !exists("g:SeeTabEnabled")
+    let g:SeeTabEnabled = 1
+    let g:SeeTab_list = &list
+    let g:SeeTab_listchars = &listchars
+    let regA = @a
+    redir @a
+    hi SpecialKey
+    redir END
+    let g:SeeTabSpecialKey = @a
+    let @a = regA
+    silent! hi SpecialKey guifg=black guibg=magenta ctermfg=black ctermbg=magenta
+    set list
+    set listchars=tab:\|\
+  else
+    let &list = g:SeeTab_list
+    let &listchars = &listchars
+    silent! exe "hi ".substitute(g:SeeTabSpecialKey,'xxx','','e')
+    unlet g:SeeTabEnabled g:SeeTab_list g:SeeTab_listchars
+  endif
+endfunc
+com! -nargs=0 SeeTab :call SeeTab()
 
-"Language Server for vim
-"let g:LanguageClient_loadSettings = 1
-"let g:LanguageClient_diagnosticsEnable = 0
-"let g:LanguageClient_settingsPath = expand('~/.vim/languageclient.json')
-"let g:LanguageClient_selectionUI = 'quickfix'
-"let g:LanguageClient_diagnosticsList = v:null
-"let g:LanguageClient_hoverPreview = 'Never'
-"let g:LanguageClient_serverCommands = {}
-"let g:LanguageClient_serverCommands.c = ['cquery']
-"let g:LanguageClient_serverCommands.cpp = ['cquery']
-"
-"noremap <leader>rd :call LanguageClient#textDocument_definition()<cr>
-"noremap <leader>rr :call LanguageClient#textDocument_references()<cr>
-"noremap <leader>rv :call LanguageClient#textDocument_hover()<cr>
