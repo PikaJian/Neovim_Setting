@@ -1,10 +1,10 @@
-"
 "nvim only setting
 if has('nvim')
     let g:python2_host_prog = "/usr/bin/python2"
+    let g:python3_host_prog = "/usr/bin/python3"
     if has('mac')
         let g:python3_host_prog = "/usr/local/bin/python3"
-    elseif
+    elseif has('unix')
         let g:python3_host_prog = "/usr/bin/python3"
     endif
     let g:python_host_skip_check = 1
@@ -15,7 +15,7 @@ if has('nvim')
     "Restore cursor to file position in previous editing session
     set viminfo='10,\"100,:20,%,n~/.nviminfo
     au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
-elseif
+else
     "Restore cursor to file position in previous editing session
     set viminfo='10,\"100,:20,%,n~/.viminfo
     au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
@@ -24,7 +24,7 @@ endif
 
 if has('nvim')
     call plug#begin('~/.config/nvim/plugged')
-elseif
+else
     call plug#begin('~/.vim/plugged')
 endif
 
@@ -35,6 +35,8 @@ Plug 'mhinz/vim-startify'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-ctrlspace/vim-ctrlspace'
+Plug 'luochen1990/rainbow'
+
 
 "" file navigation
 Plug 'derekwyatt/vim-fswitch'
@@ -50,12 +52,22 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'vim-scripts/DoxygenToolkit.vim'
 
 "" code editing enhancement
-Plug 'SirVer/ultisnips'
+"disable  ultisnips for mac issue.
+"make sure python neovim package version is correct.
+Plug 'SirVer/ultisnips', {  }
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'honza/vim-snippets'
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()} }
 
-"" awesome edit 
+" Use release branch
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'on': [],
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+
+"" awesome edit
 Plug 'junegunn/vim-easy-align'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'vim-scripts/VisIncr'
@@ -73,7 +85,7 @@ Plug 'kshenoy/vim-signature'
 Plug 'gregsexton/gitv'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
+Plug 'mhinz/vim-signify'
 
 "" Search
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -129,7 +141,6 @@ if !has("gui_running")
     map <Esc>[B <Down>
 endif
 
-filetype plugin indent on
 " General SETTINGS 
 set hidden
 set nocompatible    " not compatible with the old-fashion vi mode
@@ -198,13 +209,18 @@ else
   set hlsearch      " search highlighting
 endif
 
+""" Customize colors
+
+autocmd FileType c,cpp,sh,make hi Pmenu ctermfg=7 ctermbg=236
+autocmd FileType c,cpp,sh,make hi PmenuSel ctermfg=white ctermbg=32
+autocmd FileType c,cpp,sh,make hi CocFloating ctermfg=black ctermbg=240
+
 "spell check on
 function! s:spell_on()
     set spell spelllang=en_us
 endfunction
 command! SpellOn call s:spell_on()
 nnoremap <C-C> z=
-
 
 "folding settings
 set foldmethod=indent   "fold based on indent
@@ -220,6 +236,22 @@ function! ChangeFold()
     endif
 endfunction
 nnoremap  fd :call ChangeFold()<CR> 
+
+
+
+if executable('clipboard-provider')
+  let g:clipboard = {
+          \ 'name': 'myClipboard',
+          \     'copy': {
+          \         '+': 'clipboard-provider copy',
+          \         '*': 'clipboard-provider copy',
+          \     },
+          \     'paste': {
+          \         '+': 'clipboard-provider paste',
+          \         '*': 'clipboard-provider paste',
+          \     },
+          \ }
+endif
 
 set updatetime=100
 set clipboard=unnamed,unnamedplus " yank to the system register (*) by default
@@ -344,6 +376,43 @@ function! TwiddleCase(str)
 endfunction
 vnoremap ~ y:call setreg('', TwiddleCase(@"), getregtype(''))<CR>gv""Pgv
 
+"ctags for c files and header
+command! -nargs=0 -bar Ctags call system('ctags `find . -type f -regex ".*\.[ch]?$"`')
+
+" visual select paste not overwrite clipboard register
+function! RestoreRegister()
+  if &clipboard == 'unnamed'
+    let @* = s:restore_reg
+  elseif &clipboard == 'unnamedplus'
+    let @+ = s:restore_reg
+  elseif &clipboard == 'unnamed,unnamedplus'
+    let @+ = s:restore_reg
+    let @* = s:restore_reg
+  else
+    let @" = s:restore_reg
+  endif
+  return ''
+endfunction
+
+function! s:Repl()
+    let s:restore_reg = @"
+    return "p@=RestoreRegister()\<cr>"
+endfunction
+
+function! s:ReplSelect()
+    echo "Register to paste over selection? (<cr> => default register: ".strtrans(@").")"
+    let c = nr2char(getchar())
+    let reg = c =~ '^[0-9a-z:.%#/*+~]$'
+                \ ? '"'.c
+                \ : ''
+    return "\<C-G>".reg.s:Repl()
+endfunction
+
+" Mappings on <s-insert>, that'll also work in select mode!
+"xnoremap <silent> <expr> <S-Insert> <sid>Repl()
+"snoremap <silent> <expr> <S-Insert> <sid>ReplSelect()
+vnoremap <silent> <expr> p <sid>Repl()
+
 " If the current buffer has never been saved, it will have no name,
 " call the file browser to save it, otherwise just save it.
 command! -nargs=0 -bar Update if &modified 
@@ -356,7 +425,7 @@ command! -nargs=0 -bar Update if &modified
 nnoremap <silent> <C-S> :<C-u>Update<CR>
 
 "Insert semicolon
-inoremap <silent> ; <Esc>:call <SID>InsSemiColon()<CR>
+"inoremap <silent> ; <Esc>:call <SID>InsSemiColon()<CR>
 
 "replace the current word in all opened buffers
 map <leader>rw :call Replace()<CR>
@@ -469,6 +538,17 @@ fun! IncludeGuard()
    call append(1, "#define " . guard)
    call append( line("$"), "#endif // for #ifndef " . guard)
 endfun
+
+
+" generate json for clangd
+function! s:generate_compile_json()
+    if executable('compiledb')
+        call system('compiledb make')
+    else
+        echom "can not generate compiledb"
+    endif
+endfunction
+command! Compiledb call s:generate_compile_json()
 
 
 
@@ -606,10 +686,6 @@ nnoremap <silent> <leader>t :TagbarToggle<CR>
 "let g:tagbar_autofocus = 1
 let g:tagbar_width=25
 
-" --- vim-gitgutter
-let g:gitgutter_enabled = 0
-let g:gitgutter_signs = 1
-
 "map ctrl-space to trigger autocomplete under terminal
 if !has("gui_running")
     inoremap <C-@> <C-x><C-o>
@@ -619,9 +695,9 @@ endif
 
 "UltiSnips
 " Trigger configuration. Do not use <tab> if you use https://github.com/Vallor"ic/YouCompleteMe.
-"let g:UltiSnipsExpandTrigger="<c-tab>"
+let g:UltiSnipsExpandTrigger="<tab>"
 "let g:UltiSnipsListSnippets="<c-s-tab>"
-let g:UltiSnipsSnippetDirectories=["bundle/vim-snippets/"]
+let g:UltiSnipsSnippetDirectories=[$HOME."/.config/nvim/plugged/vim-snippets/"]
 
 "auto-pairs
 let g:AutoPairs = {'<' : '>' ,'(' : ')', '[' : ']', '{' : '}', "'" : "'", '"' : '"', '`' : '`'}
@@ -694,6 +770,7 @@ let g:airline#extensions#whitespace#enabled = 0
 "git branch info 
 let g:airline#extensions#branch#enabled = 1
 
+"tabline setting
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_close_button = 1
 let g:airline#extensions#tabline#show_tab_type = 0
@@ -766,7 +843,8 @@ map gcm <plug>NERDCommenterMinimal
 map gcu <plug>NERDCommenterUncomment
  
 "Gtags
-set cscopeprg=gtags-cscope
+" new version dropped.
+"set cscopeprg=gtags-cscope
 
 let Gtags_Close_When_Single = 1
 let Gtags_Auto_Update = 0
@@ -1055,15 +1133,37 @@ imap <c-x><c-b> <plug>(fzf-complete-buffer-line)
 
 "coc.vim {{{
 
+"Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
 " Use `[c` and `]c` for navigate diagnostics
 nmap <silent> [c <Plug>(coc-diagnostic-prev)
 nmap <silent> ]c <Plug>(coc-diagnostic-next)
+nmap <silent> [e <Plug>(coc-diagnostic-prev-error)
+nmap <silent> ]e <Plug>(coc-diagnostic-next-error)
 
 " Remap keys for gotos
 nmap <silent> <leader>jd <Plug>(coc-definition)
 nmap <silent> <leader>jy <Plug>(coc-type-definition)
 nmap <silent> <leader>ji <Plug>(coc-implementation)
 nmap <silent> <leader>jr <Plug>(coc-references)
+nmap <silent> <leader>gr :call <SID>test_reference_list()<CR>
+
+" Remap keys for refactoring
+nmap <leader>rn <Plug>(coc-rename)
+
+function! s:format_qf_refs(item) abort
+  return {'filename' : a:item['filepath'], 'lnum' : a:item['lnum'], 'col': a:item['col'], 'text' : a:item['text']}
+endfunction
+
+function! s:test_reference_list()
+  let l:loc = CocAction('referenceList')
+  "echo loc
+  if !empty(l:loc)
+      call setqflist(map(l:loc, 's:format_qf_refs(v:val)'), 'r', "References")
+      copen
+  endif
+endfunction
 
 " Use K for show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -1076,13 +1176,64 @@ function! s:show_documentation()
   endif
 endfunction
 
-inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
-inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: There's always complete item selected by default, you may want to enable
+" no select by `"suggest.noselect": true` in your configuration file.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+" other pl
+inoremap <silent><expr> <c-j>
+     \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+
+inoremap <expr><c-k> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+
+
+
+
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+
+"inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-y>"
+
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
+
+"old coc
+"inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+"inoremap <expr> <C-j> coc#pum#visible() ? "\<C-n>" : "\<C-j>"
+"inoremap <expr> <C-k> coc#pum#visible() ? "\<C-p>" : "\<C-k>"
 
 "}}}
+"
 
+let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
+let g:LanguageClient_settingsPath = '~/.config/nvim/neovim-lsp-settings.json'
+" https://github.com/autozimu/LanguageClient-neovim/issues/379 LSP snippet is not supported
+let g:LanguageClient_hasSnippetSupport = 1
+let g:LanguageClient_loggingFile = expand('/tmp/LanguageClient.log')
+
+
+"rainbow : beautiful Parentheses
+"let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
 
 "----------------------------------------------------------------------------
 " DiffRev
@@ -1138,3 +1289,11 @@ fu! SeeTab()
 endfunc
 com! -nargs=0 SeeTab :call SeeTab()
 
+function! s:get_current_diagnostics() abort
+  " Remove entries not belonging to the current file.
+  let l:diags = CocAction('jumpReferences')
+  echo diags
+endfunction
+
+
+com! -nargs=0 PIKA :call s:get_current_diagnostics()
