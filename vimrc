@@ -40,8 +40,14 @@ Plug 'luochen1990/rainbow'
 
 "" file navigation
 Plug 'derekwyatt/vim-fswitch'
+
+"Plug 'nvim-tree/nvim-tree.lua'
+"Plug 'nvim-tree/nvim-web-devicons'
+
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
 "" c related
 Plug 'Twinside/vim-cuteErrorMarker'
@@ -83,7 +89,6 @@ Plug 'kshenoy/vim-signature'
 
 " git
 Plug 'gregsexton/gitv'
-Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tpope/vim-fugitive'
 Plug 'mhinz/vim-signify'
 
@@ -114,10 +119,19 @@ Plug 'tpope/vim-repeat'
 Plug 'plasticboy/vim-markdown'
 Plug 'kana/vim-operator-user'
 
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-dispatch'
+
+if has('nvim')
+    Plug 'akinsho/toggleterm.nvim', {'tag' : 'v2.*'}
+endif
+
 call plug#end()
+
+"toggleterm
+if has('nvim')
+    lua require("lua_nvim")
+endif
 
 if has('nvim')
     let s:editor_root=expand("~/.nvim")
@@ -141,6 +155,7 @@ if !has("gui_running")
     map <Esc>[B <Down>
 endif
 
+filetype plugin indent on
 " General SETTINGS 
 set hidden
 set nocompatible    " not compatible with the old-fashion vi mode
@@ -181,8 +196,9 @@ if has("gui_running")   " GUI color and font settings
   set autochdir
   "set guifont=Osaka-Mono:h20
   "set guifont=pika:h20
-  set guifont =Droid\ Sans\ Mono\ for\ Powerline:h20
+  "set guifont =Droid\ Sans\ Mono\ for\ Powerline:h20
   "set guifont =Droid\ Sans\ Mono\ for\ Powerline\ Nerd\ Font\ Complete
+  set guifont =Hack\ Nerd\ Font:h20
   set background=dark 
   set t_Co=256          " 256 color mode
   set cursorline        " highlight current line
@@ -207,6 +223,7 @@ else
   set background=dark
   color solarized   "workaround for nvim, this cause nvim war color use now
   set hlsearch      " search highlighting
+  set guifont =Hack\ Nerd\ Font:h20
 endif
 
 """ Customize colors
@@ -574,7 +591,8 @@ autocmd BufNewFile,BufRead *.sass             set ft=sass.css
 "set encoding=utf-8                                
 set termencoding=utf-8
 set fileencoding=utf-8
-set fileencodings=utf-8,big5,gb2312,latin1
+"big5 must behide gbk encoding
+set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936,big5,
 "ucs-bom
 
 fun! ViewUTF8()
@@ -696,11 +714,11 @@ endif
 "UltiSnips
 " Trigger configuration. Do not use <tab> if you use https://github.com/Vallor"ic/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<tab>"
-"let g:UltiSnipsListSnippets="<c-s-tab>"
 let g:UltiSnipsSnippetDirectories=[$HOME."/.config/nvim/plugged/vim-snippets/"]
 
 "auto-pairs
-let g:AutoPairs = {'<' : '>' ,'(' : ')', '[' : ']', '{' : '}', "'" : "'", '"' : '"', '`' : '`'}
+"'<' : '>'
+let g:AutoPairs = { '(' : ')', '[' : ']', '{' : '}', "'" : "'", '"' : '"', '`' : '`'}
 
 "fswitch
 au BufEnter *.cpp let b:fswitchdst = 'hpp,h' | let b:fswitchlocs = './,./include,../include'
@@ -710,7 +728,7 @@ au BufEnter *.h let b:fswitchdst = 'cpp,c' | let b:fswitchlocs = './,../,../src'
 nmap <silent> <Leader>of :FSHere<cr>
 
 "nerdtree
-let g:NERDTreeWinSize=20
+let g:NERDTreeWinSize=30
 let NERDTreeIgnore=['\~$', '\.pyc', '\.swp$', '\.git', '\.hg', '\.svn',
 \ '\.ropeproject', '\.o', '\.bzr', '\.ipynb_checkpoints$',
 \ '__pycache__',
@@ -1137,8 +1155,8 @@ imap <c-x><c-b> <plug>(fzf-complete-buffer-line)
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Use `[c` and `]c` for navigate diagnostics
-nmap <silent> [c <Plug>(coc-diagnostic-prev)
-nmap <silent> ]c <Plug>(coc-diagnostic-next)
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
 nmap <silent> [e <Plug>(coc-diagnostic-prev-error)
 nmap <silent> ]e <Plug>(coc-diagnostic-next-error)
 
