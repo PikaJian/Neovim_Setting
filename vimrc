@@ -41,13 +41,15 @@ Plug 'luochen1990/rainbow'
 "" file navigation
 Plug 'derekwyatt/vim-fswitch'
 
-"Plug 'nvim-tree/nvim-tree.lua'
-"Plug 'nvim-tree/nvim-web-devicons'
-
-Plug 'scrooloose/nerdtree'
-Plug 'jistr/vim-nerdtree-tabs'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+if has('nvim')
+    Plug 'nvim-tree/nvim-tree.lua'
+    Plug 'nvim-tree/nvim-web-devicons'
+else
+    Plug 'scrooloose/nerdtree'
+    Plug 'jistr/vim-nerdtree-tabs'
+    Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+    Plug 'Xuyuanp/nerdtree-git-plugin'
+endif
 
 "" c related
 Plug 'Twinside/vim-cuteErrorMarker'
@@ -128,7 +130,7 @@ endif
 
 call plug#end()
 
-"toggleterm
+"lua setting
 if has('nvim')
     lua require("lua_nvim")
 endif
@@ -727,6 +729,7 @@ au BufEnter *.hh let b:fswitchdst = 'c,cpp' | let b:fswitchlocs = '../,./,../src
 au BufEnter *.h let b:fswitchdst = 'cpp,c' | let b:fswitchlocs = './,../,../src'
 nmap <silent> <Leader>of :FSHere<cr>
 
+if !has("nvim")
 "nerdtree
 let g:NERDTreeWinSize=30
 let NERDTreeIgnore=['\~$', '\.pyc', '\.swp$', '\.git', '\.hg', '\.svn',
@@ -740,6 +743,7 @@ let NERDTreeIgnore=['\~$', '\.pyc', '\.swp$', '\.git', '\.hg', '\.svn',
 "nerdtree tab
 nnoremap <leader>nd :NERDTreeTabsToggle<CR>
 let g:nerdtree_tabs_open_on_gui_startup=0
+endif
 
 "support markdown hightlight
 au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn}   set filetype=mkd
