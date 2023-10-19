@@ -28,8 +28,45 @@ else
     call plug#begin('~/.vim/plugged')
 endif
 
-"" beautiful ui
+function! GitVersion(...)
+  let git_version_output = system('git --version')
+  let s:git_versions = matchstr(git_version_output, '\d[^[:space:]]\+')
+  let components = split(s:git_versions, '\D\+')
+  if empty(components)
+    return -1
+  endif
+  for i in range(len(a:000))
+    if a:000[i] > +get(components, i)
+      return 0
+    elseif a:000[i] < +get(components, i)
+      return 1
+    endif
+  endfor
+  return a:000[i] ==# get(components, i)
+endfunction
+
+if !GitVersion(2, 19, 0)
+  let g:git_old = 1   
+else
+  let g:git_old = 0
+endif
+   
+
+"theme
+Plug 'shaunsingh/nord.nvim'
+Plug 'olimorris/onedarkpro.nvim', {'branch': 'main'}
+Plug 'folke/tokyonight.nvim', {'branch': 'main'}
 Plug 'altercation/vim-colors-solarized'
+
+"" beautiful ui
+"lua ui
+Plug 'stevearc/dressing.nvim'
+Plug 'MunifTanjim/nui.nvim'
+Plug 'folke/noice.nvim'
+Plug 'rcarriga/nvim-notify'
+Plug 'lukas-reineke/indent-blankline.nvim'
+
+
 Plug 'ryanoasis/vim-devicons'
 Plug 'mhinz/vim-startify'
 Plug 'vim-airline/vim-airline'
@@ -41,14 +78,14 @@ Plug 'luochen1990/rainbow'
 "" file navigation
 Plug 'derekwyatt/vim-fswitch'
 
-if has('nvim')
-    Plug 'nvim-tree/nvim-tree.lua'
-    Plug 'nvim-tree/nvim-web-devicons'
+if g:git_old 
+  Plug 'scrooloose/nerdtree'
+  Plug 'jistr/vim-nerdtree-tabs'
+  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+  Plug 'Xuyuanp/nerdtree-git-plugin'
 else
-    Plug 'scrooloose/nerdtree'
-    Plug 'jistr/vim-nerdtree-tabs'
-    Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-    Plug 'Xuyuanp/nerdtree-git-plugin'
+  "Plug 'nvim-tree/nvim-tree.lua'
+  "Plug 'nvim-tree/nvim-web-devicons'
 endif
 
 "" c related
@@ -63,19 +100,13 @@ Plug 'vim-scripts/DoxygenToolkit.vim'
 "disable  ultisnips for mac issue.
 "make sure python neovim package version is correct.
 Plug 'SirVer/ultisnips', {  }
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'honza/vim-snippets'
+Plug 'neoclide/coc.nvim', {
+    \ 'tag': '*',
+    \ 'do': { -> coc#util#install()} 
+    \}
 
-" Use release branch
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'on': [],
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
-
-"" awesome edit
+"" awesome edit 
 Plug 'junegunn/vim-easy-align'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'vim-scripts/VisIncr'
@@ -85,7 +116,6 @@ Plug 'tpope/vim-commentary', { 'on': [] }
 
 "" code navigation
 Plug 'majutsushi/tagbar'
-Plug 'bbchung/gtags.vim'
 Plug 'terryma/vim-expand-region'
 Plug 'kshenoy/vim-signature'
 
@@ -97,9 +127,6 @@ Plug 'mhinz/vim-signify'
 "" Search
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'tacahiroy/ctrlp-funky'
-Plug 'mileszs/ack.vim'
 
 "" Motion
 Plug 'justinmk/vim-sneak', { 'on': [] }
@@ -111,18 +138,24 @@ Plug 'haya14busa/incsearch-fuzzy.vim'
 Plug 'haya14busa/vim-operator-flashy'
 Plug 'jeetsukumaran/vim-indentwise'
 
+"ui
+Plug 'stevearc/dressing.nvim'
+
 "" others
-Plug 'Shougo/vimproc.vim'
-Plug 'lervag/vimtex'
-Plug 'dyng/ctrlsf.vim', { 'on': [] }
-Plug 'vim-scripts/YankRing.vim', { 'on': [] }
-Plug 'mattn/emmet-vim'
+"Plug 'Shougo/vimproc.vim'
+"Plug 'lervag/vimtex'
+"Plug 'dyng/ctrlsf.vim', { 'on': [] }
+"Plug 'vim-scripts/YankRing.vim', { 'on': [] }
+"fast html coding
+"Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-repeat'
-Plug 'plasticboy/vim-markdown'
 Plug 'kana/vim-operator-user'
 
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-dispatch'
+
+"Tree-sitter related
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 if has('nvim')
     Plug 'akinsho/toggleterm.nvim', {'tag' : 'v2.*'}
@@ -194,6 +227,21 @@ filetype plugin on    " Enable filetype-specific plugins
 " auto reload vimrc when editing it
 autocmd! bufwritepost .vimrc source ~/.vimrc
 
+autocmd Filetype vim setlocal ts=2 sw=2 sts=0 expandtab
+
+function! SolarizedSetting()
+  let g:solarized_termcolors = &t_Co
+  let g:solarized_termtrans = 0
+  let g:solarized_degrade = 0
+  let g:solarized_italic=0
+  let g:solarized_contrast = "nomal"
+  let g:solarized_visibility= "normal"
+  "terminal setting
+  "set t_AB=^[[48;5;%dm
+  "set t_AF=^[[38;5;%dm
+  "color solarized   "workaround for nvim, this cause nvim war color use now
+endfunction
+
 if has("gui_running")   " GUI color and font settings
   set autochdir
   "set guifont=Osaka-Mono:h20
@@ -212,18 +260,7 @@ else
   set cursorline
 " terminal color settings
   set t_Co=256          " 256 color mode
-  let g:solarized_termcolors = &t_Co
-  let g:solarized_termtrans = 0
-  let g:solarized_degrade = 0
-  let g:solarized_italic=0
-  let g:solarized_contrast = "nomal"
-  let g:solarized_visibility= "normal"
-  "terminal setting
-  "set t_AB=^[[48;5;%dm
-  "set t_AF=^[[38;5;%dm
-  color solarized 
-  set background=dark
-  color solarized   "workaround for nvim, this cause nvim war color use now
+  color tokyonight-moon   "workaround for nvim, this cause nvim war color use now
   set hlsearch      " search highlighting
   set guifont =Hack\ Nerd\ Font:h20
 endif
@@ -654,8 +691,8 @@ map <leader>h <Plug>(easymotion-linebackward)
 "without incsearch
 "map  / <Plug>(easymotion-sn)
 "omap / <Plug>(easymotion-tn)
-
-noremap <silent><expr> /  incsearch#go(<SID>incsearch_config())
+"It has problem with noice.nvim
+""noremap <silent><expr> /  incsearch#go(<SID>incsearch_config())
 
 map  ww <Plug>(easymotion-bd-w)
 omap  tt <Plug>(easymotion-bd-tl)
@@ -729,20 +766,21 @@ au BufEnter *.hh let b:fswitchdst = 'c,cpp' | let b:fswitchlocs = '../,./,../src
 au BufEnter *.h let b:fswitchdst = 'cpp,c' | let b:fswitchlocs = './,../,../src'
 nmap <silent> <Leader>of :FSHere<cr>
 
-if !has("nvim")
-"nerdtree
-let g:NERDTreeWinSize=30
-let NERDTreeIgnore=['\~$', '\.pyc', '\.swp$', '\.git', '\.hg', '\.svn',
-\ '\.ropeproject', '\.o', '\.bzr', '\.ipynb_checkpoints$',
-\ '__pycache__',
-\ '\.egg$', '\.egg-info$', '\.tox$', '\.idea$', '\.sass-cache',
-\ '\.env$', '\.env[0-9]$', '\.coverage$', '\.tmp$', '\.gitkeep$',
-\ '\.coverage$', '\.webassets-cache$', '\.vagrant$', '\.DS_Store',
-\ '\.env-pypy$', 'tags', '\.a$', 'GPATH', 'GRTAGS', 'GTAGS', 'gtags.files']
+if g:git_old 
+  "nerdtree
+  let g:NERDTreeWinSize=30
+  let NERDTreeIgnore=['\~$', '\.pyc', '\.swp$', '\.git', '\.hg', '\.svn',
+  \ '\.ropeproject', '\.o', '\.bzr', '\.ipynb_checkpoints$',
+  \ '__pycache__',
+  \ '\.egg$', '\.egg-info$', '\.tox$', '\.idea$', '\.sass-cache',
+  \ '\.env$', '\.env[0-9]$', '\.coverage$', '\.tmp$', '\.gitkeep$',
+  \ '\.coverage$', '\.webassets-cache$', '\.vagrant$', '\.DS_Store',
+  \ '\.env-pypy$', 'tags', '\.a$', 'GPATH', 'GRTAGS', 'GTAGS', 'gtags.files']
 
-"nerdtree tab
-nnoremap <leader>nd :NERDTreeTabsToggle<CR>
-let g:nerdtree_tabs_open_on_gui_startup=0
+  "nerdtree tab
+  nnoremap <leader>nd :NERDTreeTabsToggle<CR>
+  let g:nerdtree_tabs_open_on_gui_startup=0
+  let g:NERDTreeGitStatusPorcelainVersion = 1
 endif
 
 "support markdown hightlight
@@ -798,6 +836,7 @@ let g:airline#extensions#tabline#show_close_button = 1
 let g:airline#extensions#tabline#show_tab_type = 0
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#middle_click_preserves_windows = 0
+let g:airline#extensions#tabline#close_symbol = 'X'
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
 " show buffer number
@@ -1133,7 +1172,7 @@ endfunction
 nnoremap <leader>f :Files<CR>
 nnoremap <leader>w :FZFMru<CR>
 nnoremap <leader>y :History<CR>
-nnoremap <leader>e :Buffers<CR>
+nnoremap <C-p> :Buffers<CR>
 nnoremap <leader>l :BLine<CR>
 "nnoremap <leader>t :Tags<CR>
 nnoremap bt :BTags<CR>
@@ -1152,6 +1191,50 @@ imap <c-x><c-f> <plug>(fzf-complete-path)
 imap <c-x><c-j> <plug>(fzf-complete-file-ag)
 imap <c-x><c-l> <plug>(fzf-complete-line)
 imap <c-x><c-b> <plug>(fzf-complete-buffer-line)
+
+"--preview "bat --color always --style numbers {2..}"
+
+function! FZFWithDevIcons()
+    let l:fzf_files_options = ' -m --bind ctrl-d:preview-page-down,ctrl-u:preview-page-up --preview "cat {2..}"'
+
+  function! s:files()
+    let l:files = split(system('find -type f'), '\n')
+    return s:prepend_icon(l:files)
+  endfunction
+
+  function! s:prepend_icon(candidates)
+    let result = []
+    for candidate in a:candidates
+      let filename = fnamemodify(candidate, ':p:t')
+      let icon = WebDevIconsGetFileTypeSymbol(filename, isdirectory(filename))
+      call add(result, printf("%s %s", icon, candidate))
+    endfor
+
+    return result
+  endfunction
+
+  function! s:edit_file(items)
+    let items = a:items
+    let i = 1
+    let ln = len(items)
+    while i < ln
+      let item = items[i]
+      let parts = split(item, ' ')
+      let file_path = get(parts, 1, '')
+      let items[i] = file_path
+      let i += 1
+    endwhile
+    call s:Sink(items)
+  endfunction
+
+  let opts = fzf#wrap({})
+  let opts.source = <sid>files()
+  let s:Sink = opts['sink*']
+  let opts['sink*'] = function('s:edit_file')
+  let opts.options .= l:fzf_files_options
+  call fzf#run(opts)
+
+endfunction
 
 "coc.vim {{{
 
@@ -1246,12 +1329,6 @@ endif
 
 "}}}
 "
-
-let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
-let g:LanguageClient_settingsPath = '~/.config/nvim/neovim-lsp-settings.json'
-" https://github.com/autozimu/LanguageClient-neovim/issues/379 LSP snippet is not supported
-let g:LanguageClient_hasSnippetSupport = 1
-let g:LanguageClient_loggingFile = expand('/tmp/LanguageClient.log')
 
 
 "rainbow : beautiful Parentheses
