@@ -68,12 +68,13 @@ Plug 'lukas-reineke/indent-blankline.nvim'
 
 
 Plug 'ryanoasis/vim-devicons'
-Plug 'mhinz/vim-startify'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-ctrlspace/vim-ctrlspace'
+
 Plug 'luochen1990/rainbow'
 
+Plug 'nvimdev/dashboard-nvim',
 
 "" file navigation
 Plug 'derekwyatt/vim-fswitch'
@@ -85,8 +86,8 @@ if g:git_old
   Plug 'Xuyuanp/nerdtree-git-plugin'
 else
   "Plug 'nvim-tree/nvim-tree.lua'
-  "Plug 'nvim-tree/nvim-web-devicons'
 endif
+  Plug 'nvim-tree/nvim-web-devicons'
 
 "" c related
 Plug 'Twinside/vim-cuteErrorMarker'
@@ -163,7 +164,7 @@ endif
 
 call plug#end()
 
-"lua setting
+"toggleterm
 if has('nvim')
     lua require("lua_nvim")
 endif
@@ -481,7 +482,7 @@ command! -nargs=0 -bar Update if &modified
 nnoremap <silent> <C-S> :<C-u>Update<CR>
 
 "Insert semicolon
-"inoremap <silent> ; <Esc>:call <SID>InsSemiColon()<CR>
+inoremap <silent> ; <Esc>:call <SID>InsSemiColon()<CR>
 
 "replace the current word in all opened buffers
 map <leader>rw :call Replace()<CR>
@@ -583,7 +584,7 @@ nnoremap K i<CR><Esc>
 nnoremap <F8> :Make build -Prtsp=true -Pnet=true -Pconf_files=AU3518P_WIFI.h,AU3522_COM.h,CONFIG_CHK.h<CR>
 
 " Ctrl-[ jump out of the tag stack (undo Ctrl-])
-map <C-[> <ESC>:po<CR>
+"map <C-[> <ESC>:po<CR>
 
 " ,g generates the header guard
 map <leader>g :call IncludeGuard()<CR>
@@ -991,7 +992,7 @@ let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:DevIconsEnableFoldersOpenClose = 1
 let g:webdevicons_enable_ctrlp = 1
 " adding to vim-airline's tabline 
-let g:webdevicons_enable_airline_tabline = 0
+let g:webdevicons_enable_airline_tabline = 1
 
 "clang-format for formating cpp code
 " //格式化最新的commit，并直接在原文件上修改
@@ -1044,75 +1045,6 @@ if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 
-"vim-startify
-let g:startify_enable_special         = 0
-let g:startify_files_number           = 8
-let g:startify_relative_path          = 1
-let g:startify_change_to_dir          = 1
-let g:startify_update_oldfiles        = 1
-let g:startify_session_autoload       = 1
-let g:startify_session_persistence    = 1
-
-let g:startify_skiplist = [
-        \ 'COMMIT_EDITMSG',
-        \ 'bundle/.*/doc',
-        \ '/data/repo/neovim/runtime/doc',
-        \ '/Users/mhi/local/vim/share/vim/vim74/doc',
-        \ ]
-
-let g:startify_bookmarks = [
-        \ { 'c': '~/.vim/vimrc' },
-        \ '~/golfing',
-        \ ]
-
-let g:startify_custom_header =
-        \ startify#fortune#cowsay('═','║','╔','╗','╝','╚')
-
-let g:startify_custom_footer =
-       \ ['', "   Vim is charityware. Please read ':help uganda'.", '']
-
-hi StartifyBracket ctermfg=240
-hi StartifyFile    ctermfg=147
-hi StartifyFooter  ctermfg=240
-hi StartifyHeader  ctermfg=114
-hi StartifyNumber  ctermfg=215
-hi StartifyPath    ctermfg=245
-hi StartifySlash   ctermfg=240
-hi StartifySpecial ctermfg=240
-let g:startify_enable_special         = 0
-let g:startify_files_number           = 8
-let g:startify_relative_path          = 1
-let g:startify_change_to_dir          = 1
-let g:startify_update_oldfiles        = 1
-let g:startify_session_autoload       = 1
-let g:startify_session_persistence    = 1
-
-let g:startify_skiplist = [
-        \ 'COMMIT_EDITMSG',
-        \ 'bundle/.*/doc',
-        \ '/data/repo/neovim/runtime/doc',
-        \ '/Users/mhi/local/vim/share/vim/vim74/doc',
-        \ ]
-
-let g:startify_bookmarks = [
-        \ { 'c': '~/.vim/vimrc' },
-        \ '~/golfing',
-        \ ]
-
-let g:startify_custom_header =
-        \ startify#fortune#cowsay('═','║','╔','╗','╝','╚')
-
-let g:startify_custom_footer =
-       \ ['', "   Vim is charityware. Please read ':help uganda'.", '']
-
-hi StartifyBracket ctermfg=240
-hi StartifyFile    ctermfg=147
-hi StartifyFooter  ctermfg=240
-hi StartifyHeader  ctermfg=114
-hi StartifyNumber  ctermfg=215
-hi StartifyPath    ctermfg=245
-hi StartifySlash   ctermfg=240
-hi StartifySpecial ctermfg=240
 
 "FZF
 autocmd FileType qf wincmd J
