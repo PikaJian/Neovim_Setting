@@ -68,6 +68,7 @@ Plug 'lukas-reineke/indent-blankline.nvim'
 
 
 Plug 'nvim-lualine/lualine.nvim'
+Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
 Plug 'nvim-tree/nvim-web-devicons'
 
 

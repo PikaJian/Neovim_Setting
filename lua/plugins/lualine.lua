@@ -20,7 +20,7 @@ require("lualine").setup({
 		lualine_y = {},
 		lualine_z = {},
 	},
-	tabline = {
+	--[[tabline = {
 		lualine_a = {
 			{
 				"buffers",
@@ -29,5 +29,5 @@ require("lualine").setup({
 				symbols = { alternate_file = "" },
 			},
 		},
-	},
+	},]]
 })

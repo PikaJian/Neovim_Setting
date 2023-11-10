@@ -44,6 +44,7 @@ require("plugins.noice")
 --require("plugins.nvim-treesitter")
 require("plugins.dashboard-nvim")
 require("plugins.lualine")
+require("plugins.bufferline")
 --require("plugins.flash")
 --require("plugins.gitsigns")
 
