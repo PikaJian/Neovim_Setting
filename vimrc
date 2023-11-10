@@ -67,19 +67,18 @@ Plug 'rcarriga/nvim-notify'
 Plug 'lukas-reineke/indent-blankline.nvim'
 
 
-Plug 'ryanoasis/vim-devicons'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'vim-ctrlspace/vim-ctrlspace'
+Plug 'nvim-lualine/lualine.nvim'
+Plug 'nvim-tree/nvim-web-devicons'
+
 
 Plug 'luochen1990/rainbow'
-
 Plug 'nvimdev/dashboard-nvim',
 
 "" file navigation
 Plug 'derekwyatt/vim-fswitch'
 
 if g:git_old 
+  Plug 'ryanoasis/vim-devicons'
   Plug 'scrooloose/nerdtree'
   Plug 'jistr/vim-nerdtree-tabs'
   Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
@@ -87,7 +86,6 @@ if g:git_old
 else
   "Plug 'nvim-tree/nvim-tree.lua'
 endif
-  Plug 'nvim-tree/nvim-web-devicons'
 
 "" c related
 Plug 'Twinside/vim-cuteErrorMarker'
@@ -124,6 +122,7 @@ Plug 'kshenoy/vim-signature'
 Plug 'gregsexton/gitv'
 Plug 'tpope/vim-fugitive'
 Plug 'mhinz/vim-signify'
+Plug 'lewis6991/gitsigns.nvim'
 
 "" Search
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -138,6 +137,7 @@ Plug 'haya14busa/incsearch-easymotion.vim'
 Plug 'haya14busa/incsearch-fuzzy.vim'
 Plug 'haya14busa/vim-operator-flashy'
 Plug 'jeetsukumaran/vim-indentwise'
+Plug 'folke/flash.nvim',
 
 "ui
 Plug 'stevearc/dressing.nvim'
@@ -310,7 +310,7 @@ if executable('clipboard-provider')
           \ }
 endif
 
-set updatetime=100
+set updatetime=4000
 set clipboard=unnamed,unnamedplus " yank to the system register (*) by default
 set showmatch       " Cursor shows matching ) and }
 set showmode        " Show current mode
@@ -482,7 +482,7 @@ command! -nargs=0 -bar Update if &modified
 nnoremap <silent> <C-S> :<C-u>Update<CR>
 
 "Insert semicolon
-inoremap <silent> ; <Esc>:call <SID>InsSemiColon()<CR>
+"inoremap <silent> ; <Esc>:call <SID>InsSemiColon()<CR>
 
 "replace the current word in all opened buffers
 map <leader>rw :call Replace()<CR>
@@ -819,60 +819,15 @@ vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
-"airline
-"
-let g:airline#extensions#disable_rtp_load = 1
-let g:airline_extensions = ['branch', 'tabline']
-let g:airline_powerline_fonts = 1
-let g:airline_theme="solarized" 
-let g:airline#extensions#whitespace#enabled = 0
-"let g:airline_section_y = airline#section#create(['','[TYPE:','filetype',']','[TIME:','%{strftime("%H:%M")}',']'])
-"let g:airline_section_z = airline#section#create(['%3p%% ', g:airline_symbols.linenr .' ', 'linenr', ':%3c '])
-"git branch info 
-let g:airline#extensions#branch#enabled = 1
-
-"tabline setting
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_close_button = 1
-let g:airline#extensions#tabline#show_tab_type = 0
-let g:airline#extensions#tabline#buffer_idx_mode = 1
-let g:airline#extensions#tabline#middle_click_preserves_windows = 0
-let g:airline#extensions#tabline#close_symbol = 'X'
-" Show just the filename
-let g:airline#extensions#tabline#fnamemod = ':t'
-" show buffer number
-let g:airline#extensions#tabline#buffer_nr_show = 0
-let g:airline#extensions#tabline#show_buffers = 1
-let g:airline#extensions#tabline#show_splits = 1
-let g:airline#extensions#tabline#show_tabs = 1
-let g:airline#extensions#tabline#excludes = ['[0-9]\+:zsh$']
-nmap <leader>1 <Plug>AirlineSelectTab1
-nmap <leader>2 <Plug>AirlineSelectTab2
-nmap <leader>3 <Plug>AirlineSelectTab3
-nmap <leader>4 <Plug>AirlineSelectTab4
-nmap <leader>5 <Plug>AirlineSelectTab5
-nmap <leader>6 <Plug>AirlineSelectTab6
-nmap <leader>7 <Plug>AirlineSelectTab7
-nmap <leader>8 <Plug>AirlineSelectTab8
-nmap <leader>9 <Plug>AirlineSelectTab9
-nmap <leader>- <Plug>AirlineSelectPrevTab
-nmap <leader>= <Plug>AirlineSelectNextTab
-
 "buffer operation for tabline
 nmap <leader>T :enew<cr>
-nmap <leader>bd :bp <BAR> bd! #<cr>
+nmap <silent> <leader>bd :bp <BAR> bd! #<cr>
 
 "buffer map
 " Move to the next buffer
-nmap <S-l> :bnext<CR>
+nmap <silent> <S-l> :bnext<CR>
 " Move to the previous buffer
-nmap <S-h> :bprevious<CR>
-
-"ctrlspace
-let g:CtrlSpaceDefaultMappingKey = "<C-Space>"
-"silver searcher (Ag)
-let g:ag_prg="ag --column --ignore tags"
-
+nmap <silent> <S-h> :bprevious<CR>
 
 augroup qf
   autocmd!
@@ -904,85 +859,6 @@ map gcb <plug>NERDCommenterAlignBoth
 map gcm <plug>NERDCommenterMinimal
 map gcu <plug>NERDCommenterUncomment
  
-"Gtags
-" new version dropped.
-"set cscopeprg=gtags-cscope
-
-let Gtags_Close_When_Single = 1
-let Gtags_Auto_Update = 0
-let g:cscope_silent = 1
-"au FileType php,pyhthon,c,cpp,javascrip,go map <C-]> :Gtags<CR><CR>
-"au FileType php,python,c,cpp,javascript,go map <C-[> :Gtags -r<CR><CR>
-
-"CtrlP
-" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
-if executable('ag')
-  " Use Ag over Grep
-  set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-endif
-
-let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:200'
-
-"set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/.tmp/*,*/.sass-cache/*,*/node_modules/*,*.keep,*.DS_Store,*/.git/*
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ 'link': 'some_bad_symbolic_links',
-  \ }
-
-let g:ctrlp_map = '<C-p>'
-let g:ctrlp_cmd = 'CtrlPBuffer'
-let g:ctrlp_user_command = 'find %s -type f'
-let g:ctrlp_types = ['buf', 'mru']
-let g:ctrlp_prompt_mappings = {
-  \ 'PrtBS()':              ['<bs>', '<c-]>'],
-  \ 'PrtDelete()':          ['<del>'],
-  \ 'PrtDeleteWord()':      ['<c-w>'],
-  \ 'PrtClear()':           ['<c-u>'],
-  \ 'PrtSelectMove("j")':   ['<c-j>', '<down>'],
-  \ 'PrtSelectMove("k")':   ['<c-k>', '<up>'],
-  \ 'PrtSelectMove("t")':   ['<Home>', '<kHome>'],
-  \ 'PrtSelectMove("b")':   ['<End>', '<kEnd>'],
-  \ 'PrtSelectMove("u")':   ['<PageUp>', '<kPageUp>'],
-  \ 'PrtSelectMove("d")':   ['<PageDown>', '<kPageDown>'],
-  \ 'PrtHistory(-1)':       ['<c-n>'],
-  \ 'PrtHistory(1)':        ['<c-p>'],
-  \ 'AcceptSelection("e")': ['<cr>'],
-  \ 'AcceptSelection("h")': ['<c-x>', '<c-cr>', '<c-s>'],
-  \ 'AcceptSelection("t")': ['<c-t>', '<2-LeftMouse>'],
-  \ 'AcceptSelection("v")': ['<c-v>', '<RightMouse>'],
-  \ 'ToggleFocus()':        ['<s-tab>'],
-  \ 'ToggleRegex()':        ['<c-r>'],
-  \ 'ToggleByFname()':      ['<c-d>'],
-  \ 'ToggleType(1)':        ['<c-f>', '<c-up>'],
-  \ 'ToggleType(-1)':       ['<c-b>', '<c-down>'],
-  \ 'PrtExpandDir()':       ['<tab>'],
-  \ 'PrtInsert("c")':       ['<MiddleMouse>', '<insert>'],
-  \ 'PrtInsert()':          ['<c-\>'],
-  \ 'PrtCurStart()':        ['<c-a>'],
-  \ 'PrtCurEnd()':          ['<c-e>'],
-  \ 'PrtCurLeft()':         ['<c-h>', '<left>', '<c-^>'],
-  \ 'PrtCurRight()':        ['<c-l>', '<right>'],
-  \ 'PrtClearCache()':      ['<F5>'],
-  \ 'PrtDeleteEnt()':       ['<F7>'],
-  \ 'CreateNewFile()':      ['<c-y>'],
-  \ 'MarkToOpen()':         ['<c-z>'],
-  \ 'OpenMulti()':          ['<c-o>'],
-  \ 'PrtExit()':            ['<esc>', '<c-c>', '<c-g>'],
-  \ }
-" ctrlp-funky
-let g:ctrlp_funky_syntax_highlight = 1
-nnoremap <Leader>fu :CtrlPFunky<Cr>
-" narrow the list down with a word under cursor
-nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
-let g:ctrlp_funky_syntax_highlight = 1
-let g:ctrlp_extensions = ['funky']
 
 "indent guide line
 let g:indent_guides_guide_size = 1
@@ -1040,12 +916,6 @@ endif
 "vim-sneak
 let g:sneak#label = 1
 
-"vim-ack
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
-endif
-
-
 "FZF
 autocmd FileType qf wincmd J
 nnoremap <leader><Enter> :FZF<CR>
@@ -1101,15 +971,15 @@ function! s:all_files()
   \ map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), 'bufname(v:val)'))
 endfunction
 
-nnoremap <leader>f :Files<CR>
-nnoremap <leader>w :FZFMru<CR>
-nnoremap <leader>y :History<CR>
-nnoremap <C-p> :Buffers<CR>
-nnoremap <leader>l :BLine<CR>
+nnoremap <silent> <leader>f :Files<CR>
+nnoremap <silent> <leader>w :FZFMru<CR>
+nnoremap <silent> <leader>y :History<CR>
+nnoremap <silent> <c-p> :Buffers<CR>
+nnoremap <silent> <leader>l :BLine<CR>
 "nnoremap <leader>t :Tags<CR>
-nnoremap bt :BTags<CR>
-nnoremap <leader>s :Rg <C-r><C-w><CR>
-nnoremap bs :vimgrep <C-r><C-w> %<CR>
+nnoremap <silent> bt :BTags<CR>
+nnoremap <silent> <leader>s :Rg <C-r><C-w><CR>
+nnoremap <silent> bs :vimgrep <C-r><C-w> %<CR>
 
 " Replace the default dictionary completion with fzf-based fuzzy completion
 "inoremap <expr> <c-x><c-k> fzf#complete('cat /usr/share/dict/words')

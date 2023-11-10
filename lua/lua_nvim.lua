@@ -40,6 +40,10 @@ require("plugins.dressing")
 require("plugins.noice")
 --slow for big source file (line > 3000)
 --require("plugins.indent-blankline")
-require("plugins.nvim-treesitter")
+--slow for big file
+--require("plugins.nvim-treesitter")
 require("plugins.dashboard-nvim")
+require("plugins.lualine")
+--require("plugins.flash")
+--require("plugins.gitsigns")
 
