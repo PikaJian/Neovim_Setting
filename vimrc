@@ -55,6 +55,7 @@ endif
 Plug 'shaunsingh/nord.nvim'
 Plug 'olimorris/onedarkpro.nvim', {'branch': 'main'}
 Plug 'folke/tokyonight.nvim', {'branch': 'main'}
+Plug 'catppuccin/nvim'
 Plug 'altercation/vim-colors-solarized'
 
 "" beautiful ui
@@ -64,6 +65,7 @@ Plug 'MunifTanjim/nui.nvim'
 Plug 'folke/noice.nvim'
 Plug 'rcarriga/nvim-notify'
 Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'echasnovski/mini.indentscope'
 
 
 Plug 'nvim-lualine/lualine.nvim'
@@ -106,6 +108,7 @@ Plug 'neoclide/coc.nvim', {
     \ 'do': { -> coc#util#install()} 
     \}
 
+"nvim-lsp related
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'neovim/nvim-lspconfig'
@@ -164,19 +167,24 @@ Plug 'stevearc/dressing.nvim'
 Plug 'tpope/vim-repeat'
 Plug 'kana/vim-operator-user'
 
+
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-dispatch'
 
 "Tree-sitter related
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
-if has('nvim')
-    Plug 'akinsho/toggleterm.nvim', {'tag' : 'v2.*'}
-endif
+"terminal
+Plug 'akinsho/toggleterm.nvim', {'tag' : 'v2.*'}
+
+"search panel
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-pack/nvim-spectre'
+
 
 call plug#end()
 
-"toggleterm
+"lua plugins
 if has('nvim')
     lua require("lua_nvim")
 endif

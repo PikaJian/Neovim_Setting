@@ -1,14 +1,26 @@
+local icons = require("ui").icons
+
 require("lualine").setup({
 	options = {
-		theme = custom_catppuccin,
+		theme = "auto",
 		component_separators = "|",
 		section_separators = { left = "", right = "" },
 	},
 	sections = {
 		lualine_a = { { "mode", separator = { left = "" }, right_padding = 2 } },
-		lualine_b = { "filename", "branch", { "diff", colored = false } },
-		lualine_c = {},
-		lualine_x = {},
+		lualine_b = { "branch" },
+		lualine_c = {
+			{
+				"diagnostics",
+				symbols = {
+					error = icons.diagnostics.Error,
+					warn = icons.diagnostics.Warn,
+					info = icons.diagnostics.Info,
+					hint = icons.diagnostics.Hint,
+				},
+			},
+		},
+		lualine_x = { "filename", { "diff", colored = false } },
 		lualine_y = { "filetype", "progress" },
 		lualine_z = { { "location", separator = { right = "" }, left_padding = 2 } },
 	},

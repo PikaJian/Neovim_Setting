@@ -37,7 +37,8 @@ require("plugins.toggleterm")
 require("plugins.dressing")
 require("plugins.noice")
 --slow for big source file (line > 3000)
---require("plugins.indent-blankline")
+require("plugins.indentscope")
+require("plugins.indent-blankline")
 --slow for big file
 require("plugins.nvim-treesitter")
 require("plugins.dashboard-nvim")
@@ -45,11 +46,11 @@ require("plugins.lsp")
 require("plugins.nvim-cmp")
 require("plugins.lualine")
 require("plugins.bufferline")
+require("plugins.nvim-spectre")
+
 --require("plugins.flash")
 --gitsigns require newer git version
 --[[require("plugins.gitsigns")
-require("ui")
-
 if vim.fn.has("nvim-0.9.0") == 1 then
     vim.opt.statuscolumn = [[%!v:lua.Status.statuscolumn()<]
 end]]
