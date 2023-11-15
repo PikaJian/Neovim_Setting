@@ -66,11 +66,11 @@ cmp.setup({
 })
 
 -- Use buffer source for `/`.
-cmp.setup.cmdline("/", {
+--[[ cmp.setup.cmdline("/", {
 	sources = {
 		{ name = "buffer" },
 	},
-})
+}) ]]
 
 -- Use cmdline & path source for ':'.
 cmp.setup.cmdline(":", {

@@ -68,18 +68,11 @@ Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'echasnovski/mini.indentscope'
 Plug 'RRethy/vim-illuminate'
 
-
-
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
 Plug 'nvim-tree/nvim-web-devicons'
 
-
-Plug 'luochen1990/rainbow'
 Plug 'nvimdev/dashboard-nvim',
-
-"" file navigation
-Plug 'derekwyatt/vim-fswitch'
 
 if g:git_old 
   Plug 'ryanoasis/vim-devicons'
@@ -92,7 +85,6 @@ else
 endif
 
 "" c related
-Plug 'Twinside/vim-cuteErrorMarker', { 'on' : [] }
 Plug 'Chiel92/vim-autoformat'
 
 "" code comment
@@ -114,7 +106,6 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 Plug 'onsails/lspkind-nvim'
@@ -149,19 +140,9 @@ Plug 'haya14busa/incsearch-easymotion.vim'
 Plug 'haya14busa/incsearch-easymotion.vim'
 Plug 'haya14busa/incsearch-fuzzy.vim'
 Plug 'haya14busa/vim-operator-flashy'
-Plug 'jeetsukumaran/vim-indentwise'
+
 Plug 'folke/flash.nvim',
 
-"ui
-Plug 'stevearc/dressing.nvim'
-
-"" others
-"Plug 'Shougo/vimproc.vim'
-"Plug 'lervag/vimtex'
-"Plug 'dyng/ctrlsf.vim', { 'on': [] }
-"Plug 'vim-scripts/YankRing.vim', { 'on': [] }
-"fast html coding
-"Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-repeat'
 Plug 'kana/vim-operator-user'
 
@@ -178,7 +159,6 @@ Plug 'akinsho/toggleterm.nvim', {'tag' : 'v2.*'}
 "search panel
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-pack/nvim-spectre'
-
 
 call plug#end()
 
@@ -776,13 +756,6 @@ let g:UltiSnipsSnippetDirectories=[$HOME."/.config/nvim/plugged/vim-snippets/"]
 "auto-pairs
 "'<' : '>'
 let g:AutoPairs = { '(' : ')', '[' : ']', '{' : '}', "'" : "'", '"' : '"', '`' : '`'}
-
-"fswitch
-au BufEnter *.cpp let b:fswitchdst = 'hpp,h' | let b:fswitchlocs = './,./include,../include'
-au BufEnter *.c let b:fswitchdst = 'h,hh' | let b:fswitchlocs = './,./include,../include'
-au BufEnter *.hh let b:fswitchdst = 'c,cpp' | let b:fswitchlocs = '../,./,../src'
-au BufEnter *.h let b:fswitchdst = 'cpp,c' | let b:fswitchlocs = './,../,../src'
-nmap <silent> <Leader>of :FSHere<cr>
 
 if g:git_old 
   "nerdtree
