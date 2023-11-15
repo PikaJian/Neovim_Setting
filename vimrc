@@ -135,11 +135,6 @@ Plug 'junegunn/fzf.vim'
 
 "" Motion
 Plug 'easymotion/vim-easymotion'
-Plug 'haya14busa/incsearch.vim'
-Plug 'haya14busa/incsearch-easymotion.vim'
-Plug 'haya14busa/incsearch-easymotion.vim'
-Plug 'haya14busa/incsearch-fuzzy.vim'
-Plug 'haya14busa/vim-operator-flashy'
 
 Plug 'folke/flash.nvim',
 
@@ -155,6 +150,9 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 "terminal
 Plug 'akinsho/toggleterm.nvim', {'tag' : 'v2.*'}
+
+"profiling
+Plug 'dstein64/vim-startuptime'
 
 "search panel
 Plug 'nvim-lua/plenary.nvim'
@@ -701,38 +699,6 @@ map  <leader>n <Plug>(easymotion-next)
 map  <leader>N <Plug>(easymotion-prev)
 "smartcase(lazy search)
 let g:EasyMotion_smartcase = 1
-
-" You can use other keymappings like <C-l> instead of <CR> if you want to
-" use these mappings as default search and somtimes want to move cursor with
-" EasyMotion.
-function! s:incsearch_config_fuzzy(...) abort
-  return incsearch#util#deepextend(deepcopy({
-  \   'converters': [incsearch#config#fuzzy#converter()],
-  \   'modules': [incsearch#config#easymotion#module()],
-  \   'keymap': {
-  \     "\<CR>": '<Over>(easymotion)'
-  \   },
-  \   'is_expr': 0,
-  \   'is_stay': 0
-  \ }), get(a:, 1, {}))
-endfunction
-
-function! s:incsearch_config(...) abort
-  return incsearch#util#deepextend(deepcopy({
-  \   'modules': [incsearch#config#easymotion#module()],
-  \   'keymap': {
-  \     "\<CR>": '<Over>(easymotion)'
-  \   },
-  \   'is_expr': 0
-  \ }), get(a:, 1, {}))
-endfunction
-
-noremap <silent><expr> z/  incsearch#go(<SID>incsearch_config())
-noremap <silent><expr> z?  incsearch#go(<SID>incsearch_config({'command': '?'}))
-noremap <silent><expr> zg/ incsearch#go(<SID>incsearch_config({'is_stay': 1}))
-noremap <silent><expr> f/  incsearch#go(<SID>incsearch_config_fuzzy())
-noremap <silent><expr> f?  incsearch#go(<SID>incsearch_config_fuzzy({'command': '?'}))
-noremap <silent><expr> fg/ incsearch#go(<SID>incsearch_config_fuzzy({'is_stay': 1}))
 
 " --- TagBar
 " toggle TagBar with F7
