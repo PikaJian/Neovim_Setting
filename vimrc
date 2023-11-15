@@ -576,21 +576,9 @@ cmap cd. lcd %:p:h
 "--------------------------------------------------------------------------- 
 "split line
 nnoremap K i<CR><Esc>
-nnoremap <F8> :Make build -Prtsp=true -Pnet=true -Pconf_files=AU3518P_WIFI.h,AU3522_COM.h,CONFIG_CHK.h<CR>
 
 " Ctrl-[ jump out of the tag stack (undo Ctrl-])
 "map <C-[> <ESC>:po<CR>
-
-" ,g generates the header guard
-map <leader>g :call IncludeGuard()<CR>
-fun! IncludeGuard()
-   let basename = substitute(bufname(""), '.*/', '', '')
-   let guard = '_' . substitute(toupper(basename), '\.', '_', "H")
-   call append(0, "#ifndef " . guard)
-   call append(1, "#define " . guard)
-   call append( line("$"), "#endif // for #ifndef " . guard)
-endfun
-
 
 " generate json for clangd
 function! s:generate_compile_json()
@@ -603,15 +591,6 @@ endfunction
 command! Compiledb call s:generate_compile_json()
 
 
-
-" Enable omni completion. (Ctrl-X Ctrl-O)
-"autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-"autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-"autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-"autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-"autocmd FileType c set omnifunc=ccomplete#Complete
-"autocmd FileType java set omnifunc=javacomplete#Complete
 
 
 set cot-=preview "disable doc preview in omnicomplete
