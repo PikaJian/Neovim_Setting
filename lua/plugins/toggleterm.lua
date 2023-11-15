@@ -1,4 +1,8 @@
 
+require("toggleterm").setup({
+	direction = "float",
+})
+
 function _G.set_terminal_keymaps()
   local opts = {buffer = 0}
   vim.keymap.set('t', '<esc>', [[<esc>]], opts)
@@ -10,3 +14,4 @@ end
 vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
 
 vim.keymap.set('n', '<leader>ot', ':ToggleTerm<CR>', {silent = true, noremap = true})
+

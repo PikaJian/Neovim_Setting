@@ -1,7 +1,3 @@
-require("toggleterm").setup({
-	direction = "float",
-})
-
 vim.g.mapleader = ","
 vim.opt.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
 
@@ -47,6 +43,9 @@ require("plugins.nvim-cmp")
 require("plugins.lualine")
 require("plugins.bufferline")
 require("plugins.nvim-spectre")
+require("plugins.coding")
+
+require("mapping")
 
 --require("plugins.flash")
 --gitsigns require newer git version
@@ -54,4 +53,3 @@ require("plugins.nvim-spectre")
 if vim.fn.has("nvim-0.9.0") == 1 then
     vim.opt.statuscolumn = [[%!v:lua.Status.statuscolumn()<]
 end]]
-

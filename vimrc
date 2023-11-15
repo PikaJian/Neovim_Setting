@@ -94,20 +94,14 @@ Plug 'Twinside/vim-cuteErrorMarker', { 'on' : [] }
 Plug 'Chiel92/vim-autoformat'
 
 "" code comment
-Plug 'scrooloose/nerdcommenter'
-Plug 'vim-scripts/DoxygenToolkit.vim'
+Plug 'JoosepAlviste/nvim-ts-context-commentstring'
+Plug 'numToStr/Comment.nvim'
 
 "" code editing enhancement
 "disable  ultisnips for mac issue.
 "make sure python neovim package version is correct.
 Plug 'SirVer/ultisnips', {  }
 Plug 'honza/vim-snippets'
-Plug 'neoclide/coc.nvim', {
-    \ 'on' : [],
-    \ 'tag': '*',
-    \ 'do': { -> coc#util#install()} 
-    \}
-
 "nvim-lsp related
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
@@ -126,7 +120,6 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'vim-scripts/VisIncr'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-commentary', { 'on': [] }
 
 "" code navigation
 Plug 'majutsushi/tagbar'
@@ -144,7 +137,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
 "" Motion
-Plug 'justinmk/vim-sneak', { 'on': [] }
 Plug 'easymotion/vim-easymotion'
 Plug 'haya14busa/incsearch.vim'
 Plug 'haya14busa/incsearch-easymotion.vim'
@@ -290,7 +282,6 @@ endif
 
 autocmd FileType c,cpp,sh,make hi Pmenu ctermfg=7 ctermbg=236
 autocmd FileType c,cpp,sh,make hi PmenuSel ctermfg=white ctermbg=32
-autocmd FileType c,cpp,sh,make hi CocFloating ctermfg=black ctermbg=240
 
 "spell check on
 function! s:spell_on()
@@ -387,7 +378,7 @@ endfunction
 
 
 " C/C++ specific settings
-autocmd FileType c,cpp,cc  set cindent comments=sr:/*,mb:*,el:*/,:// cino=>s,e0,n0,f0,{0,}0,^-1s,:0,=s,g0,h1s,p2,t0,+2,(2,)20,*30
+"autocmd FileType c,cpp,cc  set cindent comments=sr:/*,mb:*,el:*/,:// cino=>s,e0,n0,f0,{0,}0,^-1s,:0,=s,g0,h1s,p2,t0,+2,(2,)20,*30
 
 " Automatically open, but do not go to (if there are errors) the quickfix /
 " location list window, or close it when is has become empty.
@@ -804,29 +795,10 @@ if g:git_old
   let g:NERDTreeGitStatusPorcelainVersion = 1
 endif
 
-"support markdown hightlight
-au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn}   set filetype=mkd
-
 "multiple cursor
 " Map start key separately from next key
 let g:multi_cursor_start_key='<leader>c'
 let g:multi_cursor_start_word_key='<leader>cw'
-
-"doxgen toolkit
-let g:DoxygenToolkit_interCommentTag = ""
-let g:DoxygenToolkit_interCommentBlock = ""
-let g:DoxygenToolkit_endCommentTag = " */"
-let g:DoxygenToolkit_endCommentBlock = "*/"
-"let g:DoxygenToolkit_briefTag_pre=""
-let g:DoxygenToolkit_briefTag_funcName = "yes"
-let g:DoxygenToolkit_briefTag_post = " - "
-let g:DoxygenToolkit_paramTag_pre="@Param "
-let g:DoxygenToolkit_paramTag_post=" : "
-let g:DoxygenToolkit_returnTag="@Returns   "
-"let g:DoxygenToolkit_blockHeader="--------------------------------------------------------------------------"
-"let g:DoxygenToolkit_blockFooter="----------------------------------------------------------------------------"
-let g:DoxygenToolkit_authorName="Pika Jian"
-"let g:DoxygenToolkit_licenseTag="My own license"   <-- !!! Does not end with "\<enter>"
 
 "surround vim
 "- key
@@ -854,8 +826,6 @@ augroup qf
   autocmd FileType qf set nobuflisted
 augroup END
 
-let g:linuxsty_patterns = [ "/linux/", "/linux-2.6/"]
-
 "fugitive
 autocmd User fugitive 
   \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
@@ -863,32 +833,12 @@ autocmd User fugitive
   \ endif
 autocmd BufReadPost fugitive://* set bufhidden=hide
 
-"nerdCommenter
-let g:NERDSpaceDelims=0
-" Allow commenting and inverting empty lines (useful when commenting a region)
-let g:NERDCommentEmptyLines = 1
-let g:NERDCustomDelimiters = { 'c': { 'left': '//', 'leftAlt': '/* ', 'rightAlt': ' */' } }
-map gcc <plug>NERDCommenterComment
-
-map gcs <plug>NERDCommenterSexy
-map gcA <plug>NERDCommenterAppend
-map gcy <plug>NERDCommenterYank
-map gca <plug>NERDCommenterAltDelims
-map gcl <plug>NERDCommenterAlignLeft
-map gcb <plug>NERDCommenterAlignBoth
-map gcm <plug>NERDCommenterMinimal
-map gcu <plug>NERDCommenterUncomment
- 
-
 "indent guide line
 let g:indent_guides_guide_size = 1
 
 "devicons
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:DevIconsEnableFoldersOpenClose = 1
-let g:webdevicons_enable_ctrlp = 1
-" adding to vim-airline's tabline 
-let g:webdevicons_enable_airline_tabline = 1
 
 "clang-format for formating cpp code
 " //格式化最新的commit，并直接在原文件上修改
@@ -932,9 +882,6 @@ endif
 "command! -bar -nargs=+ -complete=customlist,functions#GitBugComplete Gbug Git bug <q-args>
 "command! -bar -nargs=+ -complete=customlist,functions#GitFeatureComplete Gfeature Git feature <q-args>
 "command! -bar -nargs=+ -complete=customlist,functions#GitRefactorComplete Grefactor Git refactor <q-args>
-
-"vim-sneak
-let g:sneak#label = 1
 
 "FZF
 autocmd FileType qf wincmd J
@@ -1114,12 +1061,3 @@ fu! SeeTab()
   endif
 endfunc
 com! -nargs=0 SeeTab :call SeeTab()
-
-function! s:get_current_diagnostics() abort
-  " Remove entries not belonging to the current file.
-  let l:diags = CocAction('jumpReferences')
-  echo diags
-endfunction
-
-
-com! -nargs=0 PIKA :call s:get_current_diagnostics()
