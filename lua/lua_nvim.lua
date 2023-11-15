@@ -44,6 +44,7 @@ require("plugins.lualine")
 require("plugins.bufferline")
 require("plugins.nvim-spectre")
 require("plugins.coding")
+require("plugins.illuminate")
 
 require("mapping")
 

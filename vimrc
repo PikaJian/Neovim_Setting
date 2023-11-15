@@ -66,6 +66,8 @@ Plug 'folke/noice.nvim'
 Plug 'rcarriga/nvim-notify'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'echasnovski/mini.indentscope'
+Plug 'RRethy/vim-illuminate'
+
 
 
 Plug 'nvim-lualine/lualine.nvim'
