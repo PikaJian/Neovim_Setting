@@ -102,12 +102,15 @@ Plug 'numToStr/Comment.nvim'
 "" code editing enhancement
 "disable  ultisnips for mac issue.
 "make sure python neovim package version is correct.
-Plug 'SirVer/ultisnips', {  }
+Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+
 "nvim-lsp related
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'neovim/nvim-lspconfig'
+
+"nvim-lsp autocomplete
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
@@ -127,6 +130,7 @@ Plug 'tpope/vim-surround'
 Plug 'majutsushi/tagbar'
 Plug 'terryma/vim-expand-region'
 Plug 'kshenoy/vim-signature'
+Plug 'folke/trouble.nvim'
 
 " git
 Plug 'gregsexton/gitv'
