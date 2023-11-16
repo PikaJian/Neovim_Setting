@@ -56,7 +56,6 @@ Plug 'shaunsingh/nord.nvim'
 Plug 'olimorris/onedarkpro.nvim', {'branch': 'main'}
 Plug 'folke/tokyonight.nvim', {'branch': 'main'}
 Plug 'catppuccin/nvim'
-Plug 'altercation/vim-colors-solarized'
 
 "" beautiful ui
 "lua ui
@@ -186,58 +185,6 @@ if !has("gui_running")
     "for tmux wired character
     map <Esc>[B <Down>
 endif
-
-filetype plugin indent on
-" General SETTINGS 
-set hidden
-set nocompatible    " not compatible with the old-fashion vi mode
-set bs=2        " allow backspacing over everything in insert mode
-set history=50      " keep 50 lines of command line history
-set ruler       " show the cursor position all the time
-set autoread        " auto read when file is changed from outside
-setlocal textwidth=80
-set number
-"set relativenumber
-set list lcs=tab:\|\ 
-autocmd FileType c,cpp call MyCodeStyle()
-
-function! MyCodeStyle()
-  "highlight CodeFormatError ctermbg=red ctermfg=white guibg=#592929
-  syn match CodeFormatError / \+\ze\t/     " spaces before tab
-  syn match CodeFormatError /\%81v.\+/     " virtual column 81 and more
-  highlight default link CodeFormatError ErrorMsg
-  "match CodeFormatError / \+\ze\t/          "spaces before tab
-  " Highlight trailing whitespace, unless we're in insert mode and the
-  " cursor's placed right after the whitespace. This prevents us from having
-  " to put up with whitespace being highlighted in the middle of typing
-  " something
-  autocmd InsertEnter * match CodeFormatError /\s\+\%#\@<!$/
-  autocmd InsertLeave * match CodeFormatError /\s\+$/
-endfunction
-
-filetype off          " necessary to make ftdetect work on Linux
-syntax on
-filetype on           " Enable filetype detection
-filetype indent on    " Enable filetype-specific indenting
-filetype plugin on    " Enable filetype-specific plugins
-
-" auto reload vimrc when editing it
-autocmd! bufwritepost .vimrc source ~/.vimrc
-
-autocmd Filetype vim setlocal ts=2 sw=2 sts=0 expandtab
-
-function! SolarizedSetting()
-  let g:solarized_termcolors = &t_Co
-  let g:solarized_termtrans = 0
-  let g:solarized_degrade = 0
-  let g:solarized_italic=0
-  let g:solarized_contrast = "nomal"
-  let g:solarized_visibility= "normal"
-  "terminal setting
-  "set t_AB=^[[48;5;%dm
-  "set t_AF=^[[38;5;%dm
-  "color solarized   "workaround for nvim, this cause nvim war color use now
-endfunction
 
 if has("gui_running")   " GUI color and font settings
   set autochdir
@@ -635,15 +582,6 @@ nnoremap <Leader>yr :YRShow<Cr>
 "for windows platorms, you must change yankring replace key <C-P> and <C-N>
 "let g:yankring_replace_n_nkey = '<c-r>'
 
-"vim-indent-guides
-"let g:indent_guides_auto_colors = 1
-"autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
-"autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
-"let g:indent_guides_enable_on_vim_startup = 1 
-"let g:indent_guides_color_change_percent = 7
-"let g:indent_guides_guide_size            = 0
-"let g:indent_guides_start_level      = 2
-
 " ---------------------------------------------------------------------------
 " EasyMotion
 " --------------------------------------------------------------------------- 
@@ -685,6 +623,8 @@ nnoremap <silent> <leader>t :TagbarToggle<CR>
 " set focus to TagBar when opening it
 "let g:tagbar_autofocus = 1
 let g:tagbar_width=25
+
+
 
 "map ctrl-space to trigger autocomplete under terminal
 if !has("gui_running")

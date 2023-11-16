@@ -1,5 +1,17 @@
 vim.g.mapleader = ","
-vim.opt.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
+
+vim.o.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
+vim.o.hidden = true
+vim.o.compatible = false
+vim.opt.backspace = "indent,eol,start"
+vim.o.history = 50
+vim.o.ruler = true
+vim.o.autoread = true
+vim.o.number = true
+vim.opt.listchars = { tab = '| ' }
+vim.opt_local.textwidth = 80
+
+
 
 --[[
 -- disable netrw at the very start of your init.lua
@@ -28,6 +40,8 @@ require("nvim-tree").setup({
   },
 })
 --]]
+
+require("autocmds")
 
 require("plugins.toggleterm")
 require("plugins.dressing")
