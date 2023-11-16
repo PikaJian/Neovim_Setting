@@ -187,18 +187,13 @@ if !has("gui_running")
 endif
 
 if has("gui_running")   " GUI color and font settings
-  set autochdir
-  "set guifont=Osaka-Mono:h20
-  "set guifont=pika:h20
-  "set guifont =Droid\ Sans\ Mono\ for\ Powerline:h20
-  "set guifont =Droid\ Sans\ Mono\ for\ Powerline\ Nerd\ Font\ Complete
-  set guifont =Hack\ Nerd\ Font:h20
-  set background=dark 
-  set t_Co=256          " 256 color mode
-  set cursorline        " highlight current line
-  colors solarized
-  set background=dark
   highlight CursorLine          guibg=#003853 ctermbg=24  gui=none cterm=none
+  set cursorline        " highlight current line
+  set autochdir
+  set t_Co=256          " 256 color mode
+  color tokyonight-moon   "workaround for nvim, this cause nvim war color use now
+  set hlsearch      " search highlighting
+  set guifont =Hack\ Nerd\ Font:h20
 else
   highlight CursorLine          guibg=#003853 ctermbg=24  gui=none cterm=none
   set cursorline
