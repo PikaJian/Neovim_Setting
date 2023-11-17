@@ -7,7 +7,7 @@ require("mason-lspconfig").setup({
 })
 
 -- diagnostics
-for name, icon in pairs(require("ui").icons.diagnostics) do
+for name, icon in pairs(require("utils.ui").icons.diagnostics) do
 	name = "DiagnosticSign" .. name
 	vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
 end

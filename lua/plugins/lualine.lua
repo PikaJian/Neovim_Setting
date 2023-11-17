@@ -1,4 +1,4 @@
-local icons = require("ui").icons
+local icons = require("utils.ui").icons
 
 require("lualine").setup({
 	options = {
