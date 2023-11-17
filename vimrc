@@ -1,21 +1,10 @@
 "nvim only setting
 if has('nvim')
-    let g:python2_host_prog = "/usr/bin/python2"
-    let g:python3_host_prog = "/usr/bin/python3"
-    if has('mac')
-        let g:python3_host_prog = "/usr/local/bin/python3"
-    elseif has('unix')
-        let g:python3_host_prog = "/usr/bin/python3"
-    endif
-    let g:python_host_skip_check = 1
-    let g:python3_host_skip_check = 1
-
-    set mouse=a
-    tnoremap <Esc> <C-\><C-n>
+    let s:editor_root=expand("~/.nvim")
     "Restore cursor to file position in previous editing session
-    set viminfo='10,\"100,:20,%,n~/.nviminfo
     au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 else
+    let s:editor_root=expand("~/.vim")
     "Restore cursor to file position in previous editing session
     set viminfo='10,\"100,:20,%,n~/.viminfo
     au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
@@ -74,17 +63,17 @@ Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvimdev/dashboard-nvim',
 
 if g:git_old 
-  Plug 'ryanoasis/vim-devicons'
-  Plug 'scrooloose/nerdtree'
-  Plug 'jistr/vim-nerdtree-tabs'
-  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-  Plug 'Xuyuanp/nerdtree-git-plugin'
+  " Plug 'ryanoasis/vim-devicons'
+  " Plug 'scrooloose/nerdtree'
+  " Plug 'jistr/vim-nerdtree-tabs'
+  " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+  " Plug 'Xuyuanp/nerdtree-git-plugin'
 else
   "Plug 'nvim-tree/nvim-tree.lua'
 endif
 
 "" c related
-Plug 'Chiel92/vim-autoformat'
+"Plug 'Chiel92/vim-autoformat'
 
 "" code comment
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
@@ -94,7 +83,7 @@ Plug 'numToStr/Comment.nvim'
 "disable  ultisnips for mac issue.
 "make sure python neovim package version is correct.
 Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+"Plug 'honza/vim-snippets'
 
 "nvim-lsp related
 Plug 'williamboman/mason.nvim'
@@ -112,13 +101,17 @@ Plug 'onsails/lspkind-nvim'
 "" awesome edit 
 Plug 'junegunn/vim-easy-align'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'vim-scripts/VisIncr'
-Plug 'jiangmiao/auto-pairs'
-Plug 'tpope/vim-surround'
+" Plug 'vim-scripts/VisIncr'
+" Plug 'jiangmiao/auto-pairs'
+" Plug 'tpope/vim-surround'
+
+
+
+
 
 "" code navigation
 Plug 'majutsushi/tagbar'
-Plug 'terryma/vim-expand-region'
+" Plug 'terryma/vim-expand-region'
 Plug 'kshenoy/vim-signature'
 Plug 'folke/trouble.nvim'
 
@@ -129,16 +122,13 @@ Plug 'mhinz/vim-signify'
 Plug 'lewis6991/gitsigns.nvim'
 
 "" Search
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" Plug 'junegunn/fzf.vim'
 
 "" Motion
 Plug 'easymotion/vim-easymotion'
-
 Plug 'folke/flash.nvim',
 
-Plug 'tpope/vim-repeat'
-Plug 'kana/vim-operator-user'
 
 
 Plug 'christoomey/vim-tmux-navigator'
@@ -157,33 +147,15 @@ Plug 'dstein64/vim-startuptime'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-pack/nvim-spectre'
 
+"others
+Plug 'tpope/vim-repeat'
+"Plug 'kana/vim-operator-user'
+
 call plug#end()
 
 "lua plugins
 if has('nvim')
     lua require("lua_nvim")
-endif
-
-if has('nvim')
-    let s:editor_root=expand("~/.nvim")
-else
-    let s:editor_root=expand("~/.vim")
-endif
-
-" --- AutoClose - Inserts matching bracket, paren, brace or quote 
-" fixed the arrow key problems caused by AutoClose
-if !has("gui_running")  
-"   "set term=linux
-"   imap OA <ESC>ki
-"   imap OB <ESC>ji
-"   imap OC <ESC>li
-"   imap OD <ESC>hi
-    nmap OA k
-    nmap OB j
-    nmap OC l
-    nmap OD h
-    "for tmux wired character
-    map <Esc>[B <Down>
 endif
 
 if has("gui_running")   " GUI color and font settings
@@ -230,8 +202,6 @@ function! ChangeFold()
     endif
 endfunction
 nnoremap  fd :call ChangeFold()<CR> 
-
-
 
 if executable('clipboard-provider')
   let g:clipboard = {
