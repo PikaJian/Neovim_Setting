@@ -1,5 +1,14 @@
+local function ts_disable(_, bufnr)
+    return vim.api.nvim_buf_line_count(bufnr) > 5000
+end
+
 local opts = {
-  highlight = { enable = true },
+  highlight = {
+    enable = true,
+    disable = function(lang, bufnr)
+      return lang == "cmake" or ts_disable(lang, bufnr)
+    end,
+  },
   indent = { enable = true },
   ensure_installed = {
     "bash",
