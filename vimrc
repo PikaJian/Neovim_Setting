@@ -63,11 +63,7 @@ Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvimdev/dashboard-nvim',
 
 if g:git_old 
-  Plug 'ryanoasis/vim-devicons'
-  Plug 'scrooloose/nerdtree'
-  Plug 'jistr/vim-nerdtree-tabs'
-  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-  Plug 'Xuyuanp/nerdtree-git-plugin'
+  Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch' : 'v3.x'}
 else
   "Plug 'nvim-tree/nvim-tree.lua'
 endif
@@ -492,19 +488,6 @@ nnoremap K i<CR><Esc>
 " Ctrl-[ jump out of the tag stack (undo Ctrl-])
 "map <C-[> <ESC>:po<CR>
 
-" generate json for clangd
-function! s:generate_compile_json()
-    if executable('compiledb')
-        call system('compiledb make')
-    else
-        echom "can not generate compiledb"
-    endif
-endfunction
-command! Compiledb call s:generate_compile_json()
-
-
-
-
 set cot-=preview "disable doc preview in omnicomplete
 
 " make CSS omnicompletion work for SASS and SCSS
@@ -607,23 +590,6 @@ let g:UltiSnipsSnippetDirectories=[$HOME."/.config/nvim/plugged/vim-snippets/"]
 "'<' : '>'
 let g:AutoPairs = { '(' : ')', '[' : ']', '{' : '}', "'" : "'", '"' : '"', '`' : '`'}
 
-if g:git_old 
-  "nerdtree
-  let g:NERDTreeWinSize=30
-  let NERDTreeIgnore=['\~$', '\.pyc', '\.swp$', '\.git', '\.hg', '\.svn',
-  \ '\.ropeproject', '\.o', '\.bzr', '\.ipynb_checkpoints$',
-  \ '__pycache__',
-  \ '\.egg$', '\.egg-info$', '\.tox$', '\.idea$', '\.sass-cache',
-  \ '\.env$', '\.env[0-9]$', '\.coverage$', '\.tmp$', '\.gitkeep$',
-  \ '\.coverage$', '\.webassets-cache$', '\.vagrant$', '\.DS_Store',
-  \ '\.env-pypy$', 'tags', '\.a$', 'GPATH', 'GRTAGS', 'GTAGS', 'gtags.files']
-
-  "nerdtree tab
-  nnoremap <leader>nd :NERDTreeTabsToggle<CR>
-  let g:nerdtree_tabs_open_on_gui_startup=0
-  let g:NERDTreeGitStatusPorcelainVersion = 1
-endif
-
 "multiple cursor
 " Map start key separately from next key
 let g:multi_cursor_start_key='<leader>c'
@@ -661,13 +627,6 @@ autocmd User fugitive
   \   nnoremap <buffer> .. :edit %:h<CR> |
   \ endif
 autocmd BufReadPost fugitive://* set bufhidden=hide
-
-"indent guide line
-let g:indent_guides_guide_size = 1
-
-"devicons
-let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-let g:DevIconsEnableFoldersOpenClose = 1
 
 "clang-format for formating cpp code
 " //格式化最新的commit，并直接在原文件上修改
