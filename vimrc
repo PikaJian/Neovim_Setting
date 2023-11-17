@@ -63,17 +63,17 @@ Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvimdev/dashboard-nvim',
 
 if g:git_old 
-  " Plug 'ryanoasis/vim-devicons'
-  " Plug 'scrooloose/nerdtree'
-  " Plug 'jistr/vim-nerdtree-tabs'
-  " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-  " Plug 'Xuyuanp/nerdtree-git-plugin'
+  Plug 'ryanoasis/vim-devicons'
+  Plug 'scrooloose/nerdtree'
+  Plug 'jistr/vim-nerdtree-tabs'
+  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+  Plug 'Xuyuanp/nerdtree-git-plugin'
 else
   "Plug 'nvim-tree/nvim-tree.lua'
 endif
 
 "" c related
-"Plug 'Chiel92/vim-autoformat'
+Plug 'Chiel92/vim-autoformat'
 
 "" code comment
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
@@ -101,9 +101,9 @@ Plug 'onsails/lspkind-nvim'
 "" awesome edit 
 Plug 'junegunn/vim-easy-align'
 Plug 'terryma/vim-multiple-cursors'
-" Plug 'vim-scripts/VisIncr'
-" Plug 'jiangmiao/auto-pairs'
-" Plug 'tpope/vim-surround'
+Plug 'vim-scripts/VisIncr'
+Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-surround'
 
 
 
@@ -111,7 +111,7 @@ Plug 'terryma/vim-multiple-cursors'
 
 "" code navigation
 Plug 'majutsushi/tagbar'
-" Plug 'terryma/vim-expand-region'
+Plug 'terryma/vim-expand-region'
 Plug 'kshenoy/vim-signature'
 Plug 'folke/trouble.nvim'
 
@@ -122,8 +122,8 @@ Plug 'mhinz/vim-signify'
 Plug 'lewis6991/gitsigns.nvim'
 
 "" Search
-" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-" Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 
 "" Motion
 Plug 'easymotion/vim-easymotion'
@@ -149,7 +149,7 @@ Plug 'nvim-pack/nvim-spectre'
 
 "others
 Plug 'tpope/vim-repeat'
-"Plug 'kana/vim-operator-user'
+Plug 'kana/vim-operator-user'
 
 call plug#end()
 
