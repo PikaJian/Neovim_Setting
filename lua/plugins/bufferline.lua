@@ -3,7 +3,7 @@ require("bufferline").setup({
 		separator_style = "thin",
         diagnostics = "nvim_lsp",
         diagnostics_indicator = function(_, _, diag)
-            local diagnostics = require("ui").icons.diagnostics
+            local diagnostics = require("utils.ui").icons.diagnostics
             local ret = (diag.error and diagnostics.Error .. diag.error .. " " or "")
                 .. (diag.warning and diagnostics.Warn .. diag.warning or "")
             return vim.trim(ret)
