@@ -146,6 +146,7 @@ Plug 'nvim-pack/nvim-spectre'
 "others
 Plug 'tpope/vim-repeat'
 Plug 'kana/vim-operator-user'
+Plug 'ojroques/nvim-osc52'
 
 call plug#end()
 

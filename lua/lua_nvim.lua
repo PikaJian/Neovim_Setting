@@ -70,6 +70,8 @@ require("plugins.coding")
 require("plugins.illuminate")
 require("plugins.trouble")
 require("plugins.neo-tree")
+require("plugins.osc52")
+
 require("config.commands")
 require("config.autocmds")
 require("config.keybindings")
