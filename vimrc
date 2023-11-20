@@ -323,20 +323,6 @@ function! <SID>InsSemiColon() abort
     endif
 endfunction
 
-"Twiddle Case
-"press ~ to convert the text to  UPPER CASE, then to lower case, then to Title Case
-function! TwiddleCase(str)
-  if a:str ==# toupper(a:str)
-    let result = tolower(a:str)
-  elseif a:str ==# tolower(a:str)
-    let result = substitute(a:str,'\(\<\w\+\>\)', '\u\1', 'g')
-  else
-    let result = toupper(a:str)
-  endif
-  return result
-endfunction
-vnoremap ~ y:call setreg('', TwiddleCase(@"), getregtype(''))<CR>gv""Pgv
-
 "ctags for c files and header
 command! -nargs=0 -bar Ctags call system('ctags `find . -type f -regex ".*\.[ch]?$"`')
 

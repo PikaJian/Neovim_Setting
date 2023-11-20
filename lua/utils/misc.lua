@@ -13,4 +13,14 @@ function M.dump_table(o)
    end
 end
 
+function M.twiddle_case(str)
+  if str == string.upper(str) then
+    return string.lower(str)
+  elseif str == string.lower(str) then
+    return string.gsub(str, "(%<%w+%>)", string.upper)
+  else
+    return string.upper(str)
+  end
+end
+
 return M

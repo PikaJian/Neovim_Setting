@@ -20,4 +20,12 @@ if not vim.fn.has("gui_running") then
   vim.api.nvim_set_keymap('', '<Esc>[B', '<Down>', {noremap = true})
 end
 
-vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', {noremap = true})
+vim.keymap.set('t', '<esc>', '<c-\\><c-n>', {noremap = true})
+
+vim.keymap.set('v', '~',
+    function ()
+        vim.fn.setreg('', require("utils.misc").twiddle_case(vim.fn.getreg('"')), vim.fn.getregtype(''))
+        vim.api.nvim_feedkeys('<CR>gv""Pgv', 'n', false)
+    end
+    ,{ noremap = true, silent = true }
+)
