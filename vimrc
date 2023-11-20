@@ -155,26 +155,7 @@ if has('nvim')
     lua require("lua_nvim")
 endif
 
-if has("gui_running")   " GUI color and font settings
-  highlight CursorLine          guibg=#003853 ctermbg=24  gui=none cterm=none
-  set cursorline        " highlight current line
-  set autochdir
-  set t_Co=256          " 256 color mode
-  color tokyonight-moon   "workaround for nvim, this cause nvim war color use now
-  set hlsearch      " search highlighting
-  set guifont =Hack\ Nerd\ Font:h20
-else
-  highlight CursorLine          guibg=#003853 ctermbg=24  gui=none cterm=none
-  set cursorline
-" terminal color settings
-  set t_Co=256          " 256 color mode
-  color tokyonight-moon   "workaround for nvim, this cause nvim war color use now
-  set hlsearch      " search highlighting
-  set guifont =Hack\ Nerd\ Font:h20
-endif
-
 """ Customize colors
-
 autocmd FileType c,cpp,sh,make hi Pmenu ctermfg=7 ctermbg=236
 autocmd FileType c,cpp,sh,make hi PmenuSel ctermfg=white ctermbg=32
 
@@ -480,33 +461,6 @@ set cot-=preview "disable doc preview in omnicomplete
 " make CSS omnicompletion work for SASS and SCSS
 autocmd BufNewFile,BufRead *.scss             set ft=scss.css
 autocmd BufNewFile,BufRead *.sass             set ft=sass.css
-
-"--------------------------------------------------------------------------- 
-" ENCODING SETTINGS
-"--------------------------------------------------------------------------- 
-"set encoding=utf-8                                
-set termencoding=utf-8
-set fileencoding=utf-8
-"big5 must behide gbk encoding
-set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936,big5,
-"ucs-bom
-
-fun! ViewUTF8()
-    set encoding=utf-8                                  
-    set termencoding=big5
-endfun
-
-fun! UTF8()
-    set encoding=utf-8                                  
-    set termencoding=big5
-    set fileencoding=utf-8
-    set fileencodings=ucs-bom,big5,utf-8,latin1
-endfun
-
-fun! Big5()
-    set encoding=big5
-    set fileencoding=big5
-endfun
 
 "--------------------------------------------------------------------------- 
 " PLUGIN SETTINGS

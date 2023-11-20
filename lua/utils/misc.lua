@@ -23,4 +23,23 @@ function M.twiddle_case(str)
   end
 end
 
+
+function M.ViewUTF8()
+    vim.o.encoding = "utf-8"
+    vim.o.termencoding = "big5"
+end
+
+function M.UTF8()
+    vim.o.encoding = "utf-8"
+    vim.o.termencoding = "big5"
+    vim.o.fileencoding = "utf-8"
+    vim.o.fileencodings = "ucs-bom,big5,utf-8,latin1"
+end
+
+function M.Big5()
+    vim.o.encoding = "utf-8"
+    vim.o.termencoding = "big5"
+end
+
+
 return M
