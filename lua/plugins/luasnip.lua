@@ -1,14 +1,13 @@
 local ls = require("luasnip")
 ls.setup()
 require('luasnip.loaders.from_vscode').lazy_load()
-ls.filetype_extend("lua", { "c" })
-vim.keymap.set({"i"}, "<C-K>", function() ls.expand() end, {silent = true})
-vim.keymap.set({"i", "s"}, "<C-L>", function() ls.jump( 1) end, {silent = true})
-vim.keymap.set({"i", "s"}, "<C-J>", function() ls.jump(-1) end, {silent = true})
 
-vim.keymap.set({"i", "s"}, "<C-E>", function()
-	if ls.choice_active() then
-		ls.change_choice(1)
-	end
-end, {silent = true})
+vim.keymap.set({"i"}, "<TAB>",
+    function()
+        return ls.jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>"
+    end,
+    {silent = true, expr = true}
+)
+vim.keymap.set({"s"}, "<TAB>", function() ls.jump(1) end, {silent = true})
+vim.keymap.set({"i", "s"}, "<S-TAB>", function() ls.jump(-1) end, {silent = true})
 
