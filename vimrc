@@ -108,6 +108,7 @@ Plug 'terryma/vim-expand-region'
 Plug 'kshenoy/vim-signature'
 Plug 'folke/trouble.nvim'
 Plug 'nvimdev/lspsaga.nvim'
+Plug 'simrat39/symbols-outline.nvim'
 
 " git
 Plug 'gregsexton/gitv'

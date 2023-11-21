@@ -87,5 +87,25 @@ vim.api.nvim_create_autocmd("LspAttach", {
 vim.lsp.set_log_level("trace")
 
 -- lsp ui
-require('lspsaga').setup({})
-vim.keymap.set("n", "<leader>t",  "<Cmd>Lspsaga outline<cr>", { silent = true, noremap = true})
+-- require('lspsaga').setup({})
+-- vim.keymap.set("n", "<leader>t",  "<Cmd>Lspsaga outline<cr>", { silent = true, noremap = true})
+
+require("symbols-outline").setup(
+    {
+        keymaps = { -- These keymaps can be a string or a table for multiple keys
+            close = {"<Esc>", "q"},
+            goto_location = "<Cr>",
+            focus_location = "o",
+            hover_symbol = "<C-space>",
+            toggle_preview = "K",
+            rename_symbol = "r",
+            code_actions = "a",
+            fold = "zc",
+            unfold = "zo",
+            fold_all = "zm",
+            unfold_all = "zr",
+            fold_reset = "R",
+        },
+    }
+)
+vim.keymap.set("n", "<leader>t",  "<Cmd>SymbolsOutline<cr>", { silent = true, noremap = true})
