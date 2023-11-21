@@ -47,6 +47,7 @@ require("plugins.illuminate")
 require("plugins.trouble")
 require("plugins.neo-tree")
 require("plugins.osc52")
+require("plugins.luasnip")
 
 require("config.commands")
 require("config.autocmds")

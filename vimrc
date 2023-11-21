@@ -75,12 +75,6 @@ Plug 'Chiel92/vim-autoformat'
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 Plug 'numToStr/Comment.nvim'
 
-"" code editing enhancement
-"disable  ultisnips for mac issue.
-"make sure python neovim package version is correct.
-Plug 'SirVer/ultisnips'
-"Plug 'honza/vim-snippets'
-
 "nvim-lsp related
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
@@ -91,8 +85,12 @@ Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/nvim-cmp'
-Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 Plug 'onsails/lspkind-nvim'
+
+Plug 'L3MON4D3/LuaSnip', {'tag': 'v2.*', 'do': 'make install_jsregexp'} " Replace <CurrentMajor> by the latest released major (first number of latest release)
+Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'rafamadriz/friendly-snippets' 
+
 
 "" awesome edit 
 Plug 'junegunn/vim-easy-align'
@@ -521,11 +519,6 @@ if !has("gui_running")
 else
     inoremap <C-Space> <C-x><C-o>
 endif
-
-"UltiSnips
-" Trigger configuration. Do not use <tab> if you use https://github.com/Vallor"ic/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsSnippetDirectories=[$HOME."/.config/nvim/plugged/vim-snippets/"]
 
 "auto-pairs
 "'<' : '>'
