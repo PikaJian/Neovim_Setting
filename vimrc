@@ -104,10 +104,10 @@ Plug 'tpope/vim-surround'
 
 
 "" code navigation
-Plug 'majutsushi/tagbar'
 Plug 'terryma/vim-expand-region'
 Plug 'kshenoy/vim-signature'
 Plug 'folke/trouble.nvim'
+Plug 'nvimdev/lspsaga.nvim'
 
 " git
 Plug 'gregsexton/gitv'
@@ -503,15 +503,6 @@ map  <leader>n <Plug>(easymotion-next)
 map  <leader>N <Plug>(easymotion-prev)
 "smartcase(lazy search)
 let g:EasyMotion_smartcase = 1
-
-" --- TagBar
-" toggle TagBar with F7
-nnoremap <silent> <leader>t :TagbarToggle<CR> 
-" set focus to TagBar when opening it
-"let g:tagbar_autofocus = 1
-let g:tagbar_width=25
-
-
 
 "map ctrl-space to trigger autocomplete under terminal
 if !has("gui_running")

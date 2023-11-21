@@ -85,3 +85,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 vim.lsp.set_log_level("trace")
+
+-- lsp ui
+require('lspsaga').setup({})
+vim.keymap.set("n", "<leader>t",  "<Cmd>Lspsaga outline<cr>", { silent = true, noremap = true})
