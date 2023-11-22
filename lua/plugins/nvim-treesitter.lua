@@ -9,7 +9,15 @@ local opts = {
       return lang == "cmake" or ts_disable(lang, bufnr)
     end,
   },
-  indent = { enable = true },
+  -- indent slow on big files (lines > 5000)
+  indent = { 
+
+    enable = true,
+    disable = function(lang, bufnr)
+      return ts_disable(lang, bufnr)
+    end,
+
+  },
   ensure_installed = {
     "bash",
     "c",
@@ -26,7 +34,7 @@ local opts = {
     "vimdoc",
     "yaml",
   },
-  incremental_selection = {
+  --[[ incremental_selection = {
     enable = true,
     keymaps = {
       init_selection = "<C-space>",
@@ -43,7 +51,7 @@ local opts = {
       goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer" },
       goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer" },
     },
-  },
+  }, ]]
 }
 
 require'nvim-treesitter.configs'.setup(opts)

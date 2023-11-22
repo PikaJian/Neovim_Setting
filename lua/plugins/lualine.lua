@@ -1,6 +1,6 @@
 local icons = require("utils.ui").icons
 
-require("lualine").setup({
+local opts = {
 	options = {
 		theme = "auto",
 		component_separators = "|",
@@ -20,7 +20,8 @@ require("lualine").setup({
 				},
 			},
 		},
-		lualine_x = { "filename", { "diff", colored = false } },
+		-- lualine_x = { "filename", { "diff", colored = false } },
+		lualine_x = {},
 		lualine_y = { "filetype", "progress" },
 		lualine_z = { { "location", separator = { right = "" }, left_padding = 2 } },
 	},
@@ -42,4 +43,8 @@ require("lualine").setup({
 			},
 		},
 	},]]
-})
+}
+
+
+
+require("lualine").setup(opts)

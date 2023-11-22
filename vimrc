@@ -1,4 +1,3 @@
-"nvim only setting
 if has('nvim')
     let s:editor_root=expand("~/.nvim")
     "Restore cursor to file position in previous editing session
@@ -122,7 +121,7 @@ Plug 'junegunn/fzf.vim'
 
 "" Motion
 Plug 'easymotion/vim-easymotion'
-Plug 'folke/flash.nvim',
+Plug 'folke/flash.nvim'
 
 
 
@@ -264,14 +263,6 @@ endfunction
 autocmd QuickFixCmdPost [^l]* nested cwindow
 autocmd QuickFixCmdPost    l* nested lwindow
 "autocmd FileType c,cpp,cc set shellpipe=1>
-
-
-"--------------------------------------------------------------------------- 
-" USEFUL SHORTCUTS
-"--------------------------------------------------------------------------- 
-" set leader to ,
-let mapleader=","
-let g:mapleader=","
 
 "--------------------------------------------------------------------------- 
 " Tip #382: Search for <cword> and replace with input() in all open buffers 
