@@ -29,18 +29,24 @@ require("config.options")
 require("plugins.toggleterm")
 require("plugins.dressing")
 require("plugins.noice")
+
 --slow for big source file (line > 3000)
 require("plugins.indentscope")
 require("plugins.indent-blankline")
+
 --slow for big file
 require("plugins.nvim-treesitter")
+
 require("plugins.dashboard-nvim")
 require("plugins.lsp")
 require("plugins.nvim-cmp")
 require("plugins.lualine")
 require("plugins.bufferline")
 require("plugins.nvim-spectre")
+
+--slow for big file, nvim-ts-context-commentstring
 require("plugins.coding")
+
 require("plugins.illuminate")
 require("plugins.trouble")
 require("plugins.neo-tree")
