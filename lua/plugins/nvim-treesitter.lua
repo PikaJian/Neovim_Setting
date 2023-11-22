@@ -1,4 +1,7 @@
-local function ts_disable(_, bufnr)
+local function ts_disable(lang, bufnr)
+    if lang == "c" or lang == "cpp" or lang == "cmake" then
+        return true
+    end
     return vim.api.nvim_buf_line_count(bufnr) > 5000
 end
 
@@ -6,7 +9,7 @@ local opts = {
   highlight = {
     enable = true,
     disable = function(lang, bufnr)
-      return lang == "cmake" or ts_disable(lang, bufnr)
+      return ts_disable(lang, bufnr)
     end,
   },
   -- indent slow on big files (lines > 5000)
