@@ -3,7 +3,6 @@ return
         {'junegunn/fzf', event = "LazyFile", build = "./install --bin" },
         {'junegunn/fzf.vim', event = "LazyFile", dependencies = {'junegunn/fzf'} },
         {'junegunn/vim-easy-align', event = "LazyFile"},
-        {'terryma/vim-multiple-cursors', event = "LazyFile"},
         {'mg979/vim-visual-multi', event = "LazyFile"},
         {'vim-scripts/VisIncr', event = "LazyFile"},
         {'jiangmiao/auto-pairs', event = "LazyFile"},
