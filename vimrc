@@ -396,10 +396,13 @@ endif
 "'<' : '>'
 let g:AutoPairs = { '(' : ')', '[' : ']', '{' : '}', "'" : "'", '"' : '"', '`' : '`'}
 
-"multiple cursor
+"vim-visual-multi
 " Map start key separately from next key
-let g:multi_cursor_start_key='<leader>c'
-let g:multi_cursor_start_word_key='<leader>cw'
+let g:VM_maps = {}
+let g:VM_maps['Skip Region'] = '<C-x>'
+let g:VM_maps['Find Under'] = '<leader>c'
+
+
 
 "surround vim
 "- key

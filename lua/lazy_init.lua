@@ -35,6 +35,9 @@ require("lazy").setup("plugins", {
 )
 require("lazy.view.commands").setup()
 require("config.options")
+require("config.commands")
+require("config.autocmds")
+require("config.keybindings")
 
 --[[ local function check_easymotion()
   local timer = vim.loop.new_timer()
@@ -67,3 +70,10 @@ vim.api.nvim_create_autocmd("User", {
     check_easymotion()
   end
 }) ]]
+
+--require("plugins.flash")
+--gitsigns require newer git version
+--[[require("plugins.gitsigns")
+if vim.fn.has("nvim-0.9.0") == 1 then
+    vim.opt.statuscolumn = [[%!v:lua.Status.statuscolumn()<]
+end]]
