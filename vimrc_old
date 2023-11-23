@@ -9,6 +9,12 @@ else
     au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 endif
 
+if has('nvim')
+    call plug#begin('~/.config/nvim/plugged')
+else
+    call plug#begin('~/.vim/plugged')
+endif
+
 function! GitVersion(...)
   let git_version_output = system('git --version')
   let s:git_versions = matchstr(git_version_output, '\d[^[:space:]]\+')
@@ -31,8 +37,121 @@ if !GitVersion(2, 19, 0)
 else
   let g:git_old = 0
 endif
+   
 
-lua require("lazy_init")
+"theme
+Plug 'shaunsingh/nord.nvim'
+Plug 'olimorris/onedarkpro.nvim', {'branch': 'main'}
+Plug 'folke/tokyonight.nvim', {'branch': 'main'}
+Plug 'catppuccin/nvim'
+
+"" beautiful ui
+"lua ui
+Plug 'stevearc/dressing.nvim'
+Plug 'MunifTanjim/nui.nvim'
+Plug 'folke/noice.nvim'
+Plug 'rcarriga/nvim-notify'
+Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'echasnovski/mini.indentscope'
+Plug 'RRethy/vim-illuminate'
+
+Plug 'nvim-lualine/lualine.nvim'
+Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
+Plug 'nvim-tree/nvim-web-devicons'
+
+Plug 'nvimdev/dashboard-nvim',
+
+if g:git_old 
+  Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch' : 'v3.x'}
+else
+  "Plug 'nvim-tree/nvim-tree.lua'
+endif
+
+"" c related
+Plug 'Chiel92/vim-autoformat'
+
+"" code comment
+Plug 'JoosepAlviste/nvim-ts-context-commentstring'
+Plug 'numToStr/Comment.nvim'
+
+"nvim-lsp related
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'neovim/nvim-lspconfig'
+
+"nvim-lsp autocomplete
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'onsails/lspkind-nvim'
+
+Plug 'L3MON4D3/LuaSnip', {'tag': 'v2.*', 'do': 'make install_jsregexp'} " Replace <CurrentMajor> by the latest released major (first number of latest release)
+Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'rafamadriz/friendly-snippets' 
+
+
+"" awesome edit 
+Plug 'junegunn/vim-easy-align'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'vim-scripts/VisIncr'
+Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-surround'
+
+
+
+
+
+"" code navigation
+Plug 'terryma/vim-expand-region'
+Plug 'kshenoy/vim-signature'
+Plug 'folke/trouble.nvim'
+Plug 'nvimdev/lspsaga.nvim'
+Plug 'simrat39/symbols-outline.nvim'
+
+" git
+Plug 'gregsexton/gitv'
+Plug 'tpope/vim-fugitive'
+Plug 'mhinz/vim-signify'
+Plug 'lewis6991/gitsigns.nvim'
+
+"" Search
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+
+"" Motion
+Plug 'easymotion/vim-easymotion'
+Plug 'folke/flash.nvim'
+
+
+
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'tpope/vim-dispatch'
+
+"Tree-sitter related
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+"terminal
+Plug 'akinsho/toggleterm.nvim', {'tag' : 'v2.*'}
+
+"profiling
+Plug 'dstein64/vim-startuptime'
+
+"search panel
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-pack/nvim-spectre'
+
+"others
+Plug 'tpope/vim-repeat'
+Plug 'kana/vim-operator-user'
+Plug 'ojroques/nvim-osc52'
+
+call plug#end()
+
+"lua plugins
+if has('nvim')
+    lua require("lua_nvim")
+endif
 
 """ Customize colors
 autocmd FileType c,cpp,sh,make hi Pmenu ctermfg=7 ctermbg=236
@@ -103,6 +222,7 @@ set tm=500
    set tabstop=4           " number of spaces a tab counts for
    set shiftwidth=4        " spaces for autoindents
    au FileType Makefile set noexpandtab
+   autocmd FileType lua set tabstop=2 shiftwidth=2 expandtab
 "}                                  
 
 " status line {
@@ -333,20 +453,12 @@ set cot-=preview "disable doc preview in omnicomplete
 autocmd BufNewFile,BufRead *.scss             set ft=scss.css
 autocmd BufNewFile,BufRead *.sass             set ft=sass.css
 
-"FZF
-autocmd FileType qf wincmd J
-nnoremap <leader><Enter> :FZF<CR>
-
-if has('nvim')
-tnoremap jk <C-c>   
-endif
-
 "--------------------------------------------------------------------------- 
 " PLUGIN SETTINGS
 "--------------------------------------------------------------------------- 
 
 " ---yankring
-"nnoremap <Leader>yr :YRShow<Cr>
+nnoremap <Leader>yr :YRShow<Cr>
 "for windows platorms, you must change yankring replace key <C-P> and <C-N>
 "let g:yankring_replace_n_nkey = '<c-r>'
 
@@ -476,6 +588,14 @@ endif
 "command! -bar -nargs=+ -complete=customlist,functions#GitBugComplete Gbug Git bug <q-args>
 "command! -bar -nargs=+ -complete=customlist,functions#GitFeatureComplete Gfeature Git feature <q-args>
 "command! -bar -nargs=+ -complete=customlist,functions#GitRefactorComplete Grefactor Git refactor <q-args>
+
+"FZF
+autocmd FileType qf wincmd J
+nnoremap <leader><Enter> :FZF<CR>
+
+if has('nvim')
+tnoremap jk <C-c>   
+endif
 
 " Augmenting Rg command using fzf#vim#with_preview function
 "   * fzf#vim#with_preview([[options], preview window, [toggle keys...]])

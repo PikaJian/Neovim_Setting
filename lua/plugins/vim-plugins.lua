@@ -1,0 +1,20 @@
+return 
+    {
+        { 'junegunn/fzf', build = "./install --bin" },
+        { 'junegunn/fzf.vim', dependencies = {'junegunn/fzf'} },
+        {'junegunn/vim-easy-align'},
+        {'terryma/vim-multiple-cursors'},
+        {'vim-scripts/VisIncr'},
+        {'jiangmiao/auto-pairs'},
+        {'tpope/vim-surround'},
+        --{'terryma/vim-expand-region'},
+        {'kshenoy/vim-signature'},
+        {'gregsexton/gitv'},
+        {'tpope/vim-fugitive'},
+        {'mhinz/vim-signify'},
+        {'easymotion/vim-easymotion'},
+        {'christoomey/vim-tmux-navigator'},
+        {'tpope/vim-dispatch'},
+        {'tpope/vim-repeat'},
+        {'kana/vim-operator-user'},
+    }

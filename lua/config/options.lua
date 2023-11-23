@@ -1,5 +1,3 @@
-vim.g.mapleader = ","
-
 vim.o.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
 vim.o.hidden = true
 vim.o.compatible = false
