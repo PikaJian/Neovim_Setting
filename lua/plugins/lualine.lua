@@ -1,5 +1,5 @@
 
-local icons = require("utils.ui").icons
+local ui = require("utils.ui")
 
 return {
     {
@@ -20,17 +20,35 @@ return {
                         {
                             "diagnostics",
                             symbols = {
-                                error = icons.diagnostics.Error,
-                                warn = icons.diagnostics.Warn,
-                                info = icons.diagnostics.Info,
-                                hint = icons.diagnostics.Hint,
+                                error = ui.icons.diagnostics.Error,
+                                warn = ui.icons.diagnostics.Warn,
+                                info = ui.icons.diagnostics.Info,
+                                hint = ui.icons.diagnostics.Hint,
                             },
                         },
                     },
                     -- lualine_x = { "filename", { "diff", colored = false } },
-                    lualine_x = {},
-                    lualine_y = { "filetype", "progress" },
-                    lualine_z = { { "location", separator = { right = "" }, left_padding = 2 } },
+                    lualine_x = {
+                        {
+                            function() return require("noice").api.status.mode.get() end,
+                            cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
+                            color = ui.fg("Constant"),
+                        },
+                    },
+                    -- lualine_y = { "filetype", "progress" },
+                    lualine_y = {
+                        { "progress", separator = " ", padding = { left = 1, right = 0 } },
+                        { "filetype", padding = { left = 0, right = 1 } },
+                        { "location", separator = { right = " " }, left_padding = 2 }
+                    },
+                    lualine_z = {
+                        {
+                            function()
+                                return " " .. os.date("%R")
+                            end,
+                            separator = { right = "" }, left_padding = 2
+                        }
+                    },
                 },
                 inactive_sections = {
                     lualine_a = { "filename" },
