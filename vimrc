@@ -34,31 +34,12 @@ endif
 
 lua require("lazy_init")
 
-""" Customize colors
-autocmd FileType c,cpp,sh,make hi Pmenu ctermfg=7 ctermbg=236
-autocmd FileType c,cpp,sh,make hi PmenuSel ctermfg=white ctermbg=32
-
 "spell check on
 function! s:spell_on()
     set spell spelllang=en_us
 endfunction
 command! SpellOn call s:spell_on()
 nnoremap <C-C> z=
-
-"folding settings
-set foldmethod=indent   "fold based on indent
-set foldnestmax=10      "deepest fold is 10 levels
-set nofoldenable        "donnt fold by default
-set foldlevel=1         "this is just what i use
-
-function! ChangeFold()
-    if &foldmethod == 'syntax'
-        set foldmethod=indent 
-    else
-        set foldmethod=syntax 
-    endif
-endfunction
-nnoremap  fd :call ChangeFold()<CR> 
 
 if executable('clipboard-provider')
   let g:clipboard = {
@@ -73,37 +54,6 @@ if executable('clipboard-provider')
           \     },
           \ }
 endif
-
-set updatetime=4000
-set clipboard=unnamed,unnamedplus " yank to the system register (*) by default
-set showmatch       " Cursor shows matching ) and }
-set showmode        " Show current mode
-set wildchar=<TAB>  " start wild expansion in the command line using <TAB>
-set wildmenu            " wild char completion menu
-
-" ignore ]f ese files while expanding wild chars
-set wildignore=*.o,*.class,*.pyc
-
-set autoindent      " auto indentation
-set incsearch       " incremental search
-set nobackup        " no *~ backup files
-set copyindent      " copy the previous indentation on autoindenting
-set ignorecase      " ignore case when searching
-set smartcase       " ignore case if search pattern is all lowercase,case-sensitive otherwise
-set smarttab        " insert tabs on the start of a line according to context
-
-" disable sound on errors
-set noerrorbells
-set novisualbell
-set t_vb=
-set tm=500
-
-" TAB setting{
-   set expandtab        "replace <TAB> with spaces
-   set tabstop=4           " number of spaces a tab counts for
-   set shiftwidth=4        " spaces for autoindents
-   au FileType Makefile set noexpandtab
-"}                                  
 
 " status line {
 set laststatus=2
@@ -290,9 +240,6 @@ cnoremap <C-j>      <Down>
 cnoremap <C-h>      <Left>
 cnoremap <C-l>      <Right>
 
-" ,p toggles paste mode
-nmap <leader>p :set paste!<BAR>set paste?<CR>
-
 " allow multiple indentation/deindentation in visual mode
 vnoremap < <gv
 vnoremap > >gv
@@ -332,14 +279,6 @@ set cot-=preview "disable doc preview in omnicomplete
 " make CSS omnicompletion work for SASS and SCSS
 autocmd BufNewFile,BufRead *.scss             set ft=scss.css
 autocmd BufNewFile,BufRead *.sass             set ft=sass.css
-
-"FZF
-autocmd FileType qf wincmd J
-nnoremap <leader><Enter> :FZF<CR>
-
-if has('nvim')
-tnoremap jk <C-c>   
-endif
 
 "--------------------------------------------------------------------------- 
 " PLUGIN SETTINGS
@@ -472,6 +411,7 @@ endfunc
 if executable('tmux')
   autocmd BufReadPost,FileReadPost,BufNewFile * call system('tmux rename-window '.expand("%:h"))
 endif
+
 "tmux navigator
 "let g:loaded_tmux_navigator = 1
 "let g:tmux_navigator_no_mappings = 1
@@ -479,6 +419,14 @@ endif
 "command! -bar -nargs=+ -complete=customlist,functions#GitBugComplete Gbug Git bug <q-args>
 "command! -bar -nargs=+ -complete=customlist,functions#GitFeatureComplete Gfeature Git feature <q-args>
 "command! -bar -nargs=+ -complete=customlist,functions#GitRefactorComplete Grefactor Git refactor <q-args>
+
+"FZF
+autocmd FileType qf wincmd J
+nnoremap <leader><Enter> :FZF<CR>
+
+if has('nvim')
+tnoremap jk <C-c>   
+endif
 
 " Augmenting Rg command using fzf#vim#with_preview function
 "   * fzf#vim#with_preview([[options], preview window, [toggle keys...]])

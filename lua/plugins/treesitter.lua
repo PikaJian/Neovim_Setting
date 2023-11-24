@@ -1,5 +1,5 @@
 local function ts_disable(lang, bufnr)
-  if lang == "cpp" or lang == "cmake" then
+  if lang == "c" or lang == "cpp" or lang == "cmake" then
     return true
   end
   return vim.api.nvim_buf_line_count(bufnr) > 5000

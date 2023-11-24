@@ -29,3 +29,9 @@ vim.keymap.set('v', '~',
     end
     ,{ noremap = true, silent = true }
 )
+
+vim.keymap.set('n', '<leader>p', function()
+    vim.o.paste = not vim.o.paste
+    vim.cmd[[set paste?]]
+  end, { silent = true })
+

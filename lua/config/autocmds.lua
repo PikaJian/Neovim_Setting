@@ -12,7 +12,7 @@ vim.api.nvim_create_autocmd('bufwritepost', {
 )
 
 vim.api.nvim_create_autocmd('FileType', {
-    pattern = { 'vim' },
+    pattern = { 'vim', 'lua' },
     callback = function()
         vim.opt_local.ts = 2
         vim.opt_local.sw = 2
@@ -25,5 +25,20 @@ vim.api.nvim_create_autocmd('FileType', {
     pattern = { '*' },
     callback = function()
         vim.opt.formatoptions = vim.opt.formatoptions - { 'o' }
+    end,
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = { 'c', 'cpp', 'sh', 'make'},
+    callback = function()
+         -- vim.api.nvim_set_hl(0, 'Pmenu', { ctermfg = 7, ctermbg = 236 })
+         -- vim.api.nvim_set_hl(0, 'PmenuSel', { ctermfg = 'white', ctermbg = 32 })
+    end,
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = { 'Makefile' },
+    callback = function()
+      vim.o.expandtab = false
     end,
 })
