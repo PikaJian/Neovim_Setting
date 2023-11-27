@@ -40,10 +40,14 @@ else
 end
 
 require("lazy.view.commands").setup()
-require("config.options")
-require("config.commands")
-require("config.autocmds")
-require("config.keybindings")
+
+-- require("config.options")
+-- require("config.commands")
+-- require("config.autocmds")
+-- require("config.keybindings")
+
+require("config").init()
+require("config").setup()
 
 --[[ local function check_easymotion()
   local timer = vim.loop.new_timer()
