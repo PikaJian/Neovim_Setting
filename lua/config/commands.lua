@@ -7,7 +7,7 @@ vim.api.nvim_create_user_command("SwitchHeader", function()
 end, {})
 
 vim.api.nvim_create_user_command("SpellOn", function()
-    require("utils).misc.spell_on()
+    require("utils").misc.spell_on()
   end, {})
 
 vim.api.nvim_create_user_command("SeeTab", function()
