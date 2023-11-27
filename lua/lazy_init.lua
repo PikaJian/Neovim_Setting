@@ -1,7 +1,6 @@
 vim.g.mapleader = ","
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-print(lazypath)
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
@@ -33,6 +32,13 @@ require("lazy").setup("plugins", {
     },
   }
 )
+
+if require("utils").misc.GitVersion(2, 19, 0) == true then
+  vim.g.git_old = 0
+else
+  vim.g.git_old = 1
+end
+
 require("lazy.view.commands").setup()
 require("config.options")
 require("config.commands")
@@ -56,7 +62,6 @@ end
 vim.api.nvim_create_autocmd("User", {
     pattern = "EasyMotionPromptBegin",
     callback = function()
-        print("shit")
         vim.diagnostic.disable()
     end
 })
@@ -64,7 +69,6 @@ vim.api.nvim_create_autocmd("User", {
 vim.api.nvim_create_autocmd("User", {
   pattern = "EasyMotionPromptEnd",
   callback = function()
-    print("fuck")
     if vim.g.waiting_for_easy_motion then return end
     vim.g.waiting_for_easy_motion = true
     check_easymotion()
@@ -77,3 +81,4 @@ vim.api.nvim_create_autocmd("User", {
 if vim.fn.has("nvim-0.9.0") == 1 then
     vim.opt.statuscolumn = [[%!v:lua.Status.statuscolumn()<]
 end]]
+

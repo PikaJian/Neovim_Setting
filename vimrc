@@ -9,37 +9,7 @@ else
     au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 endif
 
-function! GitVersion(...)
-  let git_version_output = system('git --version')
-  let s:git_versions = matchstr(git_version_output, '\d[^[:space:]]\+')
-  let components = split(s:git_versions, '\D\+')
-  if empty(components)
-    return -1
-  endif
-  for i in range(len(a:000))
-    if a:000[i] > +get(components, i)
-      return 0
-    elseif a:000[i] < +get(components, i)
-      return 1
-    endif
-  endfor
-  return a:000[i] ==# get(components, i)
-endfunction
-
-if !GitVersion(2, 19, 0)
-  let g:git_old = 1   
-else
-  let g:git_old = 0
-endif
-
 lua require("lazy_init")
-
-"spell check on
-function! s:spell_on()
-    set spell spelllang=en_us
-endfunction
-command! SpellOn call s:spell_on()
-nnoremap <C-C> z=
 
 if executable('clipboard-provider')
   let g:clipboard = {
@@ -179,73 +149,9 @@ nnoremap <silent> <C-S> :<C-u>Update<CR>
 "replace the current word in all opened buffers
 map <leader>rw :call Replace()<CR>
 
-"map esc key
-inoremap jk <ESC>
-vnoremap jk <ESC>
-
-"movement in insert mode
-inoremap <C-w> <S-RIGHT>
-inoremap <C-b> <S-LEFT>
-
-" open the error console
-map <leader>co :botright cope<CR>
-map <leader>cx :cclose<CR>
-" move to next error
-map ]e :cn<CR>
-" move to the prev error
-map [e :cp<CR>
-
-" --- move around splits {
-"decrease window
-map <leader><leader>l <C-W><
-"increase window
-map <leader><leader>h <C-W>>
-"decrease window
-map <leader><leader>j <C-W>-
-"increase window
-map <leader><leader>k <C-W>+
-" move to and maximize the below split 
-"map <C-j> <C-w>j<C-w>_
-" move to and maximize the above split 
-"map <C-k> <C-w>k<C-w>_
-" move to and maximize the left split 
-"nmap <C-h> <c-w>h<c-w><bar>
-" move to and maximize the right split  
-"nmap <C-l> <c-w>l<c-w><bar>
 set wmw=0                     " set the min width of a window to 0 so we can maximize others 
 set wmh=0                     " set the min height of a window to 0 so we can maximize others
 " }
-
-" move around tabs. conflict with the original screen top/bottom
-" comment them out if you want the original H/L
-" go to prev tab 
-"map <S-H> gT
-" go to next tab
-"map <S-L> gt
-
-" new tab
-map <C-t><C-t> :tabnew<CR>
-" close tab
-map <C-t><C-w> :tabclose<CR> 
-
-" ,/ turn off search highlighting
-nmap <leader>/ :nohl<CR>
-
-" Bash like keys for the command line
-cnoremap <C-A>      <Home>
-cnoremap <C-E>      <End>
-"cnoremap <C-K>      <C-U>
-cnoremap <C-k>      <Up>
-cnoremap <C-j>      <Down>
-cnoremap <C-h>      <Left>
-cnoremap <C-l>      <Right>
-
-" allow multiple indentation/deindentation in visual mode
-vnoremap < <gv
-vnoremap > >gv
-
-" :cd. change working directory to that of the current file
-cmap cd. lcd %:p:h
 
 " Writing Restructured Text (Sphinx Documentation) {
    " Ctrl-u 1:    underline Parts w/ #'s
@@ -363,11 +269,6 @@ nmap <silent> <leader>bd :bp <BAR> bd! #<cr>
 nmap <silent> <S-l> :bnext<CR>
 " Move to the previous buffer
 nmap <silent> <S-h> :bprevious<CR>
-
-augroup qf
-  autocmd!
-  autocmd FileType qf set nobuflisted
-augroup END
 
 "fugitive
 autocmd User fugitive 

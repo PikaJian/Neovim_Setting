@@ -81,7 +81,6 @@ else
   vim.cmd([[colorscheme tokyonight-moon]])
   vim.o.hlsearch = true
   vim.guifont = "Hack Nerd Font:h20"
-  print("holy shit")
 end
 
 local function change_fold()

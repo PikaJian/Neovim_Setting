@@ -1,5 +1,5 @@
 return {
-    "kevinhwang91/nvim-bqf",
+    --[[ "kevinhwang91/nvim-bqf",
     ft = "qf",
     config = function()
         require("bqf").setup({
@@ -14,6 +14,6 @@ return {
             },
             preview = { win_height = 35 },
         })
-    end,
+    end, ]]
 }
 

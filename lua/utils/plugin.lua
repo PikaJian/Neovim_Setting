@@ -11,11 +11,9 @@ function M.lazy_file()
 
   if M.use_lazy_file then
     -- We'll handle delayed execution of events ourselves
-    print("fuck")
     Event.mappings.LazyFile = { id = "LazyFile", event = "User", pattern = "LazyFile" }
     Event.mappings["User LazyFile"] = Event.mappings.LazyFile
   else
-    print("shit")
     -- Don't delay execution of LazyFile events, but let lazy know about the mapping
     Event.mappings.LazyFile = { id = "LazyFile", event = { "BufReadPost", "BufNewFile", "BufWritePre" } }
     Event.mappings["User LazyFile"] = Event.mappings.LazyFile

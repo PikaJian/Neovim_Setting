@@ -41,5 +41,33 @@ function M.Big5()
     vim.o.termencoding = "big5"
 end
 
+function M.GitVersion(...)
+  local git_version_output = vim.fn.system('git --version')
+  local s_git_versions = string.match(git_version_output, '%d[^%s]+')
+  local components = vim.split(s_git_versions, '%D+')
+  if next(components) == nil then
+    return -1
+  end
+  for i = 1, #arg do
+    if tonumber(arg[i]) > tonumber(components[i]) then
+      return 0
+    elseif tonumber(arg[i]) < tonumber(components[i]) then
+      return 1
+    end
+  end
+  return tonumber(arg[#arg]) == tonumber(components[#components])
+end
+
+function M.spell_on()
+  vim.opt.spell = true
+  vim.opt.spelllang = "en_us"
+end
+
+function M.test()
+  print("fuck")
+end
+
+
+
 
 return M

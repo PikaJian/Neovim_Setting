@@ -1,7 +1,7 @@
 return
     {
         {'junegunn/fzf', event = "LazyFile", build = "./install --bin" },
-        {'junegunn/fzf.vim', event = "LazyFile", dependencies = {'junegunn/fzf'} },
+        {'junegunn/fzf.vim', dependencies = {'junegunn/fzf'} },
         {'junegunn/vim-easy-align', event = "LazyFile"},
         {'mg979/vim-visual-multi', event = "LazyFile"},
         {'vim-scripts/VisIncr', event = "LazyFile"},
