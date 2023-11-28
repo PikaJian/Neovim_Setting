@@ -78,6 +78,29 @@ function M.format_code(style)
   -- vim.api.nvim_exec(formatcommand, false)
 end
 
+-- insert ; after )
+function M.insert_semi_colon()
+    local line = vim.fn.line('.')
+    local content = vim.fn.getline('.')
+    local eol = ';'
+
+    -- 如果行末有分号，则在光标后面插入分号
+    if content:sub(-2, -2) == ';' then
+        vim.cmd('normal! a;')
+        vim.cmd('normal! l')
+        vim.cmd('startinsert')
+    else
+        -- 如果当前行有括号，则判断是插入分号还是');'
+        if vim.fn.search('(', 'bcn', line) > 0 then
+            local found_close = vim.fn.search(')', 'cn', line)
+            eol = found_close > 0 and ';' or ');'
+        end
+        -- 在当前行末插入分号或');'
+        vim.fn.setline(line, content .. eol)
+        vim.cmd('startinsert!')
+    end
+end
+
 function M.test()
   print("fuck")
 end

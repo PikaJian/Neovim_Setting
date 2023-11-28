@@ -1,13 +1,6 @@
-if has('nvim')
-    let s:editor_root=expand("~/.nvim")
-    "Restore cursor to file position in previous editing session
-    au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
-else
-    let s:editor_root=expand("~/.vim")
-    "Restore cursor to file position in previous editing session
-    set viminfo='10,\"100,:20,%,n~/.viminfo
-    au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
-endif
+let s:editor_root=expand("~/.nvim")
+"Restore cursor to file position in previous editing session
+au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 
 lua require("lazy_init")
 
@@ -74,27 +67,6 @@ fun! Replace()
     :unlet! s:word 
 endfun 
 
-"--------------------------------------------------------------------------- 
-" insert ; after )
-"--------------------------------------------------------------------------- 
-function! <SID>InsSemiColon() abort
-    let l:line = line('.')
-    let l:content = getline('.')
-    let l:eol = ';'
-    " If the line ends with a semicolon we simply insert one.
-    if l:content[col('$') - 2] ==# ';'
-        normal! a;
-        normal! l
-        startinsert
-    else
-        if search('(', 'bcn', l:line)
-            let l:eol = search(')', 'cn', l:line) ?  ';' : ');'
-        endif
-        call setline(l:line, l:content . l:eol)
-        startinsert!
-    endif
-endfunction
-
 "ctags for c files and header
 command! -nargs=0 -bar Ctags call system('ctags `find . -type f -regex ".*\.[ch]?$"`')
 
@@ -143,14 +115,9 @@ command! -nargs=0 -bar Update if &modified
                            \|endif
 nnoremap <silent> <C-S> :<C-u>Update<CR>
 
-"Insert semicolon
-"inoremap <silent> ; <Esc>:call <SID>InsSemiColon()<CR>
-
 "replace the current word in all opened buffers
 map <leader>rw :call Replace()<CR>
 
-set wmw=0                     " set the min width of a window to 0 so we can maximize others 
-set wmh=0                     " set the min height of a window to 0 so we can maximize others
 " }
 
 " Writing Restructured Text (Sphinx Documentation) {
@@ -170,30 +137,6 @@ set wmh=0                     " set the min height of a window to 0 so we can ma
    " noremap  <C-u>5 yypVr^
    " inoremap <C-u>5 <esc>yypVr^A
 "}
-
-"--------------------------------------------------------------------------- 
-" PROGRAMMING SHORTCUTS
-"--------------------------------------------------------------------------- 
-"split line
-nnoremap K i<CR><Esc>
-
-" Ctrl-[ jump out of the tag stack (undo Ctrl-])
-"map <C-[> <ESC>:po<CR>
-
-set cot-=preview "disable doc preview in omnicomplete
-
-" make CSS omnicompletion work for SASS and SCSS
-autocmd BufNewFile,BufRead *.scss             set ft=scss.css
-autocmd BufNewFile,BufRead *.sass             set ft=sass.css
-
-"--------------------------------------------------------------------------- 
-" PLUGIN SETTINGS
-"--------------------------------------------------------------------------- 
-
-" ---yankring
-"nnoremap <Leader>yr :YRShow<Cr>
-"for windows platorms, you must change yankring replace key <C-P> and <C-N>
-"let g:yankring_replace_n_nkey = '<c-r>'
 
 " ---------------------------------------------------------------------------
 " EasyMotion
@@ -287,6 +230,24 @@ endif
 "let g:loaded_tmux_navigator = 1
 "let g:tmux_navigator_no_mappings = 1
 
+"FZF
 "command! -bar -nargs=+ -complete=customlist,functions#GitBugComplete Gbug Git bug <q-args>
 "command! -bar -nargs=+ -complete=customlist,functions#GitFeatureComplete Gfeature Git feature <q-args>
 "command! -bar -nargs=+ -complete=customlist,functions#GitRefactorComplete Grefactor Git refactor <q-args>
+
+" Augmenting Rg command using fzf#vim#with_preview function
+"   * fzf#vim#with_preview([[options], preview window, [toggle keys...]])
+"   * Preview script requires Ruby
+"   * Install Highlight or CodeRay to enable syntax highlighting
+"
+"   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
+"   :Ag! - Start fzf in fullscreen and display the preview window above
+command! -bang -nargs=* -complete=file Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.
+  \   shellescape(<q-args>)[1:strlen(shellescape(<q-args>)) - 2],
+  \   1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+

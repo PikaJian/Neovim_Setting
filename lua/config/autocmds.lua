@@ -53,3 +53,17 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.o.buflisted = false
   end
 })
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { '*.scss' },
+  callback = function ()
+    vim.o.filetype = 'scss.css'
+  end
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { '*.sass' },
+  callback = function ()
+    vim.o.filetype = 'sass.css'
+  end
+})

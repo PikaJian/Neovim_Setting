@@ -120,3 +120,14 @@ end, { desc = "Format" })
 vim.keymap.set({ "n", "v" }, "<leader>lf",
   '<esc><Cmd>lua require("utils").misc.format_code("LLVM")<CR>'
   , { desc = "Format" })
+
+-- vim.keymap.set({ "i" }, ";", function() Util.misc.insert_semi_colon() end
+--   , { silent = true, remap = false })
+
+-- Programming shortcuts
+vim.keymap.set('n', 'K', 'i<CR><Esc>', { remap = false })
+
+-- Ctrl-[ jump out of the tag stack (undo Ctrl-])
+-- vim.keymap.set('', '<C-[>', '<ESC>:po<CR>', {}) -- Disabled, might conflict with terminal
+
+

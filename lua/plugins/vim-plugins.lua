@@ -1,6 +1,6 @@
 return
 {
-  { 'junegunn/fzf',                   event = "LazyFile",             build = "./install --bin" },
+  { 'junegunn/fzf',                   event = "LazyFile",               build = "./install --bin" },
   { 'junegunn/fzf.vim',               dependencies = { 'junegunn/fzf' } },
   { 'junegunn/vim-easy-align',        event = "LazyFile" },
   { 'mg979/vim-visual-multi',         event = "LazyFile" },
@@ -11,7 +11,7 @@ return
   { 'kshenoy/vim-signature',          event = "LazyFile" },
   { 'gregsexton/gitv',                event = "LazyFile" },
   { 'tpope/vim-fugitive' },
-  { 'mhinz/vim-signify',              event = "LazyFile" },
+  { 'mhinz/vim-signify', },
   { 'easymotion/vim-easymotion',      event = "LazyFile" },
   { 'christoomey/vim-tmux-navigator', event = "LazyFile" },
   { 'tpope/vim-dispatch',             event = "LazyFile" },

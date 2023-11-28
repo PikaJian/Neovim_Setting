@@ -16,16 +16,16 @@ vim.g.python2_host_prog = "/usr/bin/python2"
 vim.g.python3_host_prog = "/usr/bin/python3"
 
 if vim.fn.has("mac") == 1 then
-	vim.g.python3_host_prog = "/usr/local/bin/python3"
+  vim.g.python3_host_prog = "/usr/local/bin/python3"
 elseif vim.fn.has("unix") == 1 then
-	vim.g.python3_host_prog = "/usr/bin/python3"
+  vim.g.python3_host_prog = "/usr/bin/python3"
 end
 
 vim.g.python_host_skip_check = 1
 vim.g.python3_host_skip_check = 1
 
 -- ENCODING SETTINGS
--- set encoding=utf-8                                
+-- set encoding=utf-8
 vim.o.termencoding = "utf-8"
 vim.o.fileencoding = "utf-8"
 -- big5 must behide gbk encoding
@@ -63,8 +63,17 @@ vim.o.expandtab = true
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 
+vim.o.wmw = 0
+vim.o.wmh = 0
+-- set cot-=preview
+vim.o.cot = vim.o.cot:gsub("preview", "")
+
+
+--disabe autoformat onSave 
+vim.g.autoformat = false
+
 if vim.fn.has("gui_running") == 1 then
-  vim.cmd[[highlight CursorLine guibg=#003853 ctermbg=24  gui=none cterm=none]]
+  vim.cmd [[highlight CursorLine guibg=#003853 ctermbg=24  gui=none cterm=none]]
   vim.o.cursorline = true
   vim.o.autochdir = true
   -- set t_Co = 256
@@ -73,7 +82,7 @@ if vim.fn.has("gui_running") == 1 then
   vim.o.hlsearch = true
   vim.guifont = "Hack Nerd Font:h20"
 else
-  vim.cmd[[highlight CursorLine guibg=#003853 ctermbg=24  gui=none cterm=none]]
+  vim.cmd [[highlight CursorLine guibg=#003853 ctermbg=24  gui=none cterm=none]]
   vim.o.cursorline = true
   vim.o.autochdir = false
   -- terminal color settings
@@ -89,9 +98,7 @@ local function change_fold()
   else
     vim.o.foldmethod = 'syntax'
   end
-  vim.cmd[[set foldmethod?]]
+  vim.cmd [[set foldmethod?]]
 end
 
 vim.keymap.set('n', 'fd', function() change_fold() end, { remap = false })
-
-
