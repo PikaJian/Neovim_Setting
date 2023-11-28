@@ -52,6 +52,14 @@ return {
       large_file_overrides = {
         providers = { "lsp" },
       },
+      should_enable = function(bufnr)
+        local mode = vim.fn.mode()
+        if mode == 'v' or mode == 'V' or mode == "" then
+          return false
+        else
+          return true
+        end
+      end,
     },
     config = function(_, opts)
       require("illuminate").configure(opts)
