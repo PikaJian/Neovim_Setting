@@ -93,7 +93,7 @@ vim.keymap.set('', '<C-t><C-t>', '<Cmd>tabnew<CR>', { silent = true })
 vim.keymap.set('', '<C-t><C-w>', '<Cmd>tabclose<CR>', { silent = true })
 
 -- ,/ turn off search highlighting
-vim.keymap.set('', '<leader>/', '<Cmd>nohl<CR>', { silent = true })
+-- vim.keymap.set('', '<leader>/', '<Cmd>nohl<CR>', { silent = true })
 
 -- Bash like keys for the command line
 vim.keymap.set('c', '<C-A>', '<Home>', { noremap = true })
