@@ -153,9 +153,9 @@ function M.setup(opts)
       end
       M.load("commands")
       M.load("keymaps")
-      -- Util.format.setup()
-      -- Util.news.setup()
+      Util.format.setup()
       Util.root.setup()
+      -- Util.news.setup()
 
     end,
   })

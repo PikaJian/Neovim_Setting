@@ -1,3 +1,5 @@
+local Util = require("utils")
+
 return {
   -- lspconfig
   {
@@ -55,6 +57,10 @@ return {
             vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
             vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
 
+            -- setup autoformat
+            Util.format.register(Util.lsp.formatter())
+
+
             -- Use LspAttach autocommand to only map the following keys
             -- after the language server attaches to the current buffer
             vim.api.nvim_create_autocmd("LspAttach", {
@@ -69,7 +75,7 @@ return {
                     vim.keymap.set("n", "<leader>jD", vim.lsp.buf.declaration, opts)
                     vim.keymap.set("n", "<leader>jd", vim.lsp.buf.definition, opts)
                     vim.keymap.set("n", "<leader>jr", vim.lsp.buf.references, opts)
-                    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+                    vim.keymap.set("n", "<leader>K", vim.lsp.buf.hover, opts)
                     vim.keymap.set("n", "<leader>ji", vim.lsp.buf.implementation, opts)
                     vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
 

@@ -277,36 +277,6 @@ autocmd User fugitive
   \ endif
 autocmd BufReadPost fugitive://* set bufhidden=hide
 
-"clang-format for formating cpp code
-" //格式化最新的commit，并直接在原文件上修改
-" git diff -U0 HEAD^ | clang-format-diff.py -i -p1
-nnoremap <leader>lf :call FormatCode("LLVM")<CR>
-vnoremap <leader>lf :call FormatCode("LLVM")<CR>
-vnoremap <leader>cf :call FormatCode("Chromium")<CR>
-nnoremap <leader>cf :call FormatCode("Chromium")<CR>
-nnoremap <leader>gf :call FormatCode("Google")<CR>
-vnoremap <leader>gf :call FormatCode("Google")<CR>
-"let g:autoformat_verbosemode = 1
-let g:autoformat_autoindent = 1
-
-func! FormatCode(style)
-  let firstline=line(".")
-  let lastline=line(".")
-  " Visual mode
-  if exists(a:firstline)
-    firstline = a:firstline
-    lastline = a:lastline
-  endif
-  let g:formatdef_clangformat = "'clang-format-3.8
-                          \ --lines='.a:firstline.':'.a:lastline.'        
-                          \ --assume-filename='.bufname('%').'            
-                          \ -style=" . a:style . "'"
-  let formatcommand = ":" . firstline . "," . lastline . "Autoformat"
-  exec formatcommand
-endfunc
-
-"command -nargs=1 PikaFormatCode :call FormatCode(<f-args>)
-
 "rename tmux tab window name to open filename 
 "check tmux installed
 if executable('tmux')

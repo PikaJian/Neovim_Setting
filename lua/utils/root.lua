@@ -179,4 +179,3 @@ function M.pretty_path(opts)
 end
 
 return M
-
