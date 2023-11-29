@@ -30,8 +30,23 @@ require("lazy").setup("plugins", {
     -- increase downloads a lot.
     filter = false,
   },
-}
-)
+  checker = { enabled = false }, -- automatically check for plugin updates
+  performance = {
+    rtp = {
+      -- disable some rtp plugins
+      disabled_plugins = {
+        "gzip",
+        -- "matchit",
+        -- "matchparen",
+        -- "netrwPlugin",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      },
+    },
+  },
+})
 
 if require("utils").misc.GitVersion(2, 19, 0) == true then
   vim.g.git_old = 0
