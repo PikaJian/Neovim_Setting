@@ -1,5 +1,6 @@
 return {
-    --[[ "kevinhwang91/nvim-bqf",
+    "kevinhwang91/nvim-bqf",
+    event = "LazyFile",
     ft = "qf",
     config = function()
         require("bqf").setup({
@@ -8,12 +9,12 @@ return {
                 number = false,
                 relativenumber = false,
             },
-            func_map = {
-                tabdrop = "<cr>",
-                open = "<c-e>",
-            },
-            preview = { win_height = 35 },
+            -- func_map = {
+            --     tabdrop = "<cr>",
+            --     open = "<c-e>",
+            -- },
+            preview = { win_height = 15 },
         })
-    end, ]]
+    end,
 }
 
