@@ -105,4 +105,18 @@ function M.test()
   print("fuck")
 end
 
+function M.CurDir()
+  local curdir = vim.fn.substitute(vim.fn.getcwd(), vim.env.HOME, "~", "")
+  return curdir
+end
+
+function M.HasPaste()
+  if vim.o.paste == true then
+    return "[PASTE]"
+  else
+    return ""
+  end
+end
+
+
 return M

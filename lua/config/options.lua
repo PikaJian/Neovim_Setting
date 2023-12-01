@@ -92,6 +92,22 @@ else
   vim.guifont = "Hack Nerd Font:h20"
 end
 
+
+-- set custom statusline, overwrite by lualine.
+vim.o.laststatus = 2
+local custom_statusline = function()
+  return table.concat({
+    "%{%v:lua.require(\"utils\").misc.HasPaste()%}",
+    "%<%-15.25(%f%)%m%r%h %w  ",
+    "   [%{&ff}/%Y]",
+    "   %<%20.30(".. "%{hostname()}" .. ":%{%v:lua.require(\"utils\").misc.CurDir()%}%) ",
+    "%=%-10.(%l,%c%V%) %p%%/%L"
+    })
+end
+vim.o.statusline = custom_statusline()
+vim.opt.fillchars:append({ stl = ' ', stlnc = "\\" })
+
+
 local function change_fold()
   if vim.o.foldmethod == 'syntax' then
     vim.o.foldmethod = 'indent'

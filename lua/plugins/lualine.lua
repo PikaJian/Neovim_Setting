@@ -1,5 +1,5 @@
 
-local ui = require("utils.ui")
+local Util = require("utils")
 
 return {
     {
@@ -20,19 +20,21 @@ return {
                         {
                             "diagnostics",
                             symbols = {
-                                error = ui.icons.diagnostics.Error,
-                                warn = ui.icons.diagnostics.Warn,
-                                info = ui.icons.diagnostics.Info,
-                                hint = ui.icons.diagnostics.Hint,
+                                error = Util.ui.icons.diagnostics.Error,
+                                warn = Util.ui.icons.diagnostics.Warn,
+                                info = Util.ui.icons.diagnostics.Info,
+                                hint = Util.ui.icons.diagnostics.Hint,
                             },
                         },
+                        { Util.lualine.pretty_path() },
+
                     },
                     -- lualine_x = { "filename", { "diff", colored = false } },
                     lualine_x = {
                         {
                             function() return require("noice").api.status.mode.get() end,
                             cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
-                            color = ui.fg("Constant"),
+                            color = Util.ui.fg("Constant"),
                         },
                     },
                     -- lualine_y = { "filetype", "progress" },

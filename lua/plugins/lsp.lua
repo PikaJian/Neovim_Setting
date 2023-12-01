@@ -43,7 +43,7 @@ return {
                         "--query-driver=/opt/homebrew/opt/llvm/bin/clang",
                         "--all-scopes-completion",
                         "--completion-style=detailed",
-                        '--log=verbose'
+                        -- '--log=verbose'
                     },
                 })
             end,
