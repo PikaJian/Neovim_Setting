@@ -12,7 +12,6 @@ return
   { 'gregsexton/gitv',                event = "LazyFile" },
   { 'tpope/vim-fugitive' },
   { 'mhinz/vim-signify', },
-  { 'easymotion/vim-easymotion',      event = "LazyFile" },
   { 'christoomey/vim-tmux-navigator', event = "LazyFile" },
   { 'tpope/vim-dispatch',             event = "LazyFile" },
   { 'tpope/vim-repeat',               event = "LazyFile" },

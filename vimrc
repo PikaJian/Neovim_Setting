@@ -116,41 +116,6 @@ map <leader>rw :call Replace()<CR>
    " inoremap <C-u>5 <esc>yypVr^A
 "}
 
-" ---------------------------------------------------------------------------
-" EasyMotion
-" --------------------------------------------------------------------------- 
-let g:EasyMotion_leader_key = '\' " default is <Leader>w
-hi link EasyMotionTarget ErrorMsg
-hi link EasyMotionShade  Comment
-let g:EasyMotion_use_upper = 1
- " type `l` and match `l`&`L`
-let g:EasyMotion_smartcase = 1
- " " Smartsign (type `3` and match `3`&`#`)
-let g:EasyMotion_use_smartsign_us = 1"
-map <leader>l <Plug>(easymotion-lineforward)
-map <leader>j <Plug>(easymotion-j)
-map <leader>k <Plug>(easymotion-k)
-map <leader>h <Plug>(easymotion-linebackward)
-" Gif config
-"nmap <leader>s <Plug>(easymotion-s2)
-"nmap <leader>t <Plug>(easymotion-t2)
-
-"without incsearch
-"map  / <Plug>(easymotion-sn)
-"omap / <Plug>(easymotion-tn)
-"It has problem with noice.nvim
-""noremap <silent><expr> /  incsearch#go(<SID>incsearch_config())
-
-map  ww <Plug>(easymotion-bd-w)
-omap  tt <Plug>(easymotion-bd-tl)
-" These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
-" Without these mappings, `n` & `N` works fine. (These mappings just provide
-" different highlight method and have some other features )
-map  <leader>n <Plug>(easymotion-next)
-map  <leader>N <Plug>(easymotion-prev)
-"smartcase(lazy search)
-let g:EasyMotion_smartcase = 1
-
 "map ctrl-space to trigger autocomplete under terminal
 if !has("gui_running")
     inoremap <C-@> <C-x><C-o>
