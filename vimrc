@@ -18,31 +18,6 @@ if executable('clipboard-provider')
           \ }
 endif
 
-" status line {
-set laststatus=2
-set statusline=\ %{HasPaste()}%<%-15.25(%f%)%m%r%h\ %w\ \ 
-set statusline+=\ \ \ [%{&ff}/%Y] 
-set statusline+=\ \ \ %<%20.30(%{hostname()}:%{CurDir()}%)\ 
-set statusline+=%=%-10.(%l,%c%V%)\ %p%%/%L
-set fillchars+=stl:\ ,stlnc:\
-
-
-function! CurDir()
-    let curdir = substitute(getcwd(), $HOME, "~", "")
-    return curdir
-endfunction
-
-function! HasPaste()
-    if &paste
-        return '[PASTE]'
-    else
-        return ''
-    endif
-endfunction
-
-"}
-
-
 " C/C++ specific settings
 "autocmd FileType c,cpp,cc  set cindent comments=sr:/*,mb:*,el:*/,:// cino=>s,e0,n0,f0,{0,}0,^-1s,:0,=s,g0,h1s,p2,t0,+2,(2,)20,*30
 
@@ -54,6 +29,9 @@ endfunction
 " Note: Normally, :cwindow jumps to the quickfix window if the command opens it
 " (but not if it's already open). However, as part of the autocmd, this doesn't
 " seem to happen.
+
+"cwindow make bqf error
+
 autocmd QuickFixCmdPost [^l]* nested cwindow
 autocmd QuickFixCmdPost    l* nested lwindow
 "autocmd FileType c,cpp,cc set shellpipe=1>
