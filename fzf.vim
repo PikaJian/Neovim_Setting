@@ -98,3 +98,8 @@ function! FZFWithDevIcons()
 
 endfunction
 
+"FZF
+command! -bar -nargs=+ -complete=customlist,functions#GitBugComplete Gbug Git bug <q-args>
+command! -bar -nargs=+ -complete=customlist,functions#GitFeatureComplete Gfeature Git feature <q-args>
+command! -bar -nargs=+ -complete=customlist,functions#GitRefactorComplete Grefactor Git refactor <q-args>
+

@@ -97,10 +97,10 @@ end
 vim.o.laststatus = 2
 local custom_statusline = function()
   return table.concat({
-    "%{%v:lua.require(\"utils\").misc.HasPaste()%}",
+    "%{%v:lua.require(\"utils.misc\").HasPaste()%}",
     "%<%-15.25(%f%)%m%r%h %w  ",
     "   [%{&ff}/%Y]",
-    "   %<%20.30(".. "%{hostname()}" .. ":%{%v:lua.require(\"utils\").misc.CurDir()%}%) ",
+    "   %<%20.30(".. "%{hostname()}" .. ":%{%v:lua.require(\"utils.misc\").CurDir()%}%) ",
     "%=%-10.(%l,%c%V%) %p%%/%L"
     })
 end

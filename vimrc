@@ -65,6 +65,7 @@ endfunction
 
 function! s:Repl()
     let s:restore_reg = @"
+    "@= enter expression reg
     return "p@=RestoreRegister()\<cr>"
 endfunction
 
@@ -79,7 +80,7 @@ endfunction
 
 " Mappings on <s-insert>, that'll also work in select mode!
 "xnoremap <silent> <expr> <S-Insert> <sid>Repl()
-"snoremap <silent> <expr> <S-Insert> <sid>ReplSelect()
+snoremap <silent> <expr> <leader>rs <sid>ReplSelect()
 vnoremap <silent> <expr> p <sid>Repl()
 
 " If the current buffer has never been saved, it will have no name,
@@ -131,7 +132,7 @@ let g:AutoPairs = { '(' : ')', '[' : ']', '{' : '}', "'" : "'", '"' : '"', '`' :
 " Map start key separately from next key
 let g:VM_maps = {}
 let g:VM_maps['Skip Region'] = '<C-x>'
-let g:VM_maps['Find Under'] = '<leader>c'
+let g:VM_maps['Find Under'] = '<C-n>'
 
 
 
@@ -172,11 +173,6 @@ endif
 "tmux navigator
 "let g:loaded_tmux_navigator = 1
 "let g:tmux_navigator_no_mappings = 1
-
-"FZF
-"command! -bar -nargs=+ -complete=customlist,functions#GitBugComplete Gbug Git bug <q-args>
-"command! -bar -nargs=+ -complete=customlist,functions#GitFeatureComplete Gfeature Git feature <q-args>
-"command! -bar -nargs=+ -complete=customlist,functions#GitRefactorComplete Grefactor Git refactor <q-args>
 
 " Augmenting Rg command using fzf#vim#with_preview function
 "   * fzf#vim#with_preview([[options], preview window, [toggle keys...]])
