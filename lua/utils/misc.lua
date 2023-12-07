@@ -118,5 +118,52 @@ function M.HasPaste()
   end
 end
 
+-- Lua 脚本示例：创建浮动窗口以获取用户输入并保存到字符串变量
+function M.ReplSelect()
+    -- 创建新缓冲区
+    local bufnr = vim.api.nvim_create_buf(false, true)
+
+    -- 设置浮动窗口的选项
+    local opts = {
+        relative = 'cursor',
+        width = 80,
+        height = 1,
+        row = 5,
+        col = 5,
+        border = 'single',
+        style = 'minimal',
+        title = "Register to paste over selection? (<cr> => default register: \")"
+    }
+
+    -- 打开浮动窗口
+    local winid = vim.api.nvim_open_win(bufnr, true, opts)
+
+    -- 将浮动窗口设置为可输入
+    vim.api.nvim_buf_set_option(bufnr, 'buftype', 'prompt')
+
+    -- 聚焦在浮动窗口上，等待用户输入
+    vim.cmd('startinsert')
+
+    -- 读取用户输入并存储到变量中
+    local input = nil
+    vim.fn.prompt_setcallback(bufnr, function(text)
+        input = text
+        vim.api.nvim_buf_delete(bufnr, {force = true})
+    end)
+
+    -- 返回获取到的用户输入（这里返回的是函数指针，可以在 Lua 中使用）
+    -- return input
+end
+
+
+function M.change_fold()
+  if vim.o.foldmethod == 'syntax' then
+    vim.o.foldmethod = 'indent'
+  else
+    vim.o.foldmethod = 'syntax'
+  end
+  vim.cmd [[set foldmethod?]]
+end
+
 
 return M

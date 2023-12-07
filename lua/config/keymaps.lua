@@ -112,6 +112,10 @@ vim.keymap.set('v', '>', '>gv', { noremap = true })
 -- :cd. change working directory to that of the current file
 vim.keymap.set('c', 'cd.', 'lcd %:p:h', {})
 
+-- fold
+vim.keymap.set('n', 'fd', function() require("utils").misc.change_fold() end, { remap = false })
+
+
 -- formatting
 vim.keymap.set({ "n", "v" }, "<leader>cf", function()
   Util.format({ force = true })
@@ -130,4 +134,19 @@ vim.keymap.set('n', 'K', 'i<CR><Esc>', { remap = false })
 -- Ctrl-[ jump out of the tag stack (undo Ctrl-])
 -- vim.keymap.set('', '<C-[>', '<ESC>:po<CR>', {}) -- Disabled, might conflict with terminal
 
+
+-- buffer operation for tabline
+vim.keymap.set('n', '<leader>T', '<Cmd>enew<cr>', {})
+vim.keymap.set('n', '<leader>bd', '<Cmd>bp <BAR> bd! #<cr>', {silent = true})
+
+-- buffer map
+vim.keymap.set('n', '<S-l>', '<Cmd>bnext<CR>', {silent = true})
+vim.keymap.set('n', '<S-h>', '<Cmd>bprevious<CR>', {silent = true})
+
+-- map ctrl-space to trigger autocomplete under terminal
+if vim.fn.has("gui_running") == 0 then
+  vim.keymap.set('i', '<C-@>', '<C-x><C-o>', {remap = false})
+else
+  vim.keymap.set('i', '<C-Space>', '<C-x><C-o>', {remap = false})
+end
 

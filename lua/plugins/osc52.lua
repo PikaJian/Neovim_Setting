@@ -2,7 +2,6 @@ return
 {
     {
         'ojroques/nvim-osc52',
-        event = "LazyFile",
         config = function(_, opts)
             require("osc52").setup(opts)
             local function copy(lines, _)
@@ -10,7 +9,6 @@ return
             end
 
             local function paste()
-                print(vim.fn.getreg(''))
                 return {vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('')}
             end
 
@@ -18,11 +16,11 @@ return
             vim.keymap.set('n', '<leader>cc', '<leader>c_', {remap = true})
             vim.keymap.set('v', '<leader>c', require('osc52').copy_visual)
 
-            --[[ vim.g.clipboard = {
+            vim.g.clipboard = {
                 name = 'osc52',
                 copy = {['+'] = copy, ['*'] = copy},
                 paste = {['+'] = paste, ['*'] = paste},
-            } ]]
+            }
         end,
         --[[ keys = {
             { '<leader>oc', mode = "n", require('osc52').copy_operator, desc = "copy" },

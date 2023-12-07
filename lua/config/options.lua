@@ -69,7 +69,7 @@ vim.o.wmh = 0
 vim.o.cot = vim.o.cot:gsub("preview", "")
 
 
---disabe autoformat onSave 
+--disabe autoformat onSave
 vim.g.autoformat = false
 
 if vim.fn.has("gui_running") == 1 then
@@ -100,21 +100,18 @@ local custom_statusline = function()
     "%{%v:lua.require(\"utils.misc\").HasPaste()%}",
     "%<%-15.25(%f%)%m%r%h %w  ",
     "   [%{&ff}/%Y]",
-    "   %<%20.30(".. "%{hostname()}" .. ":%{%v:lua.require(\"utils.misc\").CurDir()%}%) ",
+    "   %<%20.30(" .. "%{hostname()}" .. ":%{%v:lua.require(\"utils.misc\").CurDir()%}%) ",
     "%=%-10.(%l,%c%V%) %p%%/%L"
-    })
+  })
 end
 vim.o.statusline = custom_statusline()
 vim.opt.fillchars:append({ stl = ' ', stlnc = "\\" })
 
-
-local function change_fold()
-  if vim.o.foldmethod == 'syntax' then
-    vim.o.foldmethod = 'indent'
-  else
-    vim.o.foldmethod = 'syntax'
-  end
-  vim.cmd [[set foldmethod?]]
+if vim.fn.executable('clipboard-provider') == 1 then
+  vim.g.clipboard = {
+    name = 'clipboard-provider',
+    copy = {['+'] = 'clipboard-provider copy', ['*'] = 'clipboard-provider copy'},
+    paste = {['+'] = 'clipboard-provider paste', ['*'] = 'clipboard-provider paste'},
+  }
 end
 
-vim.keymap.set('n', 'fd', function() change_fold() end, { remap = false })
