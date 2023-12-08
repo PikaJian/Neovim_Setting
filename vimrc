@@ -111,20 +111,3 @@ autocmd BufReadPost fugitive://* set bufhidden=hide
 if executable('tmux')
   autocmd BufReadPost,FileReadPost,BufNewFile * call system('tmux rename-window '.expand("%:h"))
 endif
-
-" Augmenting Rg command using fzf#vim#with_preview function
-"   * fzf#vim#with_preview([[options], preview window, [toggle keys...]])
-"   * Preview script requires Ruby
-"   * Install Highlight or CodeRay to enable syntax highlighting
-"
-"   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
-"   :Ag! - Start fzf in fullscreen and display the preview window above
-command! -bang -nargs=* -complete=file Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always '.
-  \   shellescape(<q-args>)[1:strlen(shellescape(<q-args>)) - 2],
-  \   1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
-
