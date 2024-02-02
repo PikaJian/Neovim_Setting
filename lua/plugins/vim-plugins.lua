@@ -12,16 +12,15 @@
 --   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
 --   \   <bang>0)
 
-
 local function fzf_preview_select(bang)
-  if bang then
+  if not bang then
     -- FIXME: tricky solution setting options for fzf#vim#with_preview
     local preview_opts = {
       options = {
         '--info=inline', '--preview', 'bat --color=always --style=numbers --line-range=:500 {}'
       }
     }
-    return vim.call('fzf#vim#with_preview', preview_opts, 'up:50%')
+    return vim.call('fzf#vim#with_preview', preview_opts, 'right:50%')
   else
     return vim.call('fzf#vim#with_preview', 'right:50%:hidden', '?')
   end
@@ -57,7 +56,13 @@ return
   },
   { 'junegunn/vim-easy-align',        event = "LazyFile" },
   { 'mg979/vim-visual-multi',
-    event = "LazyFile"
+    event = "LazyFile",
+    init = function()
+        vim.g.VM_maps = vim.g.VM_maps or {}
+        vim.g.VM_maps['Skip Region'] = '<C-x>'
+        vim.g.VM_maps['Increase']    = '+'
+        vim.g.VM_maps['Decrease']    = '-'
+    end
   },
   { 'vim-scripts/VisIncr',            event = "LazyFile" },
   { 'jiangmiao/auto-pairs', 

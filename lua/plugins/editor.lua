@@ -219,10 +219,10 @@ return {
       { "<leader>:",  "<cmd>Telescope command_history<cr>",                              desc = "Command History" },
       { "<leader>ff", Util.telescope("files"),                                           desc = "Find Files (root dir)" },
       -- find
-      { "<leader>fb", "<cmd>Telescope buffers<cr>",                                      desc = "Buffers" },
+      { "<C-p>", "<cmd>Telescope buffers<cr>",                                      desc = "Buffers" },
       { "<leader>fc", Util.telescope.config_files(),                                     desc = "Find Config File" },
       { "<leader>ff", Util.telescope("files"),                                           desc = "Find Files (root dir)" },
-      { "<C-p>",      Util.telescope("files", { cwd = false }),                          desc = "Find Files (cwd)" },
+      { "<leader>f",      Util.telescope("files", { cwd = false }),                          desc = "Find Files (cwd)" },
       { "<leader>fr", "<cmd>Telescope oldfiles<cr>",                                     desc = "Recent" },
       { "<leader>fR", Util.telescope("oldfiles", { cwd = vim.loop.cwd() }),              desc = "Recent (cwd)" },
       -- git
@@ -366,8 +366,6 @@ return {
       { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
       { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
       { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      { "<c-s>", mode = { "c" }, function() print("test")
-        require("flash").toggle() end, desc = "Toggle Flash Search" },
       { "ww", mode = {"o", "n", "x"}, function ()
         local Flash = require("flash")
 
