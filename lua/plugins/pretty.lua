@@ -1,12 +1,19 @@
 return {
     {'nvim-tree/nvim-web-devicons'},
-    {'rcarriga/nvim-notify'},
+    {
+      'rcarriga/nvim-notify',
+      opts = {
+        -- "fade", "slide", "fade_in_slide_out", "static"
+        stages = "static",
+        timeout = 1000
+      }
+    },
     {'MunifTanjim/nui.nvim'},
     {'stevearc/dressing.nvim'},
-    { 
+    {
         'folke/noice.nvim',
-        dependencies = { 
-            'MunifTanjim/nui.nvim', 
+        dependencies = {
+            'MunifTanjim/nui.nvim',
             'rcarriga/nvim-notify'
         },
         opts = {

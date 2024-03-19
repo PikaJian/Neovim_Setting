@@ -58,3 +58,13 @@ vim.api.nvim_create_user_command("DiffRev", function(opts)
   vim.cmd('copen')
 end, { nargs = 1, complete = 'file' })
 
+vim.api.nvim_create_user_command("CopilotOnOff", function()
+    if vim.g.copilot == 1 then
+      print("copilot disable!")
+      vim.g.copilot = 0
+    else
+      print("copilot enable!")
+      vim.g.copilot = 1
+    end
+  end, {})
+

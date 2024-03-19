@@ -115,3 +115,5 @@ if vim.fn.executable('clipboard-provider') == 1 then
   }
 end
 
+vim.g.copilot = 0
+
