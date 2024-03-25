@@ -14,18 +14,20 @@ function M.dump_table(o)
 end
 
 function M.twiddle_case(str)
+  local result = ""
   if str == string.upper(str) then
-    return string.lower(str)
+    result = string.lower(str)
   elseif str == string.lower(str) then
-    return string.gsub(str, "(%<%w+%>)", string.upper)
+    result =(str:gsub("(%l)(%w*)", function(a,b) return string.upper(a)..b end))
   else
-    return string.upper(str)
+    result = string.upper(str)
   end
+  return result
 end
 
 function M.ViewUTF8()
   vim.o.encoding = "utf-8"
-  vim.o.termencoding = "big5"
+vim.o.termencoding = "big5"
 end
 
 function M.UTF8()

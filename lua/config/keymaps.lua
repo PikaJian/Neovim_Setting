@@ -30,8 +30,12 @@ end
 
 vim.keymap.set('v', '~',
   function()
-    vim.fn.setreg('', require("utils").misc.twiddle_case(vim.fn.getreg('"')), vim.fn.getregtype(''))
-    vim.api.nvim_feedkeys('<CR>gv""Pgv', 'n', false)
+    vim.cmd('normal! y')
+    local saved_regtype = vim.fn.getregtype('"')
+    local saved_reg = vim.fn.getreg('"')
+    local processed_text = require("utils").misc.twiddle_case(saved_reg)
+    vim.fn.setreg('"', processed_text, saved_regtype)
+    vim.cmd('normal! gv""Pgv')
   end
   , { noremap = true, silent = true }
 )
