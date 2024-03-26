@@ -144,12 +144,13 @@ return {
     "numToStr/Comment.nvim",
     event = "VeryLazy",
     opts = {
-      --[[ pre_hook = function()
-        print(require('ts_context_commentstring').calculate_commentstring())
-        return require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook()
-      end ]]
+      -- space between comment and code
+      padding = true,
     },
     config = function (_, opts)
+      opts.pre_hook = function()
+        require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook()
+      end
       require('Comment').setup(opts)
     end
   },
