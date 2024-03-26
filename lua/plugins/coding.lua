@@ -11,6 +11,11 @@ return {
         require("luasnip.loaders.from_vscode").lazy_load()
       end,
     },
+    config = function()
+      local config_dir = vim.fn.stdpath("config") .. "/lua/LuaSnip"
+      print(config_dir)
+      require("luasnip.loaders.from_lua").load({paths = config_dir})
+    end,
     opts = {
       history = true,
       delete_check_events = "TextChanged",
