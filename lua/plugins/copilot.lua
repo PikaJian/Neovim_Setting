@@ -5,7 +5,7 @@ return
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     build = ":Copilot auth",
-    event = "InsertEnter",
+    event = "VeryLazy",
     opts = {
           panel = {
             enabled = false,
@@ -42,6 +42,7 @@ return
       { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
       { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
     },
+    event = "VeryLazy",
     opts = {
       debug = true, -- Enable debugging
       -- See Configuration section for rest

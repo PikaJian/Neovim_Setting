@@ -13,7 +13,7 @@ return {
     },
     config = function()
       local config_dir = vim.fn.stdpath("config") .. "/lua/LuaSnip"
-      print(config_dir)
+      -- print(config_dir)
       require("luasnip.loaders.from_lua").load({paths = config_dir})
     end,
     opts = {
