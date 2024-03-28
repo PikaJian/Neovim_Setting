@@ -6,11 +6,13 @@ vim.o.history = 50
 vim.o.ruler = true
 vim.o.autoread = true
 vim.o.number = true
-vim.opt.listchars = { tab = "| " }
+-- vim.opt.listchars = { tab = "| ", eol = "¬"}
+vim.opt.listchars = { tab = "▸ ", eol = "↵" }
 vim.opt_local.textwidth = 80
-
 vim.o.viminfo = "'10,\"100,:20,%,n~/.nviminfo"
 vim.opt.mouse = "a"
+-- enable listchars showing
+vim.o.list = true
 
 vim.g.python2_host_prog = "/usr/bin/python2"
 vim.g.python3_host_prog = "/usr/bin/python3"
@@ -110,10 +112,9 @@ vim.opt.fillchars:append({ stl = ' ', stlnc = "\\" })
 if vim.fn.executable('clipboard-provider') == 1 then
   vim.g.clipboard = {
     name = 'clipboard-provider',
-    copy = {['+'] = 'clipboard-provider copy', ['*'] = 'clipboard-provider copy'},
-    paste = {['+'] = 'clipboard-provider paste', ['*'] = 'clipboard-provider paste'},
+    copy = { ['+'] = 'clipboard-provider copy', ['*'] = 'clipboard-provider copy' },
+    paste = { ['+'] = 'clipboard-provider paste', ['*'] = 'clipboard-provider paste' },
   }
 end
 
 vim.g.copilot = 1
-
