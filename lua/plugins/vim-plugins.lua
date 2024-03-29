@@ -12,6 +12,7 @@
 --   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
 --   \   <bang>0)
 
+
 local function fzf_preview_select(bang)
   if not bang then
     -- FIXME: tricky solution setting options for fzf#vim#with_preview
@@ -65,20 +66,6 @@ return
     end
   },
   { 'vim-scripts/VisIncr',            event = "LazyFile" },
-  { 'jiangmiao/auto-pairs', 
-    init = function ()
-      -- auto-pairs
-      -- '<' : '>'
-      vim.g.AutoPairs = {
-        ['('] = ')',
-        ['['] = ']',
-        ['{'] = '}',
-        ["'"] = "'",
-        ['"'] = '"',
-        ['`'] = '`'
-      }
-    end
-  },
   { 'tpope/vim-surround',             event = "LazyFile" },
   --{'terryma/vim-expand-region'},
   { 'kshenoy/vim-signature',          event = "LazyFile" },
