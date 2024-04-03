@@ -40,7 +40,7 @@ return {
                     cmd = {
                         "clangd",
                         "--header-insertion=never",
-                        "--query-driver=/opt/homebrew/opt/llvm/bin/clang",
+                        "--query-driver=/home/pikajian/.local/share/nvim/mason/bin/clangd",
                         "--all-scopes-completion",
                         "--completion-style=detailed",
                         "--offset-encoding=utf-16"

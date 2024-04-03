@@ -1,6 +1,6 @@
 return {
   'nvimdev/lspsaga.nvim',
-  event = "VeryLazy",
+  event = "LazyFile",
   config = function(opts)
     require('lspsaga').setup(opts)
   end,
