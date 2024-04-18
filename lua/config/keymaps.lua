@@ -50,12 +50,12 @@ vim.keymap.set('n', '<C-C>', 'z=', { silent = true })
 
 
 -- map esc key
-vim.keymap.set('i', 'jk', '<ESC>', { remap = false })
-vim.keymap.set('v', 'jk', '<ESC>', { remap = false })
+vim.keymap.set('i', 'jk', '<ESC>', { noremap = true })
+vim.keymap.set('v', 'jk', '<ESC>', { noremap = true })
 
 -- movement in insert mode
-vim.keymap.set('i', '<C-w>', '<S-RIGHT>', { remap = false })
-vim.keymap.set('i', '<C-b>', '<S-LEFT>', { remap = false })
+vim.keymap.set('i', '<C-w>', '<S-RIGHT>', { noremap = true })
+vim.keymap.set('i', '<C-b>', '<S-LEFT>', { noremap = true })
 
 -- open the error console
 
@@ -120,7 +120,7 @@ vim.keymap.set('v', '>', '>gv', { noremap = true })
 vim.keymap.set('c', 'cd.', 'lcd %:p:h', {})
 
 -- fold
-vim.keymap.set('n', 'fd', function() require("utils").misc.change_fold() end, { remap = false })
+vim.keymap.set('n', 'fd', function() require("utils").misc.change_fold() end, { noremap = true })
 
 
 -- formatting
@@ -133,10 +133,10 @@ vim.keymap.set({ "n", "v" }, "<leader>lf",
   , { desc = "Format" })
 
 -- vim.keymap.set({ "i" }, ";", function() Util.misc.insert_semi_colon() end
---   , { silent = true, remap = false })
+--   , { silent = true, noremap = false })
 
 -- Programming shortcuts
-vim.keymap.set('n', 'K', 'i<CR><Esc>', { remap = false })
+vim.keymap.set('n', 'K', 'i<CR><Esc>', { noremap = true })
 
 -- Ctrl-[ jump out of the tag stack (undo Ctrl-])
 -- vim.keymap.set('', '<C-[>', '<ESC>:po<CR>', {}) -- Disabled, might conflict with terminal
@@ -153,8 +153,10 @@ vim.keymap.set('n', '<S-h>', '<Cmd>bprevious<CR>', {silent = true})
 
 -- map ctrl-space to trigger autocomplete under terminal
 if vim.fn.has("gui_running") == 0 then
-  vim.keymap.set('i', '<C-@>', '<C-x><C-o>', {remap = false})
+  vim.keymap.set('i', '<C-@>', '<C-x><C-o>', {noremap = true})
 else
-  vim.keymap.set('i', '<C-Space>', '<C-x><C-o>', {remap = false})
+  vim.keymap.set('i', '<C-Space>', '<C-x><C-o>', {noremap = true})
 end
 
+vim.keymap.set('c', '<C-j>', '<C-n>', {noremap = true})
+vim.keymap.set('c', '<C-k>', '<C-p>', {noremap = true})
