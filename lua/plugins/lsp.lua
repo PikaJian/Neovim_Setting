@@ -39,13 +39,17 @@ return {
                 lspconfig.clangd.setup({
                     cmd = {
                         "clangd",
-                        "--header-insertion=never",
-                        "--query-driver=/home/pikajian/.local/share/nvim/mason/bin/clangd",
-                        "--all-scopes-completion",
-                        "--completion-style=detailed",
+                        --"--header-insertion=never",
+                        --"--query-driver=/home/pikajian/.local/share/nvim/mason/bin/clangd",
+                        --"--all-scopes-completion",
+                        --"--completion-style=detailed",
                         "--offset-encoding=utf-16"
                         -- '--log=verbose'
                     },
+                    root_dir = function(fname)
+                      return lspconfig.util.find_git_ancestor(fname) or lspconfig.util.path.dirname(fname)
+                    end,
+                    single_file_support = false,
                 })
             end,
         })
@@ -69,6 +73,12 @@ return {
                 callback = function(ev)
                     -- Enable completion triggered by <c-x><c-o>
                     vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+
+                    -- FIXME: clangd semantic highlight is wrong.
+                    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+                    if client.name == "clangd" then
+                      client.server_capabilities.semanticTokensProvider = nil
+                    end
 
                     -- Buffer local mappings.
                     -- See `:help vim.lsp.*` for documentation on any of the below functions
