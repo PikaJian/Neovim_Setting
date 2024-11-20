@@ -140,9 +140,11 @@ if vim.fn.executable('tmux') == 1 then
     pattern = "*",
     callback = function()
       -- 获取当前文件的目录名
-      local dirname = vim.fn.expand("%:h")
+      local dirname = vim.fn.expand("%:p:h")
+      local tmux_cmd = "tmux rename-window " .. dirname
+      -- print(tmux_cmd)
       -- 拼接并执行 tmux 命令
-      vim.fn.system("tmux rename-window " .. dirname)
+      vim.fn.system(tmux_cmd)
     end
   })
 end
