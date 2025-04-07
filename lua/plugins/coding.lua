@@ -12,9 +12,11 @@ return {
       end,
     },
     config = function()
+      local luasnip = require("luasnip")
       local config_dir = vim.fn.stdpath("config") .. "/lua/LuaSnip"
       -- print(config_dir)
       require("luasnip.loaders.from_lua").load({paths = config_dir})
+      luasnip.filetype_set("cpp", { "c" })
     end,
     opts = {
       history = true,

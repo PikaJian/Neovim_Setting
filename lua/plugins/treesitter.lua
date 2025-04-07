@@ -1,5 +1,5 @@
 local function ts_disable(lang, bufnr)
-  if lang == "cpp" or lang == "cmake" then
+  if lang == "cmake" then
     return true
   end
   return vim.api.nvim_buf_line_count(bufnr) > 5000
@@ -15,7 +15,7 @@ return {
       { "+", desc = "Increment selection" },
       { "-", desc = "Decrement selection", mode = "x" },
     },
-    ---@type TSConfig
+    ---@type TSClang == "cpp" or onfig
     ---@diagnostic disable-next-line: missing-fields
     opts = {
       highlight = {
@@ -33,6 +33,7 @@ return {
       },
       ensure_installed = {
         "c",
+        "cpp",
         "bash",
         "diff",
         "html",

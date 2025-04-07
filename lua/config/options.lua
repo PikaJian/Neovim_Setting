@@ -28,7 +28,11 @@ vim.g.python3_host_skip_check = 1
 
 -- ENCODING SETTINGS
 -- set encoding=utf-8
-vim.o.termencoding = "utf-8"
+-- no use for nvim 0.10
+if vim.fn.has("nvim-0.10.0") == 0 then
+  vim.o.termencoding = "utf-8"
+end
+
 vim.o.fileencoding = "utf-8"
 -- big5 must behide gbk encoding
 vim.o.fileencodings = "utf-8,ucs-bom,gb18030,gbk,gb2312,cp936,big5" -- ucs-bom
@@ -58,7 +62,10 @@ vim.o.smarttab = true
 
 vim.o.errorbells = true
 vim.o.visualbell = true
-vim.o.t_vb = ""
+-- no use in neovim 0.10
+if vim.fn.has("nvim-0.10.0") == 0 then
+  vim.o.t_vb = ""
+end
 vim.o.tm = 500
 
 vim.o.expandtab = true

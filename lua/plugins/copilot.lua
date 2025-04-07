@@ -5,7 +5,7 @@ return
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     build = ":Copilot auth",
-    event = "VeryLazy",
+    -- event = "VeryLazy",
     opts = {
           panel = {
             enabled = false,

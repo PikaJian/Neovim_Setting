@@ -2,7 +2,13 @@ local ls = require("luasnip") -- 加载 LuaSnip
 local s = ls.snippet -- 定义片段
 local t = ls.text_node -- 文本节点
 local i = ls.insert_node -- 插入节点
+local f = ls.function_node
 local fmt = require("luasnip.extras.fmt").fmt -- 格式化函数
+
+local function filename_to_guard()
+    local name = vim.fn.expand("%:t:r")
+    return name:upper() .. "_H"
+end
 
 ls.add_snippets("c", {
     -- 复杂的 C 函数注释块
@@ -37,4 +43,17 @@ ls.add_snippets("c", {
     s("fixme", {
         t("// FIXME: "), i(1, "Text.")
     }),
+    s("once", fmt([[
+        #ifndef {1}
+        #define {1}
+
+        {2}
+
+        #endif /* {1} */
+      ]],
+      {
+        i(1, filename_to_guard()),  -- Guard macro name
+        i(2),  -- Content of the header
+      })
+    ),
 })

@@ -326,7 +326,7 @@ return {
             i = {
               ["<c-t>"] = open_with_trouble,
               ["<a-t>"] = open_selected_with_trouble,
-              ["<C-w>"] = actions.send_selected_to_qflist,
+              ["<cr>"] = actions.send_selected_to_qflist,
               ["<C-q>"] = actions.send_to_qflist,
               ["<a-i>"] = find_files_no_ignore,
               ["<a-h>"] = find_files_with_hidden,
@@ -338,6 +338,7 @@ return {
               ["<C-f>"] = actions.preview_scrolling_up,
               ["<C-u>"] = myactions.select_scrollup,
               ["<C-d>"] = myactions.select_scrolldown,
+              ["<C-a>"] = actions.select_all,
             },
             n = {
               ["q"] = actions.close,

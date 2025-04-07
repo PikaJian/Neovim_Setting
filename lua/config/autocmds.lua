@@ -88,6 +88,16 @@ vim.api.nvim_create_autocmd('FileType', {
   end
 })
 
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'javascript' },
+  callback = function ()
+    vim.opt_local.ts = 2
+    vim.opt_local.sw = 2
+    vim.opt_local.sts= 0
+    vim.opt_local.expandtab = true
+  end
+})
+
 -- Restore cursor to file position in previous editing session
 vim.api.nvim_create_autocmd("BufReadPost", {
   pattern = "*",
