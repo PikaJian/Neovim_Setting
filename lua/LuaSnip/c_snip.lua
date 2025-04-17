@@ -4,6 +4,7 @@ local t = ls.text_node -- 文本节点
 local i = ls.insert_node -- 插入节点
 local f = ls.function_node
 local fmt = require("luasnip.extras.fmt").fmt -- 格式化函数
+local rep  = require("luasnip.extras").rep
 
 local function filename_to_guard()
     local name = vim.fn.expand("%:t:r")
@@ -45,14 +46,15 @@ ls.add_snippets("c", {
     }),
     s("once", fmt([[
         #ifndef {1}
-        #define {1}
+        #define {2}
 
-        {2}
+        {3}
 
-        #endif /* {1} */
+        #endif /* {2} */
       ]],
       {
         i(1, filename_to_guard()),  -- Guard macro name
+        rep(1),
         i(2),  -- Content of the header
       })
     ),

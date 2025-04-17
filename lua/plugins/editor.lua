@@ -326,7 +326,7 @@ return {
             i = {
               ["<c-t>"] = open_with_trouble,
               ["<a-t>"] = open_selected_with_trouble,
-              ["<cr>"] = actions.send_selected_to_qflist,
+              ["<c-w>"] = actions.send_selected_to_qflist,
               ["<C-q>"] = actions.send_to_qflist,
               ["<a-i>"] = find_files_no_ignore,
               ["<a-h>"] = find_files_with_hidden,
