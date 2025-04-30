@@ -10,7 +10,8 @@ return {
                 local term_opts = {buffer = 0}
                 vim.keymap.set('t', '<esc>', [[<esc>]], term_opts)
                 vim.keymap.set('t', 'jk', [[<C-\><C-n>]], term_opts)
-                vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], term_opts)
+                -- force switch window in terminal insert mode
+                -- vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], term_opts)
                 vim.keymap.set('t', '<Tab>', [[<Tab>]], term_opts)
             end
             vim.api.nvim_create_autocmd("TermOpen", {
