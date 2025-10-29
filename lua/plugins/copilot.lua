@@ -37,16 +37,17 @@ return
   },
   {
     "CopilotC-Nvim/CopilotChat.nvim",
-    branch = "canary",
+    branch = "main",
     dependencies = {
       { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
       { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
     },
     event = "VeryLazy",
     opts = {
+      model = 'gpt-5',
       debug = true, -- Enable debugging
       -- See Configuration section for rest
-            -- default window options
+      -- default window options
       window = {
         layout = 'float', -- 'vertical', 'horizontal', 'float'
         -- Options below only apply to floating windows

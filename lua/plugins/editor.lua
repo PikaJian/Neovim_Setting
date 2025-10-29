@@ -164,34 +164,16 @@ return {
     },
   }, ]]
   {
-    "simrat39/symbols-outline.nvim",
-    keys = { { "<leader>t", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" } },
-    cmd = "SymbolsOutline",
-    opts = function()
-      local ui = require("utils").ui
-      local defaults = require("symbols-outline.config").defaults
-      local opts = {
-        symbols = {},
-        symbol_blacklist = {},
-      }
-      local filter = ui.kind_filter
-
-      if type(filter) == "table" then
-        filter = filter.default
-        if type(filter) == "table" then
-          for kind, symbol in pairs(defaults.symbols) do
-            opts.symbols[kind] = {
-              icon = ui.icons.kinds[kind] or symbol.icon,
-              hl = symbol.hl,
-            }
-            if not vim.tbl_contains(filter, kind) then
-              table.insert(opts.symbol_blacklist, kind)
-            end
-          end
-        end
-      end
-      return opts
-    end,
+    'stevearc/aerial.nvim',
+    opts = {},
+    -- Optional dependencies
+    dependencies = {
+       "nvim-treesitter/nvim-treesitter",
+       "nvim-tree/nvim-web-devicons"
+    },
+    keys = {
+      { "<leader>t",  "<cmd>AerialToggle!<CR>",                desc = "Aerial Toggle" },
+    }
   },
   -- Fuzzy finder.
   -- The default key bindings to find files will use Telescope's
@@ -202,16 +184,6 @@ return {
     cmd = "Telescope",
     version = false, -- telescope did only one release, so use HEAD for now
     dependencies = {
-      {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        build = "make",
-        enabled = vim.fn.executable("make") == 1,
-        config = function()
-          Util.on_load("telescope.nvim", function()
-            require("telescope").load_extension("fzf")
-          end)
-        end,
-      },
     },
     keys = {
       { "<leader>,",  "<cmd>Telescope buffers show_all_buffers=true<cr>",                desc = "Switch Buffer" },
@@ -415,6 +387,4 @@ return {
       }
     },
   },
-
-
 }

@@ -17,6 +17,17 @@ return {
       'rcarriga/nvim-notify'
     },
     opts = {
+      messages = {
+        enabled = false, -- enables the Noice messages UI
+      },
+      notify = {
+        -- Noice can be used as `vim.notify` so you can route any notification like other messages
+        -- Notification messages have their level and other properties set.
+        -- event is always "notify" and kind can be any log level as a string
+        -- The default routes will forward notifications to nvim-notify
+        -- Benefit of using Noice for this is the routing and consistent history view
+        enabled = false,
+      },
       presets = {
         bottom_search = true, -- use a classic bottom cmdline for search
         command_palette = true, -- position the cmdline and popupmenu together
@@ -73,7 +84,7 @@ return {
     opts = {
       indent = {
         char = "│",
-        tab_char = "│",
+        tab_char = "▸",
       },
       scope = { enabled = false },
       exclude = {
@@ -103,7 +114,7 @@ return {
     event = "LazyFile",
     opts = {
       -- symbol = "▏",
-      symbol = "│",
+      symbol = "| ",
       options = { try_as_border = true },
     },
     init = function()
