@@ -69,7 +69,6 @@ return
   { 'tpope/vim-surround',             event = "LazyFile" },
   --{'terryma/vim-expand-region'},
   { 'kshenoy/vim-signature',          event = "LazyFile" },
-  { 'gregsexton/gitv',                event = "LazyFile" },
   { 'tpope/vim-fugitive' },
   { 'mhinz/vim-signify', },
   { 'christoomey/vim-tmux-navigator',

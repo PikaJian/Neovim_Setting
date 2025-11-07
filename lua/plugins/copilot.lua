@@ -1,4 +1,4 @@
-return 
+return
 {
   -- copilot
   {
@@ -34,6 +34,132 @@ return
       end
     end,
 
+  },
+  {
+  "olimorris/codecompanion.nvim",
+    -- 你也可以改成 VeryLazy 或 BufRead 後載入
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      -- 可選：更漂亮的浮窗輸入 UX（LazyVim 通常已有）
+      "stevearc/dressing.nvim",
+      {
+        "nvim-mini/mini.diff",
+        config = function()
+          local diff = require("mini.diff")
+          diff.setup()
+        end,
+      },
+      {
+        "folke/snacks.nvim",
+        opts = {
+          statusline = { enabled = false },  -- 你用 lualine，關掉這個
+          layout = { enabled = true },
+          picker     = {
+            enabled = true ,
+            -- 用比較像 Demo 的簡潔佈局
+            layout  = { preset = "telescope" },     -- 其他可試 "dropdown" / "minimal"
+            -- 有些版本提供格式選項（有就打開），讓清單以表格呈現
+          },   -- 只給 CodeCompanion 的選單用
+          input      = { enabled = true },   -- 只給 CodeCompanion 的輸入框用
+          notifier   = { enabled = false },   -- 可選
+          ui = { border = "rounded", backdrop = 0.9 },
+        },
+      },
+    },
+    cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionActions" },
+    opts = {
+      language = "Chinese",
+      memory = {
+        paths = { "~/.config/nvim/codecompanion/rules" },
+        opts = {
+          chat = { default_memory = { "default", "zh" } },
+          inline = { default_memory = { "default", "zh" } },
+        },
+      },
+      -- 直接指定使用 Copilot 當後端；符合「公司只買了 Copilot」的場景
+      strategies = {
+        chat = {
+            adapter = {
+              model = "claude-sonnet-4.5",
+              name = "copilot"
+            },
+        },
+        inline = {
+          adapter = {
+            model = "claude-sonnet-4.5",
+            name = "copilot"
+          },
+          keymaps = {
+            accept_change = {
+              modes = { n = "ga" }, -- Remember this as DiffAccept
+            },
+            reject_change = {
+              modes = { n = "gr" }, -- Remember this as DiffReject
+            },
+            always_accept = {
+              modes = { n = "gy" }, -- Remember this as DiffYolo
+            },
+          },
+        },
+      },
+      -- 推薦：保留乾淨 UI
+      display = {
+        diff = {
+          enabled = true,
+          -- Specifies the diff provider to use. Options: 'mini_diff', 'split', or 'inline'.
+          provider = "inline", -- mini_diff|split|inline
+        },
+        chat = {
+          show_settings = true,
+        },
+        action_palette = {
+          width = 95,
+          height = 10,
+          prompt = "Prompt ", -- Prompt used for interactive LLM calls
+          provider = "snacks", -- Can be "default", "telescope", "fzf_lua", "mini_pick" or "snacks". If not specified, the plugin will autodetect installed providers.
+          opts = {
+            show_default_actions = true, -- Show the default actions in the action palette?
+            show_default_prompt_library = true, -- Show the default prompt library in the action palette?
+            title = "CodeCompanion actions", -- The title of the action palette
+          },
+        },
+      },
+
+      -- 你也可以在這裡自定快捷鍵與指令模板（prompt library）
+    },
+    keys = {
+      -- 開聊天（側邊/浮窗，由 CodeCompanion 決定，可再調整）
+      { "<leader>ac",
+        function ()
+            require("codecompanion").chat(
+              {
+                window_opts = {
+                  layout = "float",
+                  width = 0.8
+                },
+              }
+            )
+        end,
+        desc = "AI Chat (CodeCompanion)"
+      },
+      -- 視覺模式下對選區做改寫（Inline Assistant）
+      {
+        "<leader>ai",
+        mode = { "v" },
+        function()
+          -- 把「:'<,'>CodeCompanionInline<CR>」送進命令列
+          vim.api.nvim_feedkeys(
+            vim.api.nvim_replace_termcodes(":'<,'>CodeCompanion<CR>", true, false, true),
+            how嗎"nx!",  -- normal + keep selection context + remain insert mode with x
+            false
+          )
+        end,
+        desc = "AI Inline on Selection (CodeCompanion)",
+      },
+      -- 打開動作面板（檔案/選區的一鍵任務）
+      { "<leader>aa", "<cmd>CodeCompanionActions<cr>", desc = "AI Actions (CodeCompanion)" },
+    },
   },
   {
     "CopilotC-Nvim/CopilotChat.nvim",

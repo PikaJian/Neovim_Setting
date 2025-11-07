@@ -15,6 +15,16 @@ return {
       },
     },
     config = function(_, opts)
+      opts = {
+        window = {
+          width = 20,
+          position = "left",
+          mappings = {
+            ["<esc>"] = "clear_filter",  -- 按 ESC 清除搜尋
+            ["/"] = ""
+          },
+        },
+      }
       require("neo-tree").setup(opts)
     end,
   },
@@ -94,7 +104,7 @@ return {
     cmd = { "TroubleToggle", "Trouble" },
     opts = { use_diagnostic_signs = true },
     keys = {
-      { "<leader>xx", "<cmd>TroubleToggle document_diagnostics<cr>",  desc = "Document Diagnostics (Trouble)" },
+      { "<leader>xx", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",  desc = "Buffer Diagnostics (Trouble)" },
       { "<leader>xX", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace Diagnostics (Trouble)" },
       { "<leader>xL", "<cmd>TroubleToggle loclist<cr>",               desc = "Location List (Trouble)" },
       { "<leader>xQ", "<cmd>TroubleToggle quickfix<cr>",              desc = "Quickfix List (Trouble)" },
@@ -165,7 +175,35 @@ return {
   }, ]]
   {
     'stevearc/aerial.nvim',
-    opts = {},
+    event = "LazyFile",
+    opts = function()
+
+      local opts = {
+        attach_mode = "global",
+        backends = { "lsp", "treesitter", "markdown", "man" },
+        show_guides = true,
+        layout = {
+          resize_to_content = false,
+          win_opts = {
+            winhl = "Normal:NormalFloat,FloatBorder:NormalFloat,SignColumn:SignColumnSB",
+            signcolumn = "yes",
+            statuscolumn = " ",
+          },
+        },
+        -- icons = icons,
+        -- filter_kind = filter_kind,
+        -- stylua: ignore
+        guides = {
+          mid_item   = "├╴",
+          last_item  = "└╴",
+          nested_top = "│ ",
+          whitespace = "  ",
+        },
+        -- Disable aerial on files with this many lines 
+        disable_max_lines = 20000,
+      }
+      return opts
+    end,
     -- Optional dependencies
     dependencies = {
        "nvim-treesitter/nvim-treesitter",
@@ -276,6 +314,15 @@ return {
         local line = action_state.get_current_line()
         Util.telescope("find_files", { hidden = true, default_text = line })()
       end
+      local delete_buffer = function()
+        local prompt_bufnr = vim.api.nvim_get_current_buf()
+        local action_state = require("telescope.actions.state")
+        local selection = action_state.get_selected_entry()
+        print("delete_buffer "..selection.bufnr)
+        actions.close(prompt_bufnr)
+        vim.api.nvim_buf_delete(selection.bufnr, {force = 1})
+        vim.cmd("Telescope buffers")
+      end
 
       return {
         defaults = {
@@ -311,6 +358,7 @@ return {
               ["<C-u>"] = myactions.select_scrollup,
               ["<C-d>"] = myactions.select_scrolldown,
               ["<C-a>"] = actions.select_all,
+              ["<C-z>"] = delete_buffer,
             },
             n = {
               ["q"] = actions.close,

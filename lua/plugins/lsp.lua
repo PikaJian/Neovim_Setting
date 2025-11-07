@@ -214,30 +214,6 @@ return {
               if client.name == "clangd" then
                 client.server_capabilities.semanticTokensProvider = nil
               end
-
-              -- Buffer local mappings.
-              -- See `:help vim.lsp.*` for documentation on any of the below functions
-              local opts = { buffer = ev.buf }
-              vim.keymap.set("n", "<leader>jD", vim.lsp.buf.declaration, opts)
-              vim.keymap.set("n", "<leader>jd", vim.lsp.buf.definition, opts)
-              vim.keymap.set("n", "<leader>jr", vim.lsp.buf.references, opts)
-              vim.keymap.set("n", "<leader>K", vim.lsp.buf.hover, opts)
-              vim.keymap.set("n", "<leader>ji", vim.lsp.buf.implementation, opts)
-              vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-
-              vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
-
-              vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, opts)
-              vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, opts)
-              vim.keymap.set("n", "<space>wl", function()
-                  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-                  end, opts)
-              -- use lspsaga instead
-              -- vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, opts)
-              -- vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, opts)
-              vim.keymap.set("n", "<space>f", function()
-                  vim.lsp.buf.format({ async = true })
-                  end, opts)
           end,
       })
 
@@ -250,12 +226,37 @@ return {
         },
       })
     end,
+    keys = {
+      -- LSP 基本跳轉 / 查詢
+      { "<leader>jD", function() vim.lsp.buf.declaration() end,      desc = "LSP: Go to Declaration",   mode = "n" },
+      { "<leader>jd", function() vim.lsp.buf.definition() end,       desc = "LSP: Go to Definition",    mode = "n" },
+      { "<leader>jr", function() vim.lsp.buf.references() end,       desc = "LSP: List References",     mode = "n" },
+      { "<leader>K",  function() vim.lsp.buf.hover() end,            desc = "LSP: Hover",               mode = "n" },
+      { "<leader>ji", function() vim.lsp.buf.implementation() end,   desc = "LSP: Go to Implementation",mode = "n" },
+
+      -- 其他 LSP 動作
+      { "<leader>rn", function() vim.lsp.buf.rename() end,           desc = "LSP: Rename Symbol",       mode = "n" },
+      { "<C-k>",      function() vim.lsp.buf.signature_help() end,   desc = "LSP: Signature Help",      mode = "n" },
+
+      -- 診斷
+      { "<leader>d",  function() vim.diagnostic.open_float(nil, { focus = false }) end,
+        desc = "Diagnostics: Show Float", mode = "n" },
+
+      -- Workspace
+      { "<leader>wa", function() vim.lsp.buf.add_workspace_folder() end,    desc = "Workspace: Add Folder",    mode = "n" },
+      { "<leader>wr", function() vim.lsp.buf.remove_workspace_folder() end, desc = "Workspace: Remove Folder", mode = "n" },
+      { "<leader>wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
+        desc = "Workspace: List Folders", mode = "n" },
+
+      -- Format
+      { "<leader>f",  function() vim.lsp.buf.format({ async = true }) end, desc = "LSP: Format", mode = "n" },
+    },
   },
   -- cmdline tools and lsp servers
   {
     "mason-org/mason.nvim",
     cmd = "Mason",
-    keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
+    keys = { { "<leader>cm", "<cmd>mason<cr>", desc = "mason" } },
     build = ":MasonUpdate",
     opts = {
       --[[ ensure_installed = {
