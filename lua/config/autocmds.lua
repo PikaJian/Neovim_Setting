@@ -106,11 +106,12 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     local last_line = vim.fn.line("$")
     if mark_line > 0 and mark_line <= last_line then
       -- 跳转到标记位置
-      vim.cmd("normal '\"")
+      -- ! means no remap, nvim-bqf issue
+      vim.cmd("normal! '\"")
     else
       -- 跳转到文件末尾
       -- vim.cmd("normal $")
-      vim.cmd("normal G")
+      vim.cmd("normal! G")
     end
   end
 })

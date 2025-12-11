@@ -29,9 +29,9 @@ vim.g.python3_host_skip_check = 1
 -- ENCODING SETTINGS
 -- set encoding=utf-8
 -- no use for nvim 0.10
-if vim.fn.has("nvim-0.10.0") == 0 then
-  vim.o.termencoding = "utf-8"
-end
+-- if vim.fn.has("nvim-0.10.0") == 0 then
+--  vim.o.termencoding = "utf-8"
+-- end
 
 vim.o.fileencoding = "utf-8"
 -- big5 must behide gbk encoding

@@ -2,31 +2,42 @@ local Util = require("utils")
 
 return {
   {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
-    cmd = "Neotree",
-    keys = {
-      {
-        "<leader>fe",
-        function()
-          require("neo-tree.command").execute({ toggle = true, dir = vim.loop.cwd() })
-        end,
-        desc = "Explorer NeoTree (root dir)",
-      },
-    },
-    config = function(_, opts)
-      opts = {
-        window = {
-          width = 20,
-          position = "left",
-          mappings = {
-            ["<esc>"] = "clear_filter",  -- 按 ESC 清除搜尋
-            ["/"] = ""
-          },
-        },
+    'stevearc/oil.nvim',
+    ---@module 'oil'
+    ---@type oil.SetupOpts
+    opts = {
+      lsp_file_methods = {
+        enabled = true,
+        timeout_ms = 1000,
+        autosave_changes = false
       }
-      require("neo-tree").setup(opts)
-    end,
+    },
+    -- Optional dependencies
+    dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
+    -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
+    lazy = false,
+    keys = {
+      { "<leader>fe",
+        function()
+          -- 如果已經有任何 oil 視窗，就把它關掉（達到 toggle 效果）
+          for _, win in ipairs(vim.api.nvim_list_wins()) do
+            local buf = vim.api.nvim_win_get_buf(win)
+            if vim.bo[buf].filetype == "oil" then
+              vim.api.nvim_win_close(win, true)
+              return
+            end
+          end
+          -- 開一個左側直分割並設定寬度，再在該分割裡開 oil
+          vim.cmd("leftabove vsplit")
+          vim.cmd("vertical resize 25")  -- 自訂側欄寬度
+          require("oil").open(vim.loop.cwd()) -- 也可帶路徑參數，見下方說明
+          --（可選）側欄一些習慣性的視窗選項
+          vim.opt_local.number = false
+          vim.opt_local.relativenumber = false
+          vim.opt_local.wrap = false
+        end,
+        desc = "Open parent directory" },
+    },
   },
   -- search/replace in multiple files
   {

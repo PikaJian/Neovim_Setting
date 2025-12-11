@@ -27,7 +27,7 @@ end
 
 function M.ViewUTF8()
   vim.o.encoding = "utf-8"
-vim.o.termencoding = "big5"
+  vim.o.termencoding = "big5"
 end
 
 function M.UTF8()

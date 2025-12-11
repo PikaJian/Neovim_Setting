@@ -230,7 +230,12 @@ return {
       -- LSP 基本跳轉 / 查詢
       { "<leader>jD", function() vim.lsp.buf.declaration() end,      desc = "LSP: Go to Declaration",   mode = "n" },
       { "<leader>jd", function() vim.lsp.buf.definition() end,       desc = "LSP: Go to Definition",    mode = "n" },
-      { "<leader>jr", function() vim.lsp.buf.references() end,       desc = "LSP: List References",     mode = "n" },
+      { "<leader>jr",
+        function()
+          vim.lsp.buf.references()
+        end,
+        desc = "LSP references (quickfix + bqf)"
+      },
       { "<leader>K",  function() vim.lsp.buf.hover() end,            desc = "LSP: Hover",               mode = "n" },
       { "<leader>ji", function() vim.lsp.buf.implementation() end,   desc = "LSP: Go to Implementation",mode = "n" },
 
@@ -249,7 +254,7 @@ return {
         desc = "Workspace: List Folders", mode = "n" },
 
       -- Format
-      { "<leader>f",  function() vim.lsp.buf.format({ async = true }) end, desc = "LSP: Format", mode = "n" },
+      { "<leader>jf",  function() vim.lsp.buf.format({ async = true }) end, desc = "LSP: Format", mode = "n" },
     },
   },
   -- cmdline tools and lsp servers
