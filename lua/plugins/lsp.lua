@@ -104,21 +104,6 @@ return {
               },
             },
           },
-        },
-        -- you can do any additional lsp server setup here
-        -- return true if you don't want this server to be setup with lspconfig
-        ---@type table<string, fun(server:string, opts: vim.lsp.Config):boolean?>
-        setup = {
-          -- example to setup with typescript.nvim
-          -- tsserver = function(_, opts)
-          --   require("typescript").setup({ server = opts })
-          --   return true
-          -- end,
-          -- Specify * to use this function as a fallback for any server
-          -- ["*"] = function(server, opts) end,
-        },
-        servers = {
-        -- Ensure mason installs the server
           clangd = {
             keys = {
               { "<leader>ch", "<cmd>LspClangdSwitchSourceHeader<cr>", desc = "Switch Source/Header (C/C++)" },
@@ -154,6 +139,31 @@ return {
               clangdFileStatus = true,
             },
           },
+          pyright = {
+            -- 如果你用的是 LazyVim + mason，通常不用寫 mason=true，預設會幫你裝
+            settings = {
+              python = {
+                analysis = {
+                  typeCheckingMode = "basic", -- 可改 "off" / "strict"
+                  autoSearchPaths = true,
+                  useLibraryCodeForTypes = true,
+                  diagnosticMode = "workspace",
+                },
+              },
+            },
+          },
+        },
+        -- you can do any additional lsp server setup here
+        -- return true if you don't want this server to be setup with lspconfig
+        ---@type table<string, fun(server:string, opts: vim.lsp.Config):boolean?>
+        setup = {
+          -- example to setup with typescript.nvim
+          -- tsserver = function(_, opts)
+          --   require("typescript").setup({ server = opts })
+          --   return true
+          -- end,
+          -- Specify * to use this function as a fallback for any server
+          -- ["*"] = function(server, opts) end,
         },
       }
     end,
@@ -223,6 +233,7 @@ return {
         ensure_installed = {
           "lua_ls",
           "clangd",
+          "pyright"
         },
       })
     end,
