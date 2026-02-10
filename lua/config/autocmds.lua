@@ -56,6 +56,9 @@ vim.api.nvim_create_autocmd('FileType', {
   callback = function()
     -- vim.api.nvim_set_hl(0, 'Pmenu', { ctermfg = 7, ctermbg = 236 })
     -- vim.api.nvim_set_hl(0, 'PmenuSel', { ctermfg = 'white', ctermbg = 32 })
+    if vim.fn.has("linux") == 1 then
+      -- vim.opt_local.expandtab = false
+    end
   end,
 })
 
@@ -88,7 +91,8 @@ vim.api.nvim_create_autocmd('FileType', {
   end
 })
 
-vim.api.nvim_create_autocmd('FileType', {
+
+vim.api.nvim_create_autocmd('filetype', {
   pattern = { 'javascript' },
   callback = function ()
     vim.opt_local.ts = 2

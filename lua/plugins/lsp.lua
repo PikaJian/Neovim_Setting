@@ -227,7 +227,7 @@ return {
           end,
       })
 
-      vim.lsp.set_log_level("trace")
+      vim.lsp.set_log_level("error")
       require("mason-lspconfig").setup(
       {
         ensure_installed = {

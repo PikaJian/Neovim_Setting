@@ -91,7 +91,6 @@ return {
       require("nvim-treesitter").setup(opts)
     end,
   },
-  --[[
   {
     "nvim-treesitter/nvim-treesitter-context",
     event = "LazyFile",
@@ -120,9 +119,7 @@ return {
         end,
         { silent = true }
 
-      }
-    },
+      },
+    }
   },
-  ]]--
-
 }
