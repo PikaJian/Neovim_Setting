@@ -30,13 +30,23 @@ return {
           -- 開一個左側直分割並設定寬度，再在該分割裡開 oil
           vim.cmd("leftabove vsplit")
           vim.cmd("vertical resize 25")  -- 自訂側欄寬度
-          require("oil").open(vim.loop.cwd()) -- 也可帶路徑參數，見下方說明
+          -- 1. 獲取根目錄
+          local root_path = nil
+          -- 增加一個安全檢查，確保 Util.root 存在，避免執行時崩潰
+          if Util and Util.root then
+            root_path = Util.root.get()
+          end
+
+          -- 2. 使用 vim.uv 代替 vim.loop (適用於 Neovim 0.10+)
+          -- 並開啟 Oil
+          require("oil").open(root_path or vim.uv.cwd())
+
           --（可選）側欄一些習慣性的視窗選項
           vim.opt_local.number = false
           vim.opt_local.relativenumber = false
           vim.opt_local.wrap = false
         end,
-        desc = "Open parent directory" },
+        desc = "Oil Open parent directory" },
     },
   },
   -- search/replace in multiple files
@@ -325,13 +335,26 @@ return {
         local line = action_state.get_current_line()
         Util.telescope("find_files", { hidden = true, default_text = line })()
       end
-      local delete_buffer = function()
-        local prompt_bufnr = vim.api.nvim_get_current_buf()
+
+      local delete_buffer = function(prompt_bufnr)
         local action_state = require("telescope.actions.state")
-        local selection = action_state.get_selected_entry()
-        print("delete_buffer "..selection.bufnr)
-        actions.close(prompt_bufnr)
-        vim.api.nvim_buf_delete(selection.bufnr, {force = 1})
+        local picker = action_state.get_current_picker(prompt_bufnr)
+
+        -- collect multi-selected entries (Tab), fall back to the entry under the cursor
+        local selections = picker:get_multi_selection()
+        if vim.tbl_isempty(selections) then
+          selections = { action_state.get_selected_entry() }
+        end
+
+        actions.close(prompt_bufnr)  -- 先關 picker,再刪,避免邊刪邊動到 picker 狀態
+
+        for _, entry in ipairs(selections) do
+          -- vim.notify("Deleting buffer: " .. entry.bufnr)
+          if entry and entry.bufnr and vim.api.nvim_buf_is_valid(entry.bufnr) then
+            pcall(vim.api.nvim_buf_delete, entry.bufnr, { force = true })
+          end
+        end
+
         vim.cmd("Telescope buffers")
       end
 

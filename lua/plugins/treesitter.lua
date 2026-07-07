@@ -117,8 +117,8 @@ return {
         function()
           require("treesitter-context").go_to_context(vim.v.count1)
         end,
-        { silent = true }
-
+        { silent = true },
+        desc = "Treesitter Context goto context",
       },
     }
   },
